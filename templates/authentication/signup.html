@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    signup page 
+{% endblock title %}
+
+
+{% block body %}
+<h2>Signup</h2>
+<form>
+    {% csrf_token %}
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email">
+    <br>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    
+    <br>
+    <label for="confirmPassword">Confirm password</label>
+    <input type="password" name="confirmPassword" id="confirmPassword">
+    <br>
+    <p>Aready have an account? <a href="{% url 'authentication:login' %}">click here</a></p>
+    <input type="submit">
+</form>
+{% endblock body %}
+    
