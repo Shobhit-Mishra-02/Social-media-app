@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from .managers import AccountUserManager
 
 class AccountUser(AbstractUser):
+    username = models.CharField(_("username"), blank=True, max_length=50)
     email = models.EmailField(_("email address"), unique=True)
 
     USERNAME_FIELD = "email"
