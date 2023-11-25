@@ -5,8 +5,9 @@ from django.shortcuts import redirect, render
 
 
 def login(request):
-    # if request.user.is_authenticated:
+    if request.user.is_authenticated:
         # redirect to home page
+        return redirect("social/home/")
 
     if request.method == "POST":
         email = request.POST["email"]
@@ -19,12 +20,11 @@ def login(request):
             account_login(request, user)
 
             # redirect to home page
-        else:
-            # redirect to login page with error message
-            return render(request, "authentication/login.html", {"error_message":"Authentication fails !!"})
+            return redirect("social/home/")
+        
+        # redirect to login page with error message
+        return render(request, "authentication/login.html", {"error_message":"Authentication fails !!"})
             
-
-        return redirect("/")
     
     return render(request, "authentication/login.html")
 
