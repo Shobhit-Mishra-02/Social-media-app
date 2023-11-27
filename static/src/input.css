@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Run this command to compile the tailwindcss code */
+/* COMMAND:  npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css*/

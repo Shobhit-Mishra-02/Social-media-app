@@ -1,3 +1,6 @@
+{% load compress %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +10,11 @@
     {% block title %}
         Social site 
     {% endblock title %}
-        </title>
+    </title>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
 </head>
 <body>
     

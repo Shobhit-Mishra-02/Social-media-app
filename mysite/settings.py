@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
-    'home.apps.HomeConfig'
+    'home.apps.HomeConfig',
+    'compressor' # for tailwind css
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,9 @@ AUTH_USER_MODEL = "authentication.AccountUser"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+COMPRESS_ROOT = BASE_DIR / 'static'
+
+COMPRESS_ENABLED = True
+
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
