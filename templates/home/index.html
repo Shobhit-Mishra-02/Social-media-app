@@ -2,11 +2,23 @@
 
 
 {% block title %}
-    home
-{% endblock title  %}
+home
+{% endblock title %}
 
 
 {% block body %}
-    <h4>Home page, only for authorized user</h4>
+<div>
+    <form method="post" action="{% url 'home:create_post'%}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="media">Add media</label>
+        <input type="file" name="media" name="media" class="w-full h-full" id="media">
+
+        <label for="postContent">Add content</label>
+        <textarea name="postContent" class="border border-gray-200 rounded-md w-full outline-none p-1" id="postContent"
+            cols="30" rows="5"></textarea>
+        <button class="text-xl text-white bg-blue-500 px-4 py-2 rounded-md mt-2" type="submit">
+            Create Post
+        </button>
+    </form>
+</div>
 {% endblock body %}
-    
