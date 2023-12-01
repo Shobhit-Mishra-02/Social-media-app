@@ -13,11 +13,11 @@
     </title>
 
     {% compress css %}
-    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'src/output.css' %}"> -->
     {% endcompress %}
 
-    <!-- <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" /> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script> 
 </head>
 <body>
@@ -26,10 +26,11 @@
         
     {% endblock navigation %}
         
-    
-    {% block body %}
-        
-    {% endblock body %}
+    <div class="px-6 pt-6 sm:px-12 md:px-24 xl:px-48">
+        {% block body %}
+            
+        {% endblock body %}
+    </div>
     
     
     {% block footer %}
