@@ -1,11 +1,8 @@
-import os
+from .helper_variables import ROOT_DIR, UPLOAD_FOLDER_PATH
+
 import time
 
-ROOT_DIR = os.getcwd()
-UPLOAD_FOLDER_PATH = ROOT_DIR + "/static/uploads"
-
 def upload_file(file):
-    # print(UPLOAD_FOLDER_PATH)
     unique_file_name = "file_" + str(time.time()).split('.')[0] + ".txt"
     file_path = UPLOAD_FOLDER_PATH + "/" + unique_file_name
     print(file_path)
