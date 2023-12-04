@@ -1,3 +1,0 @@
-hello world
-this content is for the testing.
-:)
