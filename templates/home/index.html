@@ -8,7 +8,7 @@ home
 
 {% block body %}
 <div>
-    <form method="post" action="{% url 'home:create_post'%}" enctype="multipart/form-data">
+    <!-- <form method="post" action="{% url 'home:create_post'%}" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="media">Add media</label>
         <input type="file" name="media" name="media" class="w-full h-full" id="media">
@@ -19,6 +19,19 @@ home
         <button class="text-xl text-white bg-blue-500 px-4 py-2 rounded-md mt-2" type="submit">
             Create Post
         </button>
+    </form> -->
+
+    <form action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
     </form>
+
+    
+    {% if img_obj %}
+        <h3>Successfully uploaded: {{img_obj.caption}}</h3>
+        <img src="{{img_obj.image_url}}" alt="image">
+    {% endif %}
+        
 </div>
 {% endblock body %}
