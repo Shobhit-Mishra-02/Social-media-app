@@ -2,11 +2,16 @@
 
 
 {% block title %}
-    home
-{% endblock title  %}
+home
+{% endblock title %}
 
 
 {% block body %}
-    <h4>Home page, only for authorized user</h4>
+<div>
+    <form action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit">Upload</button>
+    </form>
+</div>
 {% endblock body %}
-    
