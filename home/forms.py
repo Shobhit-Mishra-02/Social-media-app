@@ -1,9 +1,8 @@
-from django.db import models
-from django.forms import fields
-from .models import UploadImage
 from django import forms
 
-class ImageUploadForm(forms.ModelForm):
-    class Meta:
-        model = UploadImage
-        fields = '__all__'
+class PostCreationForm(forms.Form):
+    title = forms.CharField(max_length=300)
+    content = forms.CharField(widget=forms.Textarea)
+    
+    image = forms.ImageField(required=False)
+    caption = forms.CharField(max_length=400, required=False)

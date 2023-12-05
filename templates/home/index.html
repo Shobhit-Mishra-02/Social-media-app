@@ -10,15 +10,8 @@ home
 <div>
     <form action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_div }}
         <button type="submit">Upload</button>
     </form>
-
-    
-    {% if img_obj %}
-        <h3>Successfully uploaded: {{img_obj.caption}}</h3>
-        <img src="{{img_obj.image.url}}" alt="image">
-    {% endif %}
-        
 </div>
 {% endblock body %}

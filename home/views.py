@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from .utils.upload_files import upload_file
 
-from .forms import ImageUploadForm
-from .models import UploadImage
+from .forms import PostCreationForm
+from .models import Post
+# from .models import UploadImage
 
 # Create your views here.
 
@@ -14,15 +15,25 @@ def index(request):
         return redirect("/")
     
     if request.method == "POST":
-        form = ImageUploadForm(request.POST, request.FILES)
+        form = PostCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post_title = form.cleaned_data["title"]
+            post_content = form.cleaned_data["content"]
+            post_image = form.cleaned_data["image"]
+            post_image_caption = form.cleaned_data["caption"]
 
-            img_obj = form.instance
+            print(post_title)
+            print(post_content)
+            print(post_image)
+            print(post_image_caption)
 
-            return render(request, "home/index.html", {"form":form, "img_obj":img_obj})
+            post = Post.objects.create(user=request.user, title=post_title, content=post_content, image=post_image, caption=post_image_caption)
+
+            post.save()
+
+            return render(request, "home/index.html", {"form":form})
     else:
-        form = ImageUploadForm()
+        form = PostCreationForm()
 
     return render(request, "home/index.html", {"form":form})
 
