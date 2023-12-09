@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
     'home.apps.HomeConfig',
-    'compressor' # for tailwind css
+    'compressor', # for tailwind css
+    'ajax.apps.AjaxConfig'
 ]
 
 MIDDLEWARE = [
