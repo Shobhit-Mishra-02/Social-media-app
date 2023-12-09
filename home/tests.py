@@ -1,7 +1,9 @@
 from django.test import TestCase
+from django.utils import timezone
 
 from .models import Post
 from django.contrib.auth import get_user_model
+
 
 # Create your tests here.
 class PostTetsCase(TestCase):
@@ -20,6 +22,7 @@ class PostTetsCase(TestCase):
 
     def test_for_post_creation(self):
         "Test case for simple post creation."
+        today = timezone.now()
         User = get_user_model()
         user = User.objects.get(email=self.USER_EMAIL)
 
@@ -27,4 +30,8 @@ class PostTetsCase(TestCase):
 
         self.assertEqual(post.title, self.POST_TITLE)
         self.assertEqual(post.content, self.POST_CONTENT)
+        self.assertEqual(post.total_likes, 0)
+
+        self.assertEqual(post.created_at.year, today.year)
+        self.assertEqual(post.created_at.day, today.day)
 
