@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-import json
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
+from .serializers import PostModelSerializer
+
 
 @csrf_exempt
 @login_required
@@ -13,11 +13,9 @@ def get_posts(request):
     if request.method == "POST":
         
         user_posts = request.user.post_set.all()
+        serialized = PostModelSerializer(user_posts, many=True)
+        serialized_posts = serialized.data
 
-        data = json.loads(request.body.decode('utf-8'))
-
-        response_data = {'message':'Hello from the server !!', 'data': data}
-
-        return JsonResponse(response_data)
+        return JsonResponse(serialized_posts, safe=False)
     
     return JsonResponse({"message":"Invalid request"}, status=200)
