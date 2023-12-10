@@ -7,15 +7,12 @@ home
 
 
 {% block body %}
-<div>
-    <form action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
+<div class="flex justify-center align-middle">
+    <form class="w-full sm:max-w-sm md:max-w-md" action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_div }}
-        <button type="submit">Upload</button>
+        {{ form }}
+        <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4" type="submit">Upload</button>
     </form>
-    <div>
-        <button id="btn">click me</button>
-    </div>
 </div>
 {% endblock body %}
 
