@@ -13,5 +13,35 @@ home
         {{ form.as_div }}
         <button type="submit">Upload</button>
     </form>
+    <div>
+        <button id="btn">click me</button>
+    </div>
 </div>
 {% endblock body %}
+
+
+{% block javascript %}
+    <script>
+        $("#btn").click(function(){
+            let dataToSend = {
+                name: "shobhit",
+                age: 12
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'ajax:posts' %}",
+                contentType: "application/json",
+                data:JSON.stringify(dataToSend),
+                dataType: "json",
+                success: function(res){
+                    console.log(res)
+                },
+                error: function(err){
+                    console.log(err)
+                }
+            })
+        })
+    </script>
+{% endblock javascript %}
+    
