@@ -29,14 +29,17 @@ def login(request):
     return render(request, "authentication/login.html")
 
 def signup(request):
+    if request.user.is_authenticated:
+        # redirect to home page
+        return redirect("social/home/")
+    
     if request.method == "POST":
         email = request.POST["email"]
         password = request.POST["password"]
 
         # Creating a new user account
         User = get_user_model()
-        user = User.objects.create_user(email=email, password=password)
-        user.save()
+        User.objects.create_user(email=email, password=password)
         
         return redirect("/")
 
