@@ -8,37 +8,79 @@ home
 
 {% block body %}
 <div class="flex justify-center align-middle">
-    <form class="w-full sm:max-w-sm md:max-w-md" action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
+    <form class="w-full sm:max-w-sm md:max-w-md text-sm text-gray-500 rounded-md border border-gray-100 p-2 shadow-md"
+        action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
+        <h3 class="text-xl py-2 text-center">Create your post</h3>
         {% csrf_token %}
-        {{ form }}
-        <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4" type="submit">Upload</button>
+        <label for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
+
+        <label for="{{ form.content.id_for_label}}">Content</label>
+        {{ form.content }}
+
+        <hr>
+
+        <div class="flex items-center justify-center w-full py-2">
+            <label for="{{ form.image.id_for_label }}"
+                class="flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or drag
+                        and drop</p>
+                    <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                {{ form.image }}
+                
+            </label>
+        </div>
+
+        <!-- <label for="{{ form.caption.id_for_label}}">Caption</label> -->
+        {{ form.caption }}
+
+        <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4 hover:bg-blue-600"
+            type="submit">Upload</button>
     </form>
 </div>
 {% endblock body %}
 
 
 {% block javascript %}
-    <script>
-        $("#btn").click(function(){
-            let dataToSend = {
-                name: "shobhit",
-                age: 12
-            }
+<script>
+    const captionInputId = "#{{ form.caption.id_for_label }}"
+    const imageInputId = "#{{ form.image.id_for_label }}"
 
-            $.ajax({
-                type: "POST",
-                url: "{% url 'ajax:posts' %}",
-                contentType: "application/json",
-                data:JSON.stringify(dataToSend),
-                dataType: "json",
-                success: function(res){
-                    console.log(res)
-                },
-                error: function(err){
-                    console.log(err)
-                }
-            })
+    $(document).ready(function () {
+        $(captionInputId).attr('disabled', true)
+
+        $(imageInputId).on('input', function () {
+            $(captionInputId).removeAttr('disabled')
         })
-    </script>
+    })
+
+
+    $("#btn").click(function () {
+        let dataToSend = {
+            name: "shobhit",
+            age: 12
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'ajax:posts' %}",
+            contentType: "application/json",
+            data: JSON.stringify(dataToSend),
+            dataType: "json",
+            success: function (res) {
+                console.log(res)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+</script>
 {% endblock javascript %}
-    
