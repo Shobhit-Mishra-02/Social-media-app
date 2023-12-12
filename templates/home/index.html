@@ -7,7 +7,32 @@ home
 
 
 {% block body %}
-<div class="flex justify-center align-middle">
+<div class="flex justify-center align-middle space-x-3">
+
+    <!-- profile  -->
+    <div class="w-full sm:max-w-sm border border-gray-100 h-fit rounded-md p-3 shadow-md">
+        <div class="flex justify-end">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+            </span>
+        </div>
+        <div class="flex flex-col justify-center align-middle items-center">
+            <div class="w-40 h-40 rounded-full bg-gray-400"></div>
+            <span class="text-xl font-semibold text-gray-700 mt-1">Rich Klien</span>
+            <span class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+        </div>
+        <hr>
+        <div class="mt-2">
+            <span class="text-gray-600 font-semibold">Intro</span>
+            <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+        </div>
+        <div class="mt-2">
+            <span class="text-gray-600 font-semibold">Bio</span>
+            <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non ipsum quis tenetur expedita ratione accusantium nulla laudantium, voluptatum delectus? Ipsa praesentium quidem soluta esse tempore laborum voluptatum quae aspernatur exercitationem!</p>
+        </div>
+    </div>
+
+    <!-- post container  -->
     <div class="w-full sm:max-w-sm md:max-w-md xl:max-w-lg text-sm">
 
         <form class="w-full text-gray-500 rounded-md border border-gray-100 p-2 shadow-md"
@@ -49,7 +74,6 @@ home
         </form>
         <hr class="m-4">
         <div id="post_container" class="divide-y divide-gray-200">
-
             <!-- post start -->
             <article class="py-6">
                 <div class="flex items-center justify-between mb-3 text-gray-500">
@@ -263,7 +287,41 @@ home
                 </div>
             </article>
             <!-- post end -->
-            
+        </div>
+    </div>
+
+    <!-- top posts  -->
+    <div class="w-full sm:max-w-sm border border-gray-100 h-fit rounded-md p-3 shadow-md">
+        <h3 class="text-xl font-semibold text-gray-600 mb-6">Top Posts</h3>
+
+        <div class="divide-y">
+            <div>
+                <span class="text-gray-400">
+                    likes 200k | saved 10k
+                </span>
+                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
+                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
+                </h2>
+            </div>
+            <div>
+                <span class="text-gray-400">
+                    likes 200k | saved 10k
+                </span>
+                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
+                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
+                </h2>
+            </div>
+            <div>
+                <span class="text-gray-400">
+                    likes 200k | saved 10k
+                </span>
+                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
+                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
+                </h2>
+            </div>
         </div>
     </div>
 
