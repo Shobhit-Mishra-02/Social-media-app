@@ -220,8 +220,11 @@ home
             $(captionInputId).removeAttr('disabled')
         })
 
+        
         getPostsPromise
             .then(posts=>{
+                console.log(posts)
+                
                 let postDisplayTemplate = ``
                 posts.forEach(post=>{
                     let d = new Date(post.created_at)
@@ -245,7 +248,7 @@ home
                             <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">${post.title}</a>
                         </h2>
                         
-                        ${post.image ? `<img class="w-full h-auto rounded-md" src="${'http://localhost:8000' + post.image}" alt="${post.caption}"/>` : ``}
+                        ${post.image_url ? `<img class="w-full h-auto rounded-md" src="${post.image_url}" alt="${post.caption}"/>` : ``}
                         
                         <p class="mb-5 text-gray-500">${post.content}
                         </p>
@@ -292,8 +295,11 @@ home
                     `
                 })
                 $("#post_container").html(postDisplayTemplate)
+                
             })
             .catch(err=>console.log(err))
+
+        
     })
 
 </script>

@@ -33,18 +33,19 @@ response = {
 def get_posts(request):
 
     if request.method == "POST":
-        page_numer = request.POST['requested_page']
+        # page_number = request.POST['requested_page']
         
-        end_index = page_numer*3
-        start_index = end_index - 3
+        # end_index = page_number*3
+        # start_index = end_index - 3
 
-        number_of_posts = Post.objects.all().count()
+        # number_of_posts = Post.objects.all().count()
 
-        posts = Post.objects.all().order_by('-created_at')[start_index:end_index]
+        posts = Post.objects.all().order_by('-created_at')
 
-        serialized = PostModelSerializer(posts, many=True)
+        serialized = PostModelSerializer(posts, many=True, context={"request":request})
         serialized_posts = serialized.data
 
+        
         return JsonResponse(serialized_posts, safe=False)
     
     return JsonResponse({"message":"Invalid request"}, status=200)
