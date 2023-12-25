@@ -7,27 +7,6 @@ from home.models import Post
 from .serializers import PostModelSerializer
 
 
-'''
-REQUEST
-The front part will send the body with 'request_page' value and it contains the requested page number
-post_body = {
-    requested_page: 1
-}
-
-RESPONSE
-After getting the requested page number the required data is generated like this
-response = {
-    total_pages:2,
-    page_number: 1,
-    post_number: 3,
-    posts:[
-    {title, content, created_at, image, caption, email, username},
-    {title, content, created_at, image, caption, email, username},
-    {title, content, created_at, image, caption, email, username},
-    ]
-}
-'''
-
 @csrf_exempt
 @login_required
 def get_posts(request, page=1):
@@ -47,4 +26,18 @@ def get_posts(request, page=1):
 
         return JsonResponse(serialized_posts, safe=False)
     
-    return JsonResponse({"message":"Invalid request"}, status=200)
+    return JsonResponse({"message":"Invalid request"}, status=500)
+
+@csrf_exempt
+@login_required
+def increment_likes(request, id):
+
+    if request.method == "GET":
+
+        post = Post.objects.get(pk = id)
+        post.total_likes += 1
+        post.save()
+
+        return JsonResponse({"message": "done", "total_likes":post.total_likes}, status=200)
+    
+    return JsonResponse({"message":"Invalid request"}, status=500)

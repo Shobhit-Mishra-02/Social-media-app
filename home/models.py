@@ -18,3 +18,11 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+class UserLikePost(models.Model):
+    user = models.ForeignKey(AccountUser, on_delete=models.CASCADE, blank=False, null=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, blank=False, null=False)
+    created_at = models.DateTimeField(default=timezone.now())
+
+    def __str__(self) -> str:
+        return f"{self.user.email} likes {self.post.title}"
