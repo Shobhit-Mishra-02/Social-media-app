@@ -30,22 +30,21 @@ response = {
 
 @csrf_exempt
 @login_required
-def get_posts(request):
+def get_posts(request, page=1):
 
-    if request.method == "POST":
-        # page_number = request.POST['requested_page']
-        
-        # end_index = page_number*3
-        # start_index = end_index - 3
+    if request.method == "GET":
 
-        # number_of_posts = Post.objects.all().count()
+        end_index = page*3
+        start_index = end_index - 3
 
-        posts = Post.objects.all().order_by('-created_at')
+        number_of_posts = Post.objects.all().count()
+        total_pages = number_of_posts%3 if number_of_posts/3 +1 else number_of_posts/3 
+
+        posts = Post.objects.all().order_by('-created_at')[start_index:end_index]
 
         serialized = PostModelSerializer(posts, many=True, context={"request":request})
         serialized_posts = serialized.data
 
-        
         return JsonResponse(serialized_posts, safe=False)
     
     return JsonResponse({"message":"Invalid request"}, status=200)
