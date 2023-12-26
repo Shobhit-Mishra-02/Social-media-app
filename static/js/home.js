@@ -1,29 +1,6 @@
 let pageNumber = 1;
 let postsRequestInProgress = false;
 
-function bindIncrementLikes() {
-  /*
-        $(".likeButton").click(function(e){
-            let post = $(this).parents(".post")
-            let id = $(post).attr('id')
-
-            $.ajax({
-                type: "GET",
-                url: `/ajax/like/${id.split("_")[1]}`,
-                dataType: "json",
-                contentType: "application/json",
-                success: function(res){
-                    console.log(res)
-                    console.log($(`#${id}`).children(".likesCount").text(`likes ${res.total_likes}`))
-                },
-                error: function(err){
-                    console.log(err)
-                }
-            })
-        })
-        */
-}
-
 function getPostsPagePromise(page) {
   return new Promise((resolve, reject) => {
     $("#loader").toggleClass("hidden");
@@ -96,9 +73,9 @@ function appendPosts(posts) {
                             </svg>
                         </span>
                         <span class="likeButton">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            <svg id="${"likeBtn_" + post.id}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-500 cursor-pointer hover:stroke-blue-600">
+                                stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-500 cursor-pointer hover:stroke-blue-600 ${post.did_user_like_post ? "fill-blue-200" : ""}">
                                 <path d="M7 10v12" />
                                 <path
                                     d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
@@ -125,16 +102,39 @@ function appendPosts(posts) {
   $("#post_container").append(postDisplayTemplate);
 }
 
+
+function bindLikeButtonEvent(){
+  $(".likeButton").unbind()
+  $(".likeButton").click(function(){
+    let post = $(this).parents(".post")
+    let id = $(post).attr('id')
+
+    $.ajax({
+      type: "GET",
+      url: `/ajax/like/${id.split("_")[1]}`,
+      dataType: "json",
+      contentType: "application/json",
+      success: function(res){
+        $(`#${id}`).children(".likesCount").text(`likes ${res.new_like_count}`)
+        $(`#likeBtn_${id.split("_")[1]}`).toggleClass("fill-blue-200")
+      },
+      error: function(err){
+          console.log(err)
+      }
+  })
+  })
+}
+
 $(document).ready(function () {
   let postPageNumber = 1;
   let hasPosts = true;
 
+  // Initial posts load
   new Promise((resolve, reject) => {
     postsRequestInProgress = true;
     resolve(getPostsPagePromise(postPageNumber));
   })
     .then((posts) => {
-      console.log(posts);
 
       appendPosts(posts);
 
@@ -146,8 +146,9 @@ $(document).ready(function () {
 
       postsRequestInProgress = false;
     })
-    .then(() => bindIncrementLikes());
+    .then(()=>bindLikeButtonEvent())
 
+    // loads posts whenever the user scroll to the bottom 
   $(document).scroll(function (e) {
     let bodyElement = document.querySelector("body");
 
@@ -161,7 +162,6 @@ $(document).ready(function () {
         resolve(getPostsPagePromise(postPageNumber));
       })
         .then((posts) => {
-          console.log(posts);
 
           appendPosts(posts);
 
@@ -173,7 +173,7 @@ $(document).ready(function () {
 
           postsRequestInProgress = false;
         })
-        .then(() => bindIncrementLikes());
+        .then(()=>bindLikeButtonEvent())
     }
   });
 });

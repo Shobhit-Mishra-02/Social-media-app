@@ -30,14 +30,19 @@ def get_posts(request, page=1):
 
 @csrf_exempt
 @login_required
-def increment_likes(request, id):
-
+def update_like_status(request, id):
+    
     if request.method == "GET":
-
-        post = Post.objects.get(pk = id)
-        post.total_likes += 1
-        post.save()
-
-        return JsonResponse({"message": "done", "total_likes":post.total_likes}, status=200)
+        user = request.user
+        post = Post.objects.get(pk=id)
+        
+        if post.userlikepost_set.filter(user = user.id).count():
+            # remove user 
+            post.userlikepost_set.get(user = user.id).delete()
+            return JsonResponse({"message":"User removed from like list.", "new_status":False, "new_like_count":post.userlikepost_set.count()})
+        else:
+            # add user
+            post.userlikepost_set.create(user=user, post=post)
+            return JsonResponse({"message":"User added in like list.", "new_status":True, "new_like_count":post.userlikepost_set.count()})
     
     return JsonResponse({"message":"Invalid request"}, status=500)

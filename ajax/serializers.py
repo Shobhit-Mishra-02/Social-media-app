@@ -4,10 +4,12 @@ from home.models import Post
 class PostModelSerializer(serializers.ModelSerializer):
     
     image_url = serializers.SerializerMethodField()
+    total_likes = serializers.SerializerMethodField()
+    did_user_like_post = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ('id', 'user', 'title', 'content', 'total_likes', 'created_at', 'image_url', 'caption')
+        fields = ('id', 'user', 'title', 'content', 'created_at', 'image_url', 'caption', 'total_likes', 'did_user_like_post')
 
     def get_image_url(self, post):
         request = self.context.get('request')
@@ -18,4 +20,11 @@ class PostModelSerializer(serializers.ModelSerializer):
         
         return None
 
+    def get_total_likes(self, post):
+        return post.userlikepost_set.count()
+    
+    def get_did_user_like_post(self, post):
+        request = self.context.get("request")
+        user_id = request.user.id
+        return True if post.userlikepost_set.filter(user = user_id).count() else False
        
