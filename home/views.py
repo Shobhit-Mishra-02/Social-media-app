@@ -26,3 +26,7 @@ def index(request):
         form = PostCreationForm()
 
     return render(request, "home/index.html", {"form":form})
+
+@login_required
+def profile(request):
+    return render(request, "home/profile.html")

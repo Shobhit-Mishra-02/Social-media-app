@@ -1,0 +1,165 @@
+{% extends 'home/home_base.html' %}
+
+
+{% block title %}
+profile
+{% endblock title %}
+
+
+{% block body %}
+
+<h2 class="text-3xl font-semibold text-gray-600 mb-4">Profile</h2>
+
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+    <div class="space-y-4 grid">
+        <!-- profile left section -->
+        <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
+            <div class="flex justify-end">
+                <span>
+                    <a href="{% url 'home:profile' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                            <path d="m15 5 4 4" />
+                        </svg>
+                    </a>
+                </span>
+            </div>
+            <div class="flex flex-col justify-center align-middle items-center">
+                <div class="w-40 h-40 rounded-full bg-gray-400"></div>
+                <a href="{% url 'home:profile' %}">
+                    <span class="text-xl font-semibold text-gray-700 mt-1">Rich Klien</span>
+                </a>
+                <span class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+            </div>
+            <hr>
+            <div class="mt-4 space-y-2">
+                <div class="flex justify-start align-middle space-x-2 items-center text-gray-500">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-briefcase stroke-gray-500">
+                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                    </span>
+
+                    <span>
+                        Front-end developer
+                    </span>
+                </div>
+                <div class="flex justify-start align-middle space-x-2 items-center text-gray-500">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-map-pin stroke-gray-500">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                    </span>
+
+                    <span>
+                        San francisco, USA
+                    </span>
+                </div>
+            </div>
+            <div class="mt-2">
+                <span class="text-gray-600 font-semibold">Status</span>
+                <p class="text-gray-500"> Working on new projects !!</p>
+            </div>
+            <div class="mt-2">
+                <span class="text-gray-600 font-semibold">Home address</span>
+                <p class="text-gray-500">92 Miles Drive, Newark, NJ 07103, California,
+                    United States of America
+                </p>
+            </div>
+            <div class="mt-2">
+                <span class="text-gray-600 font-semibold">Phone number</span>
+                <p class="text-gray-500">+00 123 456 789 / +12 345 678</p>
+            </div>
+        </div>
+
+        <!-- hobbies section -->
+        <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
+            <div class="flex justify-between items-center align-baseline p-2">
+                <h3 class="text-xl font-semibold text-gray-700 mt-1">Hobbies</h3>
+                <span>
+                    <a href="{% url 'home:profile' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                            <path d="m15 5 4 4" />
+                        </svg>
+                    </a>
+                </span>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Footbal</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Dogs</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Gaming</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Movies</span>
+            </div>
+        </div>
+    </div>
+    <!-- profile right section -->
+    <div class="w-full lg:col-span-2 xl:col-span-3 border border-gray-100 h-fit rounded-md p-3 shadow-md">
+        <div class="flex justify-between items-center align-baseline">
+            <h3 class="text-xl font-semibold text-gray-700 mt-1">General Information</h3>
+            <span>
+                <a href="{% url 'home:profile' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                        <path d="m15 5 4 4" />
+                    </svg>
+                </a>
+            </span>
+        </div>
+        <div class="mt-6">
+            <h3 class="text-gray-600 font-semibold">About me</h3>
+            <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores architecto ipsum
+                inventore vel
+                dignissimos, iusto natus nihil impedit, ea esse explicabo vitae laborum voluptatum necessitatibus saepe
+                unde fuga et. Nesciunt.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-8 lg:mt-20">
+            <div>
+                <span class="text-gray-600 font-semibold">Education</span>
+                <p class="text-gray-500">Thomas Jeff High School, Stanford University</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Join Date</span>
+                <p class="text-gray-500">12-09-2021</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Organization</span>
+                <p class="text-gray-500">Themesberg LLC</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Department</span>
+                <p class="text-gray-500">Marketing</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Work History</span>
+                <p class="text-gray-500">Twitch, Google, Apple</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Languages</span>
+                <p class="text-gray-500">English, German, Italian, Spanish</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Role</span>
+                <p class="text-gray-500">Graphic Designer</p>
+            </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Birthday</span>
+                <p class="text-gray-500">15-08-1990</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
