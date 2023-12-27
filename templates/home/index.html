@@ -7,10 +7,10 @@ home
 
 
 {% block body %}
-<div class="flex justify-center align-middle lg:space-x-2 xl:space-x-3">
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 justify-items-center">
 
     <!-- profile  -->
-    <div class="w-full sm:max-w-sm border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block">
+    <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block md:max-w-md">
         <div class="flex justify-end">
             <span>
                 <a href="{% url 'home:profile' %}">
@@ -37,7 +37,7 @@ home
     </div>
 
     <!-- post container  -->
-    <div id="container" class="w-full sm:max-w-md md:max-w-md xl:max-w-lg text-sm">
+    <div id="container" class="w-full text-sm md:max-w-md lg:max-w-full">
 
         <form class="w-full text-gray-500 rounded-md border border-gray-100 p-2 shadow-md"
             action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
@@ -88,7 +88,7 @@ home
     </div>
 
     <!-- top posts  -->
-    <div class="w-full sm:max-w-sm border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block">
+    <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block sm:max-w-md">
         <h3 class="text-xl font-semibold text-gray-800 mb-6">Top Posts</h3>
 
         <div class="divide-y">
