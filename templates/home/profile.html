@@ -16,14 +16,14 @@ profile
         <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
             <div class="flex justify-end">
                 <span>
-                    <a href="{% url 'home:profile' %}">
+                    <button data-modal-target="crud-modal-personal_information" data-modal-toggle="crud-modal-personal_information">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
                             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                             <path d="m15 5 4 4" />
                         </svg>
-                    </a>
+                    </button>
                 </span>
             </div>
             <div class="flex flex-col justify-center align-middle items-center">
@@ -80,20 +80,29 @@ profile
             </div>
         </div>
 
-        <!-- hobbies section -->
+        <!-- hobbies and skills section -->
         <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
             <div class="flex justify-between items-center align-baseline p-2">
                 <h3 class="text-xl font-semibold text-gray-700 mt-1">Hobbies</h3>
                 <span>
-                    <a href="{% url 'home:profile' %}">
+                    <button data-modal-target="crud-modal-hobbies_and_skills" data-modal-toggle="crud-modal-hobbies_and_skills">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
                             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                             <path d="m15 5 4 4" />
                         </svg>
-                    </a>
+                    </button>
                 </span>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Footbal</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Dogs</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Gaming</span>
+                <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Movies</span>
+            </div>
+            <div class="flex justify-between items-center align-baseline p-2 mt-2">
+                <h3 class="text-xl font-semibold text-gray-700 mt-1">Skills</h3>
             </div>
             <div class="mt-4 flex flex-wrap gap-2">
                 <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Footbal</span>
@@ -108,14 +117,14 @@ profile
         <div class="flex justify-between items-center align-baseline">
             <h3 class="text-xl font-semibold text-gray-700 mt-1">General Information</h3>
             <span>
-                <a href="{% url 'home:profile' %}">
+                <button data-modal-target="crud-modal-general_information" data-modal-toggle="crud-modal-general_information">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                         <path d="m15 5 4 4" />
                     </svg>
-                </a>
+                </button>
             </span>
         </div>
         <div class="mt-6">
@@ -158,6 +167,226 @@ profile
                 <span class="text-gray-600 font-semibold">Birthday</span>
                 <p class="text-gray-500">15-08-1990</p>
             </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal toggle -->
+
+<!-- Personal Information form -->
+<div id="crud-modal-personal_information" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-lg font-semibold text-gray-900">Add Personal Information</h3>
+                <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    data-modal-toggle="crud-modal-personal_information">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form class="p-4 md:p-5">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2 sm:col-span-1">
+                        <label for="firstName"
+                            class="block mb-2 text-sm font-medium text-gray-900">First name</label>
+                        <input type="text" name="firstName" id="firstName"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="John">
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label for="lastName"
+                            class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+                            <input type="text" name="lastName" id="lastName"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Smith">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="status"
+                            class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                        <input type="text" name="status" id="status"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Busy in work...">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="occupation"
+                            class="block mb-2 text-sm font-medium text-gray-900">Occupation</label>
+                        <input type="text" name="occupation" id="occupation"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Front-end developer">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="location"
+                            class="block mb-2 text-sm font-medium text-gray-900">Location</label>
+                        <input type="text" name="location" id="location"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="San francisco, USA">
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <label for="address"
+                            class="block mb-2 text-sm font-medium text-gray-900">Home address</label>
+                        <textarea id="address" rows="4"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="92 Miles Drive, Newark, NJ 07103, California, United States of America"></textarea>
+                    </div>
+                    <div class="col-span-2">
+                        <label for="phoneNumber"
+                            class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
+                        <input type="tel" name="phoneNumber" id="phoneNumber"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="123 456 789">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Update details
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- General Information form  -->
+<div id="crud-modal-general_information" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-lg font-semibold text-gray-900">Add General Information</h3>
+                <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    data-modal-toggle="crud-modal-general_information">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form class="p-4 md:p-5">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                        <label for="aboutMe"
+                            class="block mb-2 text-sm font-medium text-gray-900">About me</label>
+                        <textarea id="aboutMe" rows="4"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="92 Miles Drive, Newark, NJ 07103, California, United States of America"></textarea>
+                    </div>
+                    <div class="col-span-2">
+                        <label for="education"
+                            class="block mb-2 text-sm font-medium text-gray-900">Education</label>
+                        <input type="text" name="education" id="education"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Thomas Jeff High School, Stanford University">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="organization"
+                            class="block mb-2 text-sm font-medium text-gray-900">Organization</label>
+                        <input type="text" name="organization" id="organization"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Themesberg LLC">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="workHistory"
+                            class="block mb-2 text-sm font-medium text-gray-900">Work history</label>
+                        <input type="text" name="workHistory" id="workHistory"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Twitch, Google, Apple">
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <label for="department"
+                            class="block mb-2 text-sm font-medium text-gray-900">Department</label>
+                        <input type="text" name="department" id="department"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="Marketing">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="department"
+                            class="block mb-2 text-sm font-medium text-gray-900">Languages</label>
+                        <input type="text" name="department" id="department"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="English, German, Italian, Spanish">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="dob"
+                            class="block mb-2 text-sm font-medium text-gray-900">Birthday</label>
+                        <input type="date" name="dob" id="dob"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Update details
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Hobbies and skills form  -->
+<div id="crud-modal-hobbies_and_skills" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                <h3 class="text-lg font-semibold text-gray-900">Add Hobbies and Skills</h3>
+                <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    data-modal-toggle="crud-modal-hobbies_and_skills">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form class="p-4 md:p-5">
+                <p class="text-sm text-gray-500 pb-2">Use commas to seprate each skill or hobbie which you are putting.</p>
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-2">
+                        <label for="hobbies"
+                            class="block mb-2 text-sm font-medium text-gray-900">Hobbies</label>
+                        <textarea id="hobbies" rows="4"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Reading, Writing, Running, Gyming"></textarea>
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <label for="skills"
+                            class="block mb-2 text-sm font-medium text-gray-900">Skills</label>
+                        <textarea id="skills" rows="4"
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Javascript, Python, C++"></textarea>
+                    </div>
+                    
+                </div>
+                <button type="submit"
+                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Update details
+                </button>
+            </form>
         </div>
     </div>
 </div>
