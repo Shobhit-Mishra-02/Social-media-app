@@ -55,6 +55,7 @@ class GeneralInformation(models.Model):
 class PersonalInformation(models.Model):
     user = models.OneToOneField(AccountUser, on_delete=models.CASCADE, blank=False)
 
+    profile_pic = models.ImageField(_("Profile pic of user"), upload_to="images", blank=True)
     first_name = models.CharField(_("First name of user"), max_length=300, blank=True)
     last_name = models.CharField(_("Last name of user"), max_length=300, blank=True)
     
