@@ -102,7 +102,6 @@ function appendPosts(posts) {
   $("#post_container").append(postDisplayTemplate);
 }
 
-
 function bindLikeButtonEvent(){
   $(".likeButton").unbind()
   $(".likeButton").click(function(){
@@ -142,6 +141,7 @@ $(document).ready(function () {
         postPageNumber++;
       } else {
         hasPosts = false;
+        $("#post_container").html("<h3 class='text-2xl text-gray-400 text-center'>No post found !!</h3>")
       }
 
       postsRequestInProgress = false;

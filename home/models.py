@@ -4,21 +4,23 @@ from authentication.models import AccountUser
 from django.utils.translation import gettext_lazy as _ 
 from home.utils.get_countries import get_country_names
 
+
 COUNTRY_NAMES = get_country_names()
 GENDERS = [("Male", "Male"),("Female", "Female"),("Other", "Other")] 
 
-# Create your models here.
+
+
 class Post(models.Model):
     user = models.ForeignKey(AccountUser, on_delete=models.CASCADE, blank=True, null=True)
 
-    title = models.CharField(max_length=200, blank=False)
-    content = models.TextField(blank=False)
+    title = models.CharField(_("Title of post"), max_length=200, blank=False)
+    content = models.TextField(_("Content of of post"), blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    image = models.ImageField(upload_to="images", blank=True)
-    caption = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(_("Image for post"), upload_to="images", blank=True)
+    caption = models.CharField(_("Caption for the post image"), max_length=200, blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -36,16 +38,19 @@ class UserLikePost(models.Model):
 class GeneralInformation(models.Model):
     user = models.OneToOneField(AccountUser, on_delete=models.CASCADE, blank=False)
 
-    about_me = models.TextField(_("Introduction about the user"), blank=False)
+    about_me = models.TextField(_("Introduction about the user"), blank=True)
 
     education = models.CharField(_("Name of the college"), max_length=500, blank=True)
-    gender = models.CharField(max_length= 6, choices=GENDERS, blank=True)
-    date_of_birth = models.DateField(_("Date of birth"),blank=True)
+    gender = models.CharField(_("Gender of user"), max_length= 6, choices=GENDERS, blank=True)
+    date_of_birth = models.DateField(_("Date of birth"), blank=True, null=True)
     organization = models.CharField(_("Organization name in which currently working."), max_length = 500, blank=True)
     nationality = models.CharField(_("Nationality of the user"), choices=COUNTRY_NAMES, max_length=300)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"General Information of {self.user.email}"
 
 class PersonalInformation(models.Model):
     user = models.OneToOneField(AccountUser, on_delete=models.CASCADE, blank=False)
@@ -62,13 +67,21 @@ class PersonalInformation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return f"Personal Information of {self.user.email}"
 
 class Hobby(models.Model):
     title = models.CharField(_("Hobby title"), max_length=400)
 
+    def __str__(self) -> str:
+        return self.title
+
 class Skill(models.Model):
     title = models.CharField(_("Skill title"), max_length=400)
 
+    def __str__(self) -> str:
+        return self.title
+    
 class ExtraInformation(models.Model):
     user = models.OneToOneField(AccountUser, on_delete=models.CASCADE, blank=False)
     hobby = models.ForeignKey(Hobby, on_delete=models.CASCADE)
@@ -76,3 +89,6 @@ class ExtraInformation(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"ExtraInformation of {self.user.email}"

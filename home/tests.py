@@ -2,11 +2,12 @@ from django.test import TestCase
 from django.utils import timezone
 import datetime
 
-from .models import Post, UserLikePost
+from .models import Post, UserLikePost, GeneralInformation
 from django.contrib.auth import get_user_model
+from home.models import GENDERS, COUNTRY_NAMES
 
+DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-# Create your tests here.
 class PostTetsCase(TestCase):
     # dummy user details
     USER_EMAIL = "test@gmail.com"
@@ -72,5 +73,66 @@ class PostTetsCase(TestCase):
         self.assertEqual(post.userlikepost_set.count(), 1, 'Post like count after one record in the UserLikePost table')
 
 
-    
+class ProfileCreationTestCase(TestCase):
+    # dummy user details
+    USER_EMAIL = "test@gmail.com"
+    USER_PASSWORD = "test123"
+
+    # dummy data for general information
+    about_me = "A software engineer is a problem-solving professional proficient in languages like C++. They excel in algorithmic thinking, data structures, and coding, collaborating within teams to create reliable, innovative solutions. Adaptability and a commitment to continuous learning are vital in this rapidly evolving field."
+    education = "MIT"
+    gender = GENDERS[0][0] # Male
+    date_of_birth = datetime.date(year=2002, month=3, day=12)
+    organization = "google"
+    nationality = COUNTRY_NAMES[0][0]
+
+    def setUp(self):
+        User = get_user_model()
+        User.objects.create(email=self.USER_EMAIL, password=self.USER_PASSWORD)
+
+    def test_for_creating_general_information_record(self):
+        """
+        Creating a simple object for the GeneralInformation model
+        """
+        User = get_user_model()
+        user = User.objects.get(email=self.USER_EMAIL)
+
+        general_information = GeneralInformation.objects.create(user=user, about_me=self.about_me, education=self.education, gender=self.gender, date_of_birth=self.date_of_birth, organization=self.organization, nationality=self.nationality)
+
+        self.assertEqual(general_information.about_me, self.about_me)
+        self.assertEqual(general_information.education, self.education)
+        self.assertEqual(general_information.gender, self.gender)
+        self.assertEqual(general_information.organization, self.organization)
+        self.assertEqual(general_information.date_of_birth, self.date_of_birth)
+        self.assertEqual(general_information.nationality, self.nationality)
+        self.assertEqual(general_information.created_at.strftime(DATE_TIME_FORMAT), general_information.updated_at.strftime(DATE_TIME_FORMAT)) # during first time creation create_at and updated_at should be same
+
+
+    def test_for_creating_multiple_general_information_records(self):
+        """
+        Trying to create two GeneralInformation records for the same user and this should through a error.
+        """
+
+        User = get_user_model()
+        user = User.objects.get(email=self.USER_EMAIL)
+
+        # first record for user
+        GeneralInformation.objects.create(user=user, about_me=self.about_me)
+
+        # second record for user, where it should throw an error or exception
+        with self.assertRaises(Exception):
+            GeneralInformation.objects.create(user=user, about_me=self.about_me)
+
+
+    def test_for_creating_general_information_without_user(self):
+        """
+        Trying to create a GeneralInformation record without user field and this should throw an error.
+        """
+
+        # creating GeneralInformation record without about_me field
+        with self.assertRaises(Exception):
+            GeneralInformation.objects.create()
+
+
+
 
