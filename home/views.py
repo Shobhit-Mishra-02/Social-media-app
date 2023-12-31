@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import PostCreationForm
+from .forms import PostCreationForm, GeneralInformationForm
 from .models import Post
 from .utils.upload_files import upload_file
 
@@ -29,4 +29,7 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render(request, "home/profile.html")
+
+    general_information_form = GeneralInformationForm()
+
+    return render(request, "home/profile.html", {"general_information_form":general_information_form})
