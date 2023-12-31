@@ -198,55 +198,56 @@ profile
             <!-- Modal body -->
             <form class="p-4 md:p-5">
                 <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="flex items-center justify-center col-span-2 py-2">
+                        <label for="{{ personal_information_form.profile_pic.id_for_label }}"
+                            class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload profile pic</span> or drag and drop</p>
+                                <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            </div>
+                            {{ personal_information_form.profile_pic }}
+                        </label>
+                    </div>
                     <div class="col-span-2 sm:col-span-1">
-                        <label for="firstName"
+                        <label for="{{ personal_information_form.first_name.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">First name</label>
-                        <input type="text" name="firstName" id="firstName"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="John">
+                            {{ personal_information_form.first_name }}
                     </div>
                     <div class="col-span-2 sm:col-span-1">
-                        <label for="lastName"
+                        <label for="{{ personal_information_form.last_name.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
-                            <input type="text" name="lastName" id="lastName"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="Smith">
+                            {{ personal_information_form.last_name }}
                     </div>
                     <div class="col-span-2">
-                        <label for="status"
+                        <label for="{{ personal_information_form.status.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                        <input type="text" name="status" id="status"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="Busy in work...">
+                            {{ personal_information_form.status }}
                     </div>
                     <div class="col-span-2">
-                        <label for="occupation"
+                        <label for="{{ personal_information_form.occupation.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Occupation</label>
-                        <input type="text" name="occupation" id="occupation"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="Front-end developer">
+                            {{ personal_information_form.occupation }}
                     </div>
                     <div class="col-span-2">
-                        <label for="location"
+                        <label for="{{ personal_information_form.location.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                        <input type="text" name="location" id="location"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="San francisco, USA">
+                            {{ personal_information_form.location }}
                     </div>
                     
                     <div class="col-span-2">
-                        <label for="address"
+                        <label for="{{ personal_information_form.home_address.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Home address</label>
-                        <textarea id="address" rows="4"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="92 Miles Drive, Newark, NJ 07103, California, United States of America"></textarea>
+                            {{ personal_information_form.home_address }}
                     </div>
                     <div class="col-span-2">
-                        <label for="phoneNumber"
+                        <label for="{{ personal_information_form.phone_number.id_for_label }}"
                             class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
-                        <input type="tel" name="phoneNumber" id="phoneNumber"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="123 456 789">
+                            {{ personal_information_form.phone_number }}
                     </div>
                 </div>
                 <button type="submit"

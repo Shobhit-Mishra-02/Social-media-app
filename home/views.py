@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .forms import PostCreationForm, GeneralInformationForm
+from .forms import PostCreationForm, GeneralInformationForm, PersonalInformationForm
 from .models import Post
 from .utils.upload_files import upload_file
 
@@ -12,16 +12,13 @@ from .utils.upload_files import upload_file
 def index(request):
     
     if request.method == "POST":
-        form = PostCreationForm(request.POST, request.FILES)
+        post = Post(user=request.user)
+        form = PostCreationForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post_title = form.cleaned_data["title"]
-            post_content = form.cleaned_data["content"]
-            post_image = form.cleaned_data["image"]
-            post_image_caption = form.cleaned_data["caption"]
-
-            Post.objects.create(user=request.user, title=post_title, content=post_content, image=post_image, caption=post_image_caption)
-
-            return render(request, "home/index.html", {"form":form})
+            
+            form.save()
+            
+            return render(request, "home/index.html", {"form":PostCreationForm()})
     else:
         form = PostCreationForm()
 
@@ -31,5 +28,6 @@ def index(request):
 def profile(request):
 
     general_information_form = GeneralInformationForm()
+    personal_information_form = PersonalInformationForm()
 
-    return render(request, "home/profile.html", {"general_information_form":general_information_form})
+    return render(request, "home/profile.html", {"general_information_form":general_information_form, "personal_information_form":personal_information_form})
