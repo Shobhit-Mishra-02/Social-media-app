@@ -280,7 +280,7 @@ profile
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="p-4 md:p-5">
+            <form id="generalInformationForm" class="p-4 md:p-5">
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
                         <label for="{{general_information_form.about_me.id_for_label}}"
@@ -374,3 +374,46 @@ profile
 </div>
 
 {% endblock body %}
+
+
+{% block javascript %}
+
+<script>
+    const generalInformationForm = document.getElementById("generalInformationForm")
+
+    function getAllFormValues(form){
+        let obj = {}
+
+        for(v of form){
+            obj[v[0]] = v[1]
+        }
+
+        return obj
+    }
+
+    generalInformationForm.addEventListener("submit", (e)=>{
+        e.preventDefault()
+
+        let formData = new FormData(generalInformationForm)
+
+        $.ajax({
+            url: "{% url 'ajax:genral_information' %}",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            dataType: "json",
+            data: formData,
+            success: function(res){
+                console.log(res)
+            },
+            error: function(err){
+                console.log(err)
+            }
+        })
+    })
+
+</script>
+
+{% endblock javascript %}
+    

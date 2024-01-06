@@ -3,9 +3,9 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from home.models import Post
+from home.models import Post, GeneralInformation
 from .serializers import PostModelSerializer
-
+from home.forms import PersonalInformationForm, GeneralInformationForm
 
 @csrf_exempt
 @login_required
@@ -46,3 +46,28 @@ def update_like_status(request, id):
             return JsonResponse({"message":"User added in like list.", "new_status":True, "new_like_count":post.userlikepost_set.count()})
     
     return JsonResponse({"message":"Invalid request"}, status=500)
+
+@csrf_exempt
+@login_required
+def add_general_information(request):
+    
+    form = GeneralInformationForm(request.POST, instance=GeneralInformation(user=request.user))
+
+    if request.method == "POST" and form.is_valid():
+        about_me = form.cleaned_data["about_me"]
+        education = form.cleaned_data["education"]
+        gender = form.cleaned_data["gender"]
+        date_of_birth = form.cleaned_data["date_of_birth"]
+        organization = form.cleaned_data["organization"]
+        nationality = form.cleaned_data["nationality"]
+
+        if GeneralInformation.objects.filter(user_id=request.user.id).count():
+            GeneralInformation.objects.filter(user_id=request.user.id).update(about_me=about_me, education=education, gender=gender, date_of_birth=date_of_birth, organization=organization, nationality=nationality)
+            return JsonResponse({"message":"Updated the record"})
+        else:
+            form.save()
+
+            return JsonResponse({"message":"Created a new record"})
+    
+    return JsonResponse({"message": "invalid method"})
+
