@@ -3,8 +3,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from home.models import Post, GeneralInformation
-from .serializers import PostModelSerializer
+from home.models import Post, GeneralInformation, PersonalInformation
+from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer
 from home.forms import PersonalInformationForm, GeneralInformationForm
 
 @csrf_exempt
@@ -71,3 +71,24 @@ def add_general_information(request):
     
     return JsonResponse({"message": "invalid method"})
 
+@csrf_exempt
+@login_required
+def get_general_information(request):
+    if request.method == "GET":
+        general_information = GeneralInformation.objects.filter(user_id=request.user.id)[0]
+        serialized_general_information = GeneralInformationModelSerializer(general_information).data
+
+        return JsonResponse(serialized_general_information, status=200)
+    
+    return JsonResponse({"message":"Invalid method"}, status=500)
+
+@csrf_exempt
+@login_required
+def get_personal_information(request):
+    if request.method == "GET":
+        personal_information = PersonalInformation.objects.filter(user_id=request.user.id)[0]
+        serialized_personal_information = PersonalInformationSerializer(personal_information).data
+
+        return JsonResponse(serialized_personal_information, status=200)
+    
+    return JsonResponse({"message":"Invalid method"}, status=500)

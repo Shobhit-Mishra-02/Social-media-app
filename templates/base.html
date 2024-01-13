@@ -25,6 +25,12 @@
     {% block navigation %}
         
     {% endblock navigation %}
+
+    <div class="w-full p-1 fixed bottom-0 md:max-w-md md:right-0 z-50">
+        {% block notification %}
+        <div id="notification"></div>
+        {% endblock notification %}
+    </div>
         
     <div class="px-6 pt-6 sm:px-12 md:px-20">
         {% block body %}

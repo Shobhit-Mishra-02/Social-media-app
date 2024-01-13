@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Post
+from home.models import Post, GeneralInformation, PersonalInformation
 
 class PostModelSerializer(serializers.ModelSerializer):
     
@@ -28,3 +28,14 @@ class PostModelSerializer(serializers.ModelSerializer):
         user_id = request.user.id
         return True if post.userlikepost_set.filter(user = user_id).count() else False
        
+class GeneralInformationModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GeneralInformation
+        fields = "__all__"
+
+class PersonalInformationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PersonalInformation
+        fields = "__all__"
