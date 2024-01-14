@@ -16,7 +16,7 @@ profile
         <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
             <div class="flex justify-end">
                 <span>
-                    <button data-modal-target="crud-modal-personal_information"
+                    <button id="personalInformationEditBtn" data-modal-target="crud-modal-personal_information"
                         data-modal-toggle="crud-modal-personal_information">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -28,11 +28,12 @@ profile
                 </span>
             </div>
             <div class="flex flex-col justify-center align-middle items-center">
-                <div class="w-40 h-40 rounded-full bg-gray-400"></div>
+                <div id="profile_pic"></div>
                 <a href="{% url 'home:profile' %}">
-                    <span class="text-xl font-semibold text-gray-700 mt-1">Rich Klien</span>
+                    <span id="per_info_display__full_name" class="text-xl font-semibold text-gray-700 mt-1">Rich
+                        Klien</span>
                 </a>
-                <span class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+                <span id="per_info_display__email" class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
             </div>
             <hr>
             <div class="mt-4 space-y-2">
@@ -46,7 +47,7 @@ profile
                         </svg>
                     </span>
 
-                    <span>
+                    <span id="per_info_display__occupation">
                         Front-end developer
                     </span>
                 </div>
@@ -60,24 +61,25 @@ profile
                         </svg>
                     </span>
 
-                    <span>
+                    <span id="per_info_display__location">
                         San francisco, USA
                     </span>
                 </div>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Status</span>
-                <p class="text-gray-500"> Working on new projects !!</p>
+                <p id="per_info_display__status" class="text-gray-500"> Working on new projects !!</p>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Home address</span>
-                <p class="text-gray-500">92 Miles Drive, Newark, NJ 07103, California,
+                <p id="per_info_display__home_address" class="text-gray-500">92 Miles Drive, Newark, NJ 07103,
+                    California,
                     United States of America
                 </p>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Phone number</span>
-                <p class="text-gray-500">+00 123 456 789 / +12 345 678</p>
+                <p id="per_info_display__phone_number" class="text-gray-500">+00 123 456 789 / +12 345 678</p>
             </div>
         </div>
 
@@ -159,8 +161,6 @@ profile
     </div>
 </div>
 
-
-
 <!-- Modal toggle -->
 
 <!-- Personal Information form -->
@@ -184,7 +184,9 @@ profile
                 </button>
             </div>
             <!-- Modal body -->
-            <form class="p-4 md:p-5">
+            <form id="personalInformationForm" class="p-4 md:p-5" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="personalInfo_image" class="flex justify-center align-middle items-center"></div>
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="flex items-center justify-center col-span-2 py-2">
                         <label for="{{ personal_information_form.profile_pic.id_for_label }}"
@@ -370,96 +372,166 @@ profile
 
 <script>
     const generalInformationForm = document.getElementById("generalInformationForm")
-    let urlToAddGeneralInformation = "{% url 'ajax:general_information' %}"
-    let urlToGetGeneralInformation = "{% url 'ajax:get_general_information' %}"
+    const personalInformationForm = document.getElementById("personalInformationForm")
 
-    function getRequest(url, cb) {
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "json",
-            success: function (res) {
-                cb(res)
-            },
-            error: function (err) {
-                console.log(err)
-            }
+    const urlToAddGeneralInformation = "{% url 'ajax:general_information' %}"
+    const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' %}"
+    const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' %}"
+    const urlToAddPersonalInformation = "{% url 'ajax:add_personal_information' %}"
+
+    function createGetRequestPromise(url) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (err) {
+                    reject(err)
+                }
+            })
         })
     }
 
-    function postRequest(url, data, cb) {
-        $.ajax({
-            url: url,
-            type: "POST",
-            contentType: false,
-            processData: false,
-            headers: { 'X-CSRFToken': "{{ csrf_token }}" },
-            dataType: "json",
-            data: data,
-            success: function (res) {
-                cb(res)
-            },
-            error: function (err) {
-                console.log(err)
-            }
+    function createPostRequestPromise(url, data){
+        return new Promise((resolve, reject)=>{
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
+                dataType: "json",
+                data: data,
+                success: function (res) {
+                    resolve(res)
+                },
+                error: function (err) {
+                    reject(err)
+                }
+            })
         })
     }
 
-    function updateForm(formId, url) {
+   
+    function populateDataFunc(data, formId) {
+        console.log(data)
+        let keys = Object.keys(data)
 
-        let populateData = (data) => {
-            let keys = Object.keys(data)
+        keys.forEach(key => {
+            let inputElem = $(`#${formId} input[name=${key}]`)
 
-            keys.forEach(key => {
-                let inputElem = $(`#${formId} input[name=${key}]`)
+            if (inputElem && inputElem.attr('type') != 'file') {
+                inputElem.val(data[key])
+            }
 
-                if (inputElem) {
-                    inputElem.val(data[key])
-                }
+            let textAreaElem = $(`#${formId} textarea[name=${key}]`)
 
-                let textAreaElem = $(`#${formId} textarea[name=${key}]`)
+            if (textAreaElem) {
+                textAreaElem.val(data[key])
+            }
 
-                if (textAreaElem) {
-                    textAreaElem.val(data[key])
-                }
+            let selectElem = $(`#${formId} select[name=${key}]`)
 
-                let selectElem = $(`#${formId} select[name=${key}]`)
+            if (selectElem) {
+                selectElem.val(data[key])
+            }
+        })
 
-                if(selectElem){
-                    selectElem.val(data[key])
-                }
-            })
-
-        }
-
-        getRequest(url, populateData)
     }
+    
+    function populateDataInDisplayFunc(data, displayIdInitials){
+        let keys = Object.keys(data)
 
-    function updateDisplay(url, displayIdInitials){
-        let populateDataInDisplay = (data)=>{
-            let keys = Object.keys(data)
-            
-            keys.forEach(key=>{
-                $(`#${displayIdInitials}_display__${key}`).text(data[key])
-            })
-        }
-
-        getRequest(url, populateDataInDisplay)
+        keys.forEach(key => {
+            $(`#${displayIdInitials}_display__${key}`).text(data[key])
+        })
     }
 
 
     $(document).ready(function () {
 
-        updateDisplay(urlToGetGeneralInformation, "gen_info")
+        createGetRequestPromise(urlToGetPersonalInformation)
+            .then(data=>{
+                populateDataInDisplayFunc(data, "per_info")
+                return data.profile_pic
+            })
+            .then(imageUrl=>{
+                if(imageUrl){
+                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                }
+            })
+            .catch(err=>console.log(err))
+        
+        createGetRequestPromise(urlToGetGeneralInformation)
+            .then(data=>{
+                populateDataInDisplayFunc(data, "gen_info")
+            })
+            .catch(err=>console.log(err))
+        
 
-        $("#generalInformationEditBtn").click(()=>updateForm("generalInformationForm", urlToGetGeneralInformation))
+        $("#generalInformationEditBtn").click(() => {
+            createGetRequestPromise(urlToGetGeneralInformation)
+                .then(data=>{
+                    populateDataFunc(data, "generalInformationForm")
+                })
+                .catch(err => console.log(err))
+        })
+
+        $("#personalInformationEditBtn").click(() => {
+            createGetRequestPromise(urlToGetPersonalInformation)
+                .then(data => {
+                    populateDataFunc(data, "personalInformationForm")
+                    return data.profile_pic
+                })
+                .then(imageUrl => {
+                    if (imageUrl) {
+                        $(`#personalInformationForm #personalInfo_image`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                    }
+                })
+                .catch(err => console.log(err))
+        })
+
+        $("#personalInformationForm input[name=profile_pic]").change(function(){
+            let url = URL.createObjectURL($(this)[0].files[0])
+            console.log(url)
+            $("#personalInfo_image").html(`<img src="${url}" class="w-28 h-28 rounded-full" />`)
+        })
 
         generalInformationForm.addEventListener("submit", (e) => {
             e.preventDefault()
             let formData = new FormData(generalInformationForm)
 
-            postRequest(urlToAddGeneralInformation, formData, (res) => {
-                updateDisplay(urlToGetGeneralInformation, "gen_info")
+            createPostRequestPromise(urlToAddGeneralInformation, formData)
+                .then(data=>populateDataInDisplayFunc(data, "gen_info"))
+                .catch(err=>console.log(err))
+        })
+
+        personalInformationForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+
+            let data = new FormData(personalInformationForm)
+
+            $.ajax({
+                url: urlToAddPersonalInformation,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
+                dataType: "json",
+                data: data,
+                enctype: "multipart/form-data",
+                success: function (res) {
+                    console.log(res)
+                    populateDataInDisplayFunc(res, "per_info")
+                    let imageUrl = res.profile_pic
+                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
             })
         })
 

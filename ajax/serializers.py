@@ -36,6 +36,25 @@ class GeneralInformationModelSerializer(serializers.ModelSerializer):
 
 class PersonalInformationSerializer(serializers.ModelSerializer):
 
+    profile_pic = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+
     class Meta:
         model = PersonalInformation
         fields = "__all__"
+
+    def get_profile_pic(self, personal_information):
+        request = self.context.get('request')
+        
+        if personal_information.profile_pic and hasattr(personal_information.profile_pic, 'url'):
+            image_url = personal_information.profile_pic.url 
+            return request.build_absolute_uri(image_url)
+        
+        return None
+    
+    def get_full_name(self, personal_information):
+        return personal_information.first_name + " " + personal_information.last_name
+    
+    def get_email(self, personal_information):
+        return personal_information.user.email

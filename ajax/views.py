@@ -63,32 +63,85 @@ def add_general_information(request):
 
         if GeneralInformation.objects.filter(user_id=request.user.id).count():
             GeneralInformation.objects.filter(user_id=request.user.id).update(about_me=about_me, education=education, gender=gender, date_of_birth=date_of_birth, organization=organization, nationality=nationality)
-            return JsonResponse({"message":"Updated the record"})
+            
+            data = GeneralInformation.objects.get(user_id=request.user.id)
+            serialized_data = GeneralInformationModelSerializer(data).data
+            return JsonResponse(serialized_data)
         else:
             form.save()
 
-            return JsonResponse({"message":"Created a new record"})
+            data = GeneralInformation.objects.get(user_id=request.user.id)
+            serialized_data = GeneralInformationModelSerializer(data).data
+            return JsonResponse(serialized_data)
     
     return JsonResponse({"message": "invalid method"})
+
+
+@csrf_exempt
+@login_required
+def add_personal_information(request):
+
+    form = PersonalInformationForm(request.POST, request.FILES, instance=PersonalInformation(user=request.user))
+
+    if request.method == "POST" and form.is_valid():
+
+        if PersonalInformation.objects.filter(user_id=request.user.id).count():
+            
+            profile_pic = request.FILES.get('profile_pic', False)
+
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            occupation = form.cleaned_data["occupation"]
+            status = form.cleaned_data["status"]
+            location = form.cleaned_data["location"]
+            home_address = form.cleaned_data["home_address"]
+            phone_number = form.cleaned_data["phone_number"]
+
+            if(profile_pic):
+                PersonalInformation.objects.filter(user_id=request.user.id).update(profile_pic=profile_pic, first_name=first_name, last_name=last_name, occupation=occupation, status=status, location=location, home_address=home_address, phone_number=phone_number)
+            else:
+                PersonalInformation.objects.filter(user_id=request.user.id).update(first_name=first_name, last_name=last_name, occupation=occupation, status=status, location=location, home_address=home_address, phone_number=phone_number)
+
+            data = PersonalInformation.objects.get(user_id=request.user.id)
+            serialized_data = PersonalInformationSerializer(data, context={"request":request}).data
+
+            return JsonResponse(serialized_data, status=200)
+        else:
+            form.save()
+
+            data = PersonalInformation.objects.get(user_id=request.user.id)
+            serialized_data = PersonalInformationSerializer(data, context={"request":request}).data
+
+            return JsonResponse(serialized_data, status=200)
+        
+    return JsonResponse({"message":"invalid method"}, status=500)
 
 @csrf_exempt
 @login_required
 def get_general_information(request):
     if request.method == "GET":
-        general_information = GeneralInformation.objects.filter(user_id=request.user.id)[0]
-        serialized_general_information = GeneralInformationModelSerializer(general_information).data
+        general_information = GeneralInformation.objects.filter(user_id=request.user.id)
 
-        return JsonResponse(serialized_general_information, status=200)
-    
+        if len(general_information)>0:
+            serialized_general_information = GeneralInformationModelSerializer(general_information[0]).data
+            return JsonResponse(serialized_general_information, status=200)
+
+        return JsonResponse({"message":"No data found"}, status=200)
+
     return JsonResponse({"message":"Invalid method"}, status=500)
 
 @csrf_exempt
 @login_required
 def get_personal_information(request):
     if request.method == "GET":
-        personal_information = PersonalInformation.objects.filter(user_id=request.user.id)[0]
-        serialized_personal_information = PersonalInformationSerializer(personal_information).data
+        personal_information = PersonalInformation.objects.filter(user_id=request.user.id)
 
-        return JsonResponse(serialized_personal_information, status=200)
+        if len(personal_information)>0:
+            
+            serialized_personal_information = PersonalInformationSerializer(personal_information[0], context={"request":request}).data
+
+            return JsonResponse(serialized_personal_information, status=200)
+
+        return JsonResponse({"message":"No data found"}, status=200)
     
     return JsonResponse({"message":"Invalid method"}, status=500)
