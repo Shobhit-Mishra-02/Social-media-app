@@ -2,17 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from mysite.settings import MEDIA_ROOT
 
 from home.models import Post, GeneralInformation, PersonalInformation
 from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer
 from home.forms import PersonalInformationForm, GeneralInformationForm
-
-
-def handle_upload(f):
-    with open(f"{MEDIA_ROOT}/images/{f}", "wb+") as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
 
 
 @csrf_exempt
@@ -106,7 +99,8 @@ def add_personal_information(request):
             else:
                 return JsonResponse({"message":"Form is not valid"}, status=500)
         else:
-            form = PersonalInformationForm(request.POST, request.FILES)
+            instance = PersonalInformation(user=request.user)
+            form = PersonalInformationForm(request.POST, request.FILES, instance=instance)
             
             if form.is_valid():
                 form.save()
@@ -124,10 +118,10 @@ def add_personal_information(request):
 
 @csrf_exempt
 @login_required
-def get_general_information(request):
+def get_general_information(request, id):
     if request.method == "GET":
         general_information = GeneralInformation.objects.filter(
-            user_id=request.user.id)
+            user_id=id)
 
         if len(general_information) > 0:
             serialized_general_information = GeneralInformationModelSerializer(
@@ -141,10 +135,10 @@ def get_general_information(request):
 
 @csrf_exempt
 @login_required
-def get_personal_information(request):
+def get_personal_information(request, id):
     if request.method == "GET":
         personal_information = PersonalInformation.objects.filter(
-            user_id=request.user.id)
+            user_id=id)
 
         if len(personal_information) > 0:
 

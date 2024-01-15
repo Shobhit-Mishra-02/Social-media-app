@@ -7,23 +7,22 @@ home
 
 
 {% block body %}
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 justify-items-center">
-
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 justify-items-center">    
     <!-- profile  -->
     <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block md:max-w-md">
         <div class="flex justify-end">
             <span>
-                <a href="{% url 'home:profile' %}">
+                <a href="{% url 'home:profile' user.id %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                 </a>
             </span>
         </div>
         <div class="flex flex-col justify-center align-middle items-center">
-            <div class="w-40 h-40 rounded-full bg-gray-400"></div>
-            <a href="{% url 'home:profile' %}">
-                <span class="text-xl font-semibold text-gray-700 mt-1 hover:underline">Rich Klien</span>
+            <div id="user_profile_pic" class="w-fit"></div>
+            <a href="{% url 'home:profile' user.id %}">
+                <span id="user_full_name" class="text-xl font-semibold text-gray-700 mt-1 hover:underline">Rich Klien</span>
             </a>
-            <span class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+            <span id="user_email" class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
         </div>
         <hr>
         <div class="mt-2">
@@ -32,7 +31,7 @@ home
         </div>
         <div class="mt-2">
             <span class="text-gray-600 font-semibold">Bio</span>
-            <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non ipsum quis tenetur expedita ratione accusantium nulla laudantium, voluptatum delectus? Ipsa praesentium quidem soluta esse tempore laborum voluptatum quae aspernatur exercitationem!</p>
+            <p id="user_about_me" class="text-gray-500">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non ipsum quis tenetur expedita ratione accusantium nulla laudantium, voluptatum delectus? Ipsa praesentium quidem soluta esse tempore laborum voluptatum quae aspernatur exercitationem!</p>
         </div>
     </div>
 
@@ -131,6 +130,9 @@ home
     const captionInputId = "#{{ form.caption.id_for_label }}"
     const imageInputId = "#{{ form.image.id_for_label }}"
 
+    const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' user.id %}"
+    const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' user.id %}"    
+
     $(document).ready(function() {
         
         $(captionInputId).attr('disabled', true)
@@ -138,6 +140,19 @@ home
         $(imageInputId).on('input', function () {
             $(captionInputId).removeAttr('disabled')
         })
+
+        createGetRequestPromise(urlToGetPersonalInformation)
+            .then(data=>{
+                $("#user_profile_pic").html(`<img src="${data.profile_pic}" class="w-44 h-44 rounded-full" />`)
+                $("#user_email").text(data.email)
+                $("#user_full_name").text(data.full_name)
+            })
+            .catch(err=>console.log(err))
+
+        createGetRequestPromise(urlToGetGeneralInformation)
+            .then(data=>{
+                $("#user_about_me").text(data.about_me)
+            })
     })
 
 </script>

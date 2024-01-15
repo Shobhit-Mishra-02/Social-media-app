@@ -6,10 +6,37 @@ class PostModelSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
     total_likes = serializers.SerializerMethodField()
     did_user_like_post = serializers.SerializerMethodField()
+    owner_full_name = serializers.SerializerMethodField()
+    owner_profile_pic = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ('id', 'user', 'title', 'content', 'created_at', 'image_url', 'caption', 'total_likes', 'did_user_like_post')
+        fields = ('id', 'user', 'title', 'content', 'created_at', 'image_url', 'caption', 'total_likes', 'did_user_like_post', 'owner_full_name', 'owner_profile_pic')
+
+    def get_owner_full_name(self, post):
+
+        records = PersonalInformation.objects.filter(user_id=post.user.id)
+
+        if records.count() > 0:
+            personal_information = records[0]
+
+            return personal_information.first_name + " " + personal_information.last_name
+
+        return "name_not_found"
+    
+    def get_owner_profile_pic(self, post):
+        request = self.context.get('request')
+        records = PersonalInformation.objects.filter(user_id=post.user.id)
+
+        if records.count() > 0:
+            personal_information = records[0]
+
+            if personal_information.profile_pic and hasattr(personal_information.profile_pic, 'url'):
+                image_url = personal_information.profile_pic.url
+                return request.build_absolute_uri(image_url)
+            
+        return None
+
 
     def get_image_url(self, post):
         request = self.context.get('request')

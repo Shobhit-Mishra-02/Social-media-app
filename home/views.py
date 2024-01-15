@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import PostCreationForm, GeneralInformationForm, PersonalInformationForm
-from .models import Post, GeneralInformation
+from .models import Post, GeneralInformation, PersonalInformation
 from .utils.upload_files import upload_file
 
 
@@ -25,15 +25,16 @@ def index(request):
     return render(request, "home/index.html", {"form":form})
 
 @login_required
-def profile(request):
+def profile(request, id):
 
     general_information_form = GeneralInformationForm()
     personal_information_form = PersonalInformationForm()
+    is_owner = True if request.user.id == id else False
 
-    general_information = GeneralInformation.objects.get(user_id=request.user.id)
 
     return render(request, "home/profile.html", {
-        "general_information_form":general_information_form,
-        "general_information": general_information,  
-        "personal_information_form":personal_information_form
+        "general_information_form":general_information_form,  
+        "personal_information_form":personal_information_form,
+        "is_owner": is_owner,
+        "id": id
         })

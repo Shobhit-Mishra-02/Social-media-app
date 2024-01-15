@@ -14,6 +14,8 @@ profile
     <div class="space-y-4 grid">
         <!-- profile left section -->
         <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
+
+            {% if is_owner %}
             <div class="flex justify-end">
                 <span>
                     <button id="personalInformationEditBtn" data-modal-target="crud-modal-personal_information"
@@ -27,9 +29,13 @@ profile
                     </button>
                 </span>
             </div>
+            {% endif %}
+
+
+
             <div class="flex flex-col justify-center align-middle items-center">
                 <div id="profile_pic"></div>
-                <a href="{% url 'home:profile' %}">
+                <a href="{% url 'home:profile' user.id %}">
                     <span id="per_info_display__full_name" class="text-xl font-semibold text-gray-700 mt-1">Rich
                         Klien</span>
                 </a>
@@ -84,7 +90,7 @@ profile
         </div>
 
         <!-- hobbies and skills section -->
-        <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
+        <!-- <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
             <div class="flex justify-between items-center align-baseline p-2">
                 <h3 class="text-xl font-semibold text-gray-700 mt-1">Hobbies</h3>
                 <span>
@@ -114,12 +120,14 @@ profile
                 <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Gaming</span>
                 <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-1 rounded">Movies</span>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- profile right section -->
     <div class="w-full lg:col-span-2 xl:col-span-3 border border-gray-100 h-fit rounded-md p-3 shadow-md">
         <div class="flex justify-between items-center align-baseline">
             <h3 class="text-xl font-semibold text-gray-700 mt-1">General Information</h3>
+            
+            {% if is_owner %}
             <span>
                 <button id="generalInformationEditBtn" data-modal-target="crud-modal-general_information"
                     data-modal-toggle="crud-modal-general_information">
@@ -131,6 +139,8 @@ profile
                     </svg>
                 </button>
             </span>
+            {% endif %}
+                
         </div>
         <div class="mt-6">
             <h3 class="text-gray-600 font-semibold">About me</h3>
@@ -157,11 +167,19 @@ profile
                 <span class="text-gray-600 font-semibold">Birthday</span>
                 <p id="gen_info_display__date_of_birth" class="text-gray-500"></p>
             </div>
+            <div>
+                <span class="text-gray-600 font-semibold">Gender</span>
+                <p id="gen_info_display__gender" class="text-gray-500"></p>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Modal toggle -->
+
+
+{% if is_owner %}
+    
 
 <!-- Personal Information form -->
 <div id="crud-modal-personal_information" tabindex="-1" aria-hidden="true"
@@ -317,12 +335,12 @@ profile
 </div>
 
 <!-- Hobbies and skills form  -->
-<div id="crud-modal-hobbies_and_skills" tabindex="-1" aria-hidden="true"
+<!-- <div id="crud-modal-hobbies_and_skills" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
-        <!-- Modal content -->
+        
         <div class="relative bg-white rounded-lg shadow">
-            <!-- Modal header -->
+            
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-lg font-semibold text-gray-900">Add Hobbies and Skills</h3>
                 <button type="button"
@@ -336,7 +354,6 @@ profile
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <!-- Modal body -->
             <form class="p-4 md:p-5">
                 <p class="text-sm text-gray-500 pb-2">Use commas to seprate each skill or hobbie which you are putting.
                 </p>
@@ -363,7 +380,9 @@ profile
             </form>
         </div>
     </div>
-</div>
+</div> -->
+
+{% endif %}
 
 {% endblock body %}
 
@@ -375,47 +394,11 @@ profile
     const personalInformationForm = document.getElementById("personalInformationForm")
 
     const urlToAddGeneralInformation = "{% url 'ajax:general_information' %}"
-    const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' %}"
-    const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' %}"
     const urlToAddPersonalInformation = "{% url 'ajax:add_personal_information' %}"
+    
+    const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' id %}"
+    const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' id %}"
 
-    function createGetRequestPromise(url) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                success: function (res) {
-                    resolve(res)
-                },
-                error: function (err) {
-                    reject(err)
-                }
-            })
-        })
-    }
-
-    function createPostRequestPromise(url, data){
-        return new Promise((resolve, reject)=>{
-            $.ajax({
-                url: url,
-                type: "POST",
-                contentType: false,
-                processData: false,
-                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
-                dataType: "json",
-                data: data,
-                success: function (res) {
-                    resolve(res)
-                },
-                error: function (err) {
-                    reject(err)
-                }
-            })
-        })
-    }
-
-   
     function populateDataFunc(data, formId) {
         console.log(data)
         let keys = Object.keys(data)
@@ -441,8 +424,8 @@ profile
         })
 
     }
-    
-    function populateDataInDisplayFunc(data, displayIdInitials){
+
+    function populateDataInDisplayFunc(data, displayIdInitials) {
         let keys = Object.keys(data)
 
         keys.forEach(key => {
@@ -452,88 +435,100 @@ profile
 
 
     $(document).ready(function () {
-
+            
         createGetRequestPromise(urlToGetPersonalInformation)
-            .then(data=>{
+            .then(data => {
                 populateDataInDisplayFunc(data, "per_info")
                 return data.profile_pic
             })
-            .then(imageUrl=>{
-                if(imageUrl){
+            .then(imageUrl => {
+                if (imageUrl) {
                     $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
                 }
             })
-            .catch(err=>console.log(err))
-        
+            .catch(err => console.log(err))
+
         createGetRequestPromise(urlToGetGeneralInformation)
-            .then(data=>{
+            .then(data => {
                 populateDataInDisplayFunc(data, "gen_info")
             })
-            .catch(err=>console.log(err))
-        
+            .catch(err => console.log(err))
 
-        $("#generalInformationEditBtn").click(() => {
-            createGetRequestPromise(urlToGetGeneralInformation)
-                .then(data=>{
-                    populateDataFunc(data, "generalInformationForm")
-                })
-                .catch(err => console.log(err))
-        })
 
-        $("#personalInformationEditBtn").click(() => {
-            createGetRequestPromise(urlToGetPersonalInformation)
-                .then(data => {
-                    populateDataFunc(data, "personalInformationForm")
-                    return data.profile_pic
-                })
-                .then(imageUrl => {
-                    if (imageUrl) {
-                        $(`#personalInformationForm #personalInfo_image`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+
+        if($("#generalInformationEditBtn")){
+            $("#generalInformationEditBtn").click(() => {
+                createGetRequestPromise(urlToGetGeneralInformation)
+                    .then(data => {
+                        populateDataFunc(data, "generalInformationForm")
+                    })
+                    .catch(err => console.log(err))
+            })
+        }
+
+        if($("#personalInformationEditBtn")){
+            $("#personalInformationEditBtn").click(() => {
+                createGetRequestPromise(urlToGetPersonalInformation)
+                    .then(data => {
+                        populateDataFunc(data, "personalInformationForm")
+                        return data.profile_pic
+                    })
+                    .then(imageUrl => {
+                        if (imageUrl) {
+                            $(`#personalInformationForm #personalInfo_image`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                        }
+                    })
+                    .catch(err => console.log(err))
+            })
+        }
+
+        if($("#personalInformationForm input[name=profile_pic]")){
+            $("#personalInformationForm input[name=profile_pic]").change(function () {
+                let url = URL.createObjectURL($(this)[0].files[0])
+                console.log(url)
+                $("#personalInfo_image").html(`<img src="${url}" class="w-28 h-28 rounded-full" />`)
+            })
+        }
+
+
+        if(generalInformationForm){
+            generalInformationForm.addEventListener("submit", (e) => {
+                e.preventDefault()
+                let formData = new FormData(generalInformationForm)
+    
+                createPostRequestPromise(urlToAddGeneralInformation, formData)
+                    .then(data => populateDataInDisplayFunc(data, "gen_info"))
+                    .catch(err => console.log(err))
+            })
+        }
+
+        if(personalInformationForm){
+            personalInformationForm.addEventListener("submit", (e) => {
+                e.preventDefault()
+    
+                let data = new FormData(personalInformationForm)
+    
+                $.ajax({
+                    url: urlToAddPersonalInformation,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    headers: { 'X-CSRFToken': "{{ csrf_token }}" },
+                    dataType: "json",
+                    data: data,
+                    enctype: "multipart/form-data",
+                    success: function (res) {
+                        console.log(res)
+                        populateDataInDisplayFunc(res, "per_info")
+                        let imageUrl = res.profile_pic
+                        $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                    },
+                    error: function (err) {
+                        console.log(err)
                     }
                 })
-                .catch(err => console.log(err))
-        })
-
-        $("#personalInformationForm input[name=profile_pic]").change(function(){
-            let url = URL.createObjectURL($(this)[0].files[0])
-            console.log(url)
-            $("#personalInfo_image").html(`<img src="${url}" class="w-28 h-28 rounded-full" />`)
-        })
-
-        generalInformationForm.addEventListener("submit", (e) => {
-            e.preventDefault()
-            let formData = new FormData(generalInformationForm)
-
-            createPostRequestPromise(urlToAddGeneralInformation, formData)
-                .then(data=>populateDataInDisplayFunc(data, "gen_info"))
-                .catch(err=>console.log(err))
-        })
-
-        personalInformationForm.addEventListener("submit", (e) => {
-            e.preventDefault()
-
-            let data = new FormData(personalInformationForm)
-
-            $.ajax({
-                url: urlToAddPersonalInformation,
-                type: "POST",
-                contentType: false,
-                processData: false,
-                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
-                dataType: "json",
-                data: data,
-                enctype: "multipart/form-data",
-                success: function (res) {
-                    console.log(res)
-                    populateDataInDisplayFunc(res, "per_info")
-                    let imageUrl = res.profile_pic
-                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
-                },
-                error: function (err) {
-                    console.log(err)
-                }
             })
-        })
+        }
 
     })
 
