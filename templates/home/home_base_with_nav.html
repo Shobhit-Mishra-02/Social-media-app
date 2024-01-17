@@ -20,8 +20,8 @@
       <div id="user-dropdown"
         class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow">
         <div class="px-4 py-3">
-          <span id="navbar__full_name" class="block text-sm text-gray-900">Bonnie Green</span>
-          <span id="navbar__email" class="block text-sm  text-gray-500 truncate">name@flowbite.com</span>
+          <span id="navbar__full_name" class="block text-sm text-gray-900"></span>
+          <span id="navbar__email" class="block text-sm  text-gray-500 truncate">{{user.email}}</span>
         </div>
         <ul class="py-2" aria-labelledby="user-menu-button">
           <li>
@@ -125,8 +125,9 @@
 
     createGetRequestPromise("{% url 'ajax:get_personal_information' user.id %}")
       .then(data => {
-        $("#navbar__email").text(data.email)
-        $("#navbar__full_name").text(data.full_name)
+        if(data.full_name){
+          $("#navbar__full_name").text(data.full_name)
+        }
         $("#navbar__profile_pic").attr('src', data.profile_pic)
       })
   })

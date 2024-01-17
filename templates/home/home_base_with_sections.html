@@ -18,64 +18,95 @@
             </span>
         </div>
         <div class="flex flex-col justify-center align-middle items-center">
-            <div id="user_profile_pic" class="w-fit"></div>
+            <div id="right_sec__user_profile_pic" class="w-fit">
+
+                <div role="status"
+                    class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
+                    <div class="flex items-center justify-center w-44 h-44 bg-gray-300 rounded-full">
+                        <svg class="w-10 h-10 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+                        </svg>
+                    </div>
+
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+
+            </div>
             <a href="{% url 'home:profile' user.id %}">
-                <span id="user_full_name" class="text-xl font-semibold text-gray-700 mt-1 hover:underline">Rich
-                    Klien</span>
+                <span id="right_sec__user_full_name" class="text-xl font-semibold text-gray-700 mt-1 hover:underline">
+                    <div role="status" class="max-w-sm animate-pulse mt-4">
+                        <div class="h-6 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </span>
             </a>
-            <span id="user_email" class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+            <span id="right_sec__user_email" class="text-sm text-gray-500 mb-4">{{ user.email }}</span>
         </div>
         <hr>
         <div class="mt-2">
-            <span class="text-gray-600 font-semibold">Intro</span>
-            <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing</p>
+            <span class="text-gray-600 font-semibold">Status</span>
+            <div id="right_sec__user_status" class="text-gray-500">
+                <div role="status" class="max-w-sm animate-pulse">
+                    <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
         <div class="mt-2">
-            <span class="text-gray-600 font-semibold">Bio</span>
-            <p id="user_about_me" class="text-gray-500">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non
-                ipsum quis tenetur expedita ratione accusantium nulla laudantium, voluptatum delectus? Ipsa praesentium
-                quidem soluta esse tempore laborum voluptatum quae aspernatur exercitationem!</p>
+            <span class="text-gray-600 font-semibold">About me</span>
+            <div id="right_sec__user_about_me" class="text-gray-500">
+                <div role="status" class="max-w-sm animate-pulse">
+                    <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  max-w-[300px] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full  max-w-[360px]"></div>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- middle section -->
-    
+
     {% block middle_section %}
-        
+
     {% endblock middle_section %}
 
     <!-- top posts  -->
     <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md hidden lg:block sm:max-w-md">
         <h3 class="text-xl font-semibold text-gray-800 mb-6">Top Posts</h3>
 
-        <div class="divide-y">
-            <div>
-                <span class="text-gray-400">
-                    likes 200k | saved 10k
-                </span>
-                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
-                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
-                </h2>
+        <div id="trending_posts__container" class="divide-y">
+
+            <div role="status" class="max-w-sm animate-pulse">
+                <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+                <span class="sr-only">Loading...</span>
             </div>
-            <div>
-                <span class="text-gray-400">
-                    likes 200k | saved 10k
-                </span>
-                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
-                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
-                </h2>
+            <div role="status" class="max-w-sm animate-pulse">
+                <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+                <span class="sr-only">Loading...</span>
             </div>
-            <div>
-                <span class="text-gray-400">
-                    likes 200k | saved 10k
-                </span>
-                <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                    <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">How to use Flowbite
-                        UI components with Laravel and Alpine.js to build an admin dashboard</a>
-                </h2>
+            <div role="status" class="max-w-sm animate-pulse">
+                <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  mb-2.5"></div>
+                <div class="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+                <span class="sr-only">Loading...</span>
             </div>
+
+
         </div>
     </div>
 
@@ -84,31 +115,93 @@
 
 
 {% block javascript %}
-    <script>
-        const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' user.id %}"
-        const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' user.id %}"    
+<script>
 
-        $(document).ready(function(){
-            createGetRequestPromise(urlToGetPersonalInformation)
-            .then(data=>{
-                $("#user_profile_pic").html(`<img src="${data.profile_pic}" class="w-44 h-44 rounded-full" />`)
-                $("#user_email").text(data.email)
-                $("#user_full_name").text(data.full_name)
+    $(document).ready(function () {
+        createGetRequestPromise("{% url 'ajax:get_personal_information' user.id %}")
+            .then(data => {
+                console.log(data)
+
+                $("#right_sec__user_profile_pic > div").remove()
+                $("#right_sec__user_full_name > div").remove()
+                $("#right_sec__user_status > div").remove()
+
+                if (data.profile_pic) {
+                    $("#right_sec__user_profile_pic").html(`<img src="${data.profile_pic}" class="w-44 h-44 rounded-full" />`)
+                }
+                else {
+                    $("#right_sec__user_profile_pic").html(`<div class="w-44 h-44 flex items-center justify-center rounded-full bg-gray-200 ">
+                        <svg class="w-12 h-12 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                    </svg>
+                    </div>`)
+                }
+
+                if (data.full_name) {
+                    $("#right_sec__user_full_name").text(data.full_name)
+                }
+                else {
+                    $("#right_sec__user_full_name").text("Edit profile")
+                }
+
+                if (data.status) {
+                    $("#right_sec__user_status").text(data.status)
+                }
+                else {
+                    $("#right_sec__user_status").text("Add status")
+                }
+
             })
-            .catch(err=>console.log(err))
+            .catch(err => console.log(err))
 
-        createGetRequestPromise(urlToGetGeneralInformation)
-            .then(data=>{
-                $("#user_about_me").text(data.about_me)
+        createGetRequestPromise("{% url 'ajax:get_general_information' user.id %}")
+            .then(data => {
+
+                $("#right_sec__user_about_me > div").remove()
+
+                if (data.about_me) {
+                    $("#right_sec__user_about_me").html(`<p>${data.about_me}</p>`)
+                }
+                else {
+                    $("#right_sec__user_about_me").html(`<p>write about your self....</p>`)
+                }
             })
-        })
-    </script>
+            .catch(err => console.log(err))
 
-    
-    {% block derived_js_block %}
-        
-    {% endblock derived_js_block %}
-        
+        createGetRequestPromise("{% url 'ajax:get_trending_posts' %}")
+            .then(data => {
+                let template = ``
+
+                if (data.length) {
+                    data.forEach(post => {
+                        template += `<div class="mb-4">
+                            <span class="text-gray-400">
+                                likes ${post.like_count} | saved 10k
+                            </span>
+                            <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
+                                <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">${post.title}</a>
+                            </h2>
+                            <p>${post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content + "..."}</p>
+                        </div>`
+                    })
+                }
+                else {
+                    template = `<h3>No posts found</h3>`
+                }
+
+                $("#trending_posts__container").html(template)
+
+            })
+            .catch(err => console.log(err))
+
+
+    })
+</script>
+
+
+{% block derived_js_block %}
+
+{% endblock derived_js_block %}
+
 
 {% endblock javascript %}
-    

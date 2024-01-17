@@ -34,12 +34,34 @@ profile
 
 
             <div class="flex flex-col justify-center align-middle items-center">
-                <div id="profile_pic"></div>
+                <div id="profile_pic">
+                    <div role="status"
+                        class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex md:items-center">
+                        <div class="flex items-center justify-center w-44 h-44 bg-gray-300 rounded-full">
+                            <svg class="w-10 h-10 text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+                            </svg>
+                        </div>
+
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <a href="{% url 'home:profile' user.id %}">
-                    <span id="per_info_display__full_name" class="text-xl font-semibold text-gray-700 mt-1">Rich
-                        Klien</span>
+                    <span id="per_info_display__full_name" class="text-xl font-semibold text-gray-700 mt-1">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </span>
                 </a>
-                <span id="per_info_display__email" class="text-sm text-gray-500 mb-4">richklien1102@gmail.com</span>
+                <span id="per_info_display__email" class="text-sm text-gray-500 mb-4">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </span>
             </div>
             <hr>
             <div class="mt-4 space-y-2">
@@ -54,7 +76,10 @@ profile
                     </span>
 
                     <span id="per_info_display__occupation">
-                        Front-end developer
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </span>
                 </div>
                 <div class="flex justify-start align-middle space-x-2 items-center text-gray-500">
@@ -67,25 +92,45 @@ profile
                         </svg>
                     </span>
 
-                    <span id="per_info_display__location">
-                        San francisco, USA
-                    </span>
+                    <div id="per_info_display__location">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Status</span>
-                <p id="per_info_display__status" class="text-gray-500"> Working on new projects !!</p>
+                <div id="per_info_display__status" class="text-gray-500">
+                    <div id="per_info_display__home_address" class="text-gray-500">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                            <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Home address</span>
-                <p id="per_info_display__home_address" class="text-gray-500">92 Miles Drive, Newark, NJ 07103,
-                    California,
-                    United States of America
-                </p>
+                <div id="per_info_display__home_address" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                        <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div class="mt-2">
                 <span class="text-gray-600 font-semibold">Phone number</span>
-                <p id="per_info_display__phone_number" class="text-gray-500">+00 123 456 789 / +12 345 678</p>
+                <div id="per_info_display__phone_number" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -126,7 +171,7 @@ profile
     <div class="w-full lg:col-span-2 xl:col-span-3 border border-gray-100 h-fit rounded-md p-3 shadow-md">
         <div class="flex justify-between items-center align-baseline">
             <h3 class="text-xl font-semibold text-gray-700 mt-1">General Information</h3>
-            
+
             {% if is_owner %}
             <span>
                 <button id="generalInformationEditBtn" data-modal-target="crud-modal-general_information"
@@ -140,36 +185,77 @@ profile
                 </button>
             </span>
             {% endif %}
-                
+
         </div>
         <div class="mt-6">
             <h3 class="text-gray-600 font-semibold">About me</h3>
-            <p id="gen_info_display__about_me" class="text-gray-500"></p>
+            <div id="gen_info_display__about_me" class="text-gray-500">
+
+                <div role="status" class="w-full animate-pulse">
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[60%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[60%]"></div>
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+            </div>
         </div>
         <div class="grid grid-cols-2 gap-4 mt-8 lg:mt-20">
             <div>
                 <span class="text-gray-600 font-semibold">Education</span>
-                <p id="gen_info_display__education" class="text-gray-500"></p>
+                <div id="gen_info_display__education" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div>
                 <span class="text-gray-600 font-semibold">Join Date</span>
-                <p id="gen_info_display__created_at" class="text-gray-500"></p>
+                <div id="gen_info_display__created_at" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div>
                 <span class="text-gray-600 font-semibold">Organization</span>
-                <p id="gen_info_display__organization" class="text-gray-500"></p>
+                <div id="gen_info_display__organization" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div>
                 <span class="text-gray-600 font-semibold">Nationality</span>
-                <p id="gen_info_display__nationality" class="text-gray-500"></p>
+                <div id="gen_info_display__nationality" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div>
                 <span class="text-gray-600 font-semibold">Birthday</span>
-                <p id="gen_info_display__date_of_birth" class="text-gray-500"></p>
+                <div id="gen_info_display__date_of_birth" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
             <div>
                 <span class="text-gray-600 font-semibold">Gender</span>
-                <p id="gen_info_display__gender" class="text-gray-500"></p>
+                <div id="gen_info_display__gender" class="text-gray-500">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -345,9 +431,29 @@ profile
 
     const urlToAddGeneralInformation = "{% url 'ajax:general_information' %}"
     const urlToAddPersonalInformation = "{% url 'ajax:add_personal_information' %}"
-    
+
     const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' id %}"
     const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' id %}"
+
+    const defaultValuesForPersonalInformation = {
+        full_name: "Add your name",
+        occupation: "Add your occupation",
+        location: "Add your location",
+        status: "Add your status",
+        home_address: "Add your address",
+        phone_number: "Add your phone number",
+        email: "{{ user.email }}"
+    }
+
+    const defaultValuesForGeneralInformation = {
+        about_me: "Add something about yourself",
+        education: "Add your school/college name",
+        organization: "Add name of your organization",
+        nationality: "Add you nationality",
+        date_of_birth: "Add your birthdate" ,
+        gender: "Add you gender",
+        created_at: "Update the details"  
+    }
 
     function populateDataFunc(data, formId) {
         console.log(data)
@@ -385,28 +491,52 @@ profile
 
 
     $(document).ready(function () {
-            
+
+        createGetRequestPromise("{% url 'ajax:get_user_details' id %}")
+            .then(data=>{
+                console.log(data)
+            })
+            .catch(err=>console.log(err))
+
         createGetRequestPromise(urlToGetPersonalInformation)
             .then(data => {
-                populateDataInDisplayFunc(data, "per_info")
+                if(data.message && data.message.includes('No')){
+                    populateDataInDisplayFunc(defaultValuesForPersonalInformation, "per_info")
+                    return undefined
+                }
+                else{
+                    populateDataInDisplayFunc(data, "per_info")
+                }
+                
+
                 return data.profile_pic
             })
             .then(imageUrl => {
                 if (imageUrl) {
-                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-28 h-28 rounded-full" />`)
+                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
+                }
+                else{
+                    $(`#profile_pic`).html(`<div class="w-44 h-44 rounded-full bg-gray-200" />`)
+                }
+            })
+            .catch(err => console.log(err))
+        
+
+        
+        createGetRequestPromise(urlToGetGeneralInformation)
+            .then(data => {
+
+                if(data.message && data.message.includes("No")){
+                    populateDataInDisplayFunc(defaultValuesForGeneralInformation, "gen_info")
+                }
+                else{
+                    populateDataInDisplayFunc(data, "gen_info")
                 }
             })
             .catch(err => console.log(err))
 
-        createGetRequestPromise(urlToGetGeneralInformation)
-            .then(data => {
-                populateDataInDisplayFunc(data, "gen_info")
-            })
-            .catch(err => console.log(err))
 
-
-
-        if($("#generalInformationEditBtn")){
+        if ($("#generalInformationEditBtn")) {
             $("#generalInformationEditBtn").click(() => {
                 createGetRequestPromise(urlToGetGeneralInformation)
                     .then(data => {
@@ -416,7 +546,7 @@ profile
             })
         }
 
-        if($("#personalInformationEditBtn")){
+        if ($("#personalInformationEditBtn")) {
             $("#personalInformationEditBtn").click(() => {
                 createGetRequestPromise(urlToGetPersonalInformation)
                     .then(data => {
@@ -432,7 +562,7 @@ profile
             })
         }
 
-        if($("#personalInformationForm input[name=profile_pic]")){
+        if ($("#personalInformationForm input[name=profile_pic]")) {
             $("#personalInformationForm input[name=profile_pic]").change(function () {
                 let url = URL.createObjectURL($(this)[0].files[0])
                 console.log(url)
@@ -441,23 +571,23 @@ profile
         }
 
 
-        if(generalInformationForm){
+        if (generalInformationForm) {
             generalInformationForm.addEventListener("submit", (e) => {
                 e.preventDefault()
                 let formData = new FormData(generalInformationForm)
-    
+
                 createPostRequestPromise(urlToAddGeneralInformation, formData)
                     .then(data => populateDataInDisplayFunc(data, "gen_info"))
                     .catch(err => console.log(err))
             })
         }
 
-        if(personalInformationForm){
+        if (personalInformationForm) {
             personalInformationForm.addEventListener("submit", (e) => {
                 e.preventDefault()
-    
+
                 let data = new FormData(personalInformationForm)
-    
+
                 $.ajax({
                     url: urlToAddPersonalInformation,
                     type: "POST",

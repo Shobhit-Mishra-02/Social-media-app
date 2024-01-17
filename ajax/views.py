@@ -2,11 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Count
 
 from home.models import Post, GeneralInformation, PersonalInformation
-from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer
+from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer, AccountUserModelSerializer, TrendingPostSerializer
 from home.forms import PersonalInformationForm, GeneralInformationForm
-
+from authentication.models import AccountUser
 
 @csrf_exempt
 @login_required
@@ -150,3 +151,49 @@ def get_personal_information(request, id):
         return JsonResponse({"message": "No data found"}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
+
+@csrf_exempt
+@login_required
+def get_user_details(request, id):
+    if request.method == "GET":
+        users = AccountUser.objects.filter(pk=id)
+
+        response = {}
+
+        if users.count()>0:
+            serialized_user = AccountUserModelSerializer(users[0]).data
+            response["user"] = serialized_user
+        else:
+            return JsonResponse({"message": "User does not exist"}, status=500)
+
+        personal_informations = PersonalInformation.objects.filter(user_id = id)
+
+        if personal_informations.count()>0:
+            serialized_personal_information = PersonalInformationSerializer(personal_informations[0]).data
+            response["personal_information"] = serialized_personal_information
+        else:
+            response["personal_information"] = PersonalInformationSerializer(PersonalInformation(user=users[0])).data
+
+        general_informations = GeneralInformation.objects.filter(user_id = id)
+
+        if general_informations.count()>0:
+            serialized_general_information = GeneralInformationModelSerializer(general_informations[0]).data
+            response["general_information"] = serialized_general_information
+        else:
+            response["general_information"] = GeneralInformationModelSerializer(GeneralInformation(user=users[0])).data
+
+        return JsonResponse(response, status=200)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+@csrf_exempt
+@login_required
+def get_trending_posts(request):
+    if request.method == "GET":
+        response = Post.objects.annotate(like_count=Count("userlikepost__user")).order_by('-like_count')[:5]
+        
+        serialized_response = TrendingPostSerializer(response, many=True).data
+
+        return JsonResponse(serialized_response, status=200, safe=False)
+    
+    return JsonResponse({"message":"Invalid method"}, status=500)

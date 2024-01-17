@@ -37,7 +37,7 @@ function appendPosts(posts) {
                         <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
                             href="/blog/tag/laravel/">#PHP</a>
                     </div>
-                    <span class="text-sm">Published on ${d.getUTCDate()}-${d.getUTCMonth()}-${d.getUTCFullYear()}</span>
+                    <span class="text-sm">Published on ${d.getUTCDate()}-${d.getUTCMonth()+1}-${d.getUTCFullYear()}</span>
                 </div>
                 
                 <span class="text-gray-400 likesCount">

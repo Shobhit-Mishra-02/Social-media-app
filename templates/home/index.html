@@ -23,6 +23,8 @@ home
 
             <hr>
 
+            <div id="post_form_image"></div>
+
             <div class="flex items-center justify-center w-full py-2">
                 <label for="{{ form.image.id_for_label }}"
                     class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
@@ -66,32 +68,19 @@ home
 <script>
     const captionInputId = "#{{ form.caption.id_for_label }}"
     const imageInputId = "#{{ form.image.id_for_label }}"
-
-    // const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' user.id %}"
-    // const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' user.id %}"    
-
+    
     $(document).ready(function() {
         
         $(captionInputId).attr('disabled', true)
         
         $(imageInputId).on('input', function () {
             $(captionInputId).removeAttr('disabled')
+
+            let url = URL.createObjectURL($(this)[0].files[0])
+            console.log(url)
+
+            $("#post_form_image").html(`<img src="${url}" class="rounded-md w-full h-auto" />`)
         })
-
-        /*
-        createGetRequestPromise(urlToGetPersonalInformation)
-            .then(data=>{
-                $("#user_profile_pic").html(`<img src="${data.profile_pic}" class="w-44 h-44 rounded-full" />`)
-                $("#user_email").text(data.email)
-                $("#user_full_name").text(data.full_name)
-            })
-            .catch(err=>console.log(err))
-
-        createGetRequestPromise(urlToGetGeneralInformation)
-            .then(data=>{
-                $("#user_about_me").text(data.about_me)
-            })
-        */
     })
 
 

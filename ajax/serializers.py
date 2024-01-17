@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from home.models import Post, GeneralInformation, PersonalInformation
+from authentication.models import AccountUser
 
 class PostModelSerializer(serializers.ModelSerializer):
     
@@ -85,3 +86,21 @@ class PersonalInformationSerializer(serializers.ModelSerializer):
     
     def get_email(self, personal_information):
         return personal_information.user.email
+    
+class AccountUserModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AccountUser
+        fields = ["date_joined", "email", "username", "id"]
+
+
+class TrendingPostSerializer(serializers.ModelSerializer):
+
+    like_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = "__all__"
+
+    def get_like_count(self, post):
+        return post.like_count
