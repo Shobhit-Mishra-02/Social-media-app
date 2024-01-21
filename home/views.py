@@ -38,3 +38,16 @@ def profile(request, id):
         "is_owner": is_owner,
         "id": id
         })
+
+@login_required
+def get_user_posts(request):
+    
+    return render(request, "home/user_posts.html")
+
+@login_required
+def view_post(request, id):
+
+    return render(request, "home/view_post.html")
+
+
+

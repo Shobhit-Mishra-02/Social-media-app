@@ -3,7 +3,7 @@ from . import views
 
 app_name = "ajax"
 urlpatterns = [
-    path("posts/<int:page>", views.get_posts, name="posts"),
+    path("posts/<int:page>/<int:own_user>", views.get_posts, name="posts"),
     path("like/<int:id>", views.update_like_status, name="update_like_status"),
     path("addGeneralInformation/", views.add_general_information, name="general_information"),
     path("generalInformation/<int:id>/", views.get_general_information, name="get_general_information"),

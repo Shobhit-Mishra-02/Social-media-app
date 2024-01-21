@@ -6,7 +6,7 @@ function getPostsPagePromise(page) {
     $("#loader").toggleClass("hidden");
     $.ajax({
       type: "GET",
-      url: `/ajax/posts/${page}`,
+      url: `/ajax/posts/${page}/0`,
       contentType: "application/json",
       dataType: "json",
       success: function (posts) {
