@@ -9,6 +9,7 @@ from .serializers import PostModelSerializer, GeneralInformationModelSerializer,
 from home.forms import PersonalInformationForm, GeneralInformationForm
 from authentication.models import AccountUser
 
+
 @csrf_exempt
 @login_required
 def get_posts(request, page=1, own_user=0):
@@ -21,11 +22,13 @@ def get_posts(request, page=1, own_user=0):
         # number_of_posts = Post.objects.all().count()
         # total_pages = number_of_posts % 3 if number_of_posts/3 + 1 else number_of_posts/3
 
-        if own_user==0:
-            posts = Post.objects.all().order_by('-created_at')[start_index:end_index]
+        if own_user == 0:
+            posts = Post.objects.all().order_by(
+                '-created_at')[start_index:end_index]
         else:
-            posts = Post.objects.filter(user_id=request.user.id).order_by('-created_at')[start_index:end_index]
-        
+            posts = Post.objects.filter(user_id=request.user.id).order_by(
+                '-created_at')[start_index:end_index]
+
         serialized = PostModelSerializer(
             posts, many=True, context={"request": request})
         serialized_posts = serialized.data
@@ -33,8 +36,6 @@ def get_posts(request, page=1, own_user=0):
         return JsonResponse(serialized_posts, safe=False)
 
     return JsonResponse({"message": "Invalid request"}, status=500)
-
-
 
 
 @csrf_exempt
@@ -94,31 +95,33 @@ def add_general_information(request):
 def add_personal_information(request):
 
     if request.method == "POST":
-        
-        if PersonalInformation.objects.filter(user_id=request.user.id).count()>0:
+
+        if PersonalInformation.objects.filter(user_id=request.user.id).count() > 0:
             instance = PersonalInformation.objects.get(user_id=request.user.id)
-            form = PersonalInformationForm(request.POST, request.FILES, instance=instance)
+            form = PersonalInformationForm(
+                request.POST, request.FILES, instance=instance)
 
             if form.is_valid():
                 form.save()
             else:
-                return JsonResponse({"message":"Form is not valid"}, status=500)
+                return JsonResponse({"message": "Form is not valid"}, status=500)
         else:
             instance = PersonalInformation(user=request.user)
-            form = PersonalInformationForm(request.POST, request.FILES, instance=instance)
-            
+            form = PersonalInformationForm(
+                request.POST, request.FILES, instance=instance)
+
             if form.is_valid():
                 form.save()
             else:
-                return JsonResponse({"message":"Form is not valid"}, status=500)
-            
+                return JsonResponse({"message": "Form is not valid"}, status=500)
+
         data = PersonalInformation.objects.get(user_id=request.user.id)
-        serialized_data = PersonalInformationSerializer(data, context={"request": request}).data
+        serialized_data = PersonalInformationSerializer(
+            data, context={"request": request}).data
 
         return JsonResponse(serialized_data, status=200)
 
-    return JsonResponse({"message":"Invalid method"}, status=500)
-
+    return JsonResponse({"message": "Invalid method"}, status=500)
 
 
 @csrf_exempt
@@ -156,6 +159,7 @@ def get_personal_information(request, id):
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
+
 @csrf_exempt
 @login_required
 def get_user_details(request, id):
@@ -164,40 +168,64 @@ def get_user_details(request, id):
 
         response = {}
 
-        if users.count()>0:
+        if users.count() > 0:
             serialized_user = AccountUserModelSerializer(users[0]).data
             response["user"] = serialized_user
         else:
             return JsonResponse({"message": "User does not exist"}, status=500)
 
-        personal_informations = PersonalInformation.objects.filter(user_id = id)
+        personal_informations = PersonalInformation.objects.filter(user_id=id)
 
-        if personal_informations.count()>0:
-            serialized_personal_information = PersonalInformationSerializer(personal_informations[0]).data
+        if personal_informations.count() > 0:
+            serialized_personal_information = PersonalInformationSerializer(
+                personal_informations[0]).data
             response["personal_information"] = serialized_personal_information
         else:
-            response["personal_information"] = PersonalInformationSerializer(PersonalInformation(user=users[0])).data
+            response["personal_information"] = PersonalInformationSerializer(
+                PersonalInformation(user=users[0])).data
 
-        general_informations = GeneralInformation.objects.filter(user_id = id)
+        general_informations = GeneralInformation.objects.filter(user_id=id)
 
-        if general_informations.count()>0:
-            serialized_general_information = GeneralInformationModelSerializer(general_informations[0]).data
+        if general_informations.count() > 0:
+            serialized_general_information = GeneralInformationModelSerializer(
+                general_informations[0]).data
             response["general_information"] = serialized_general_information
         else:
-            response["general_information"] = GeneralInformationModelSerializer(GeneralInformation(user=users[0])).data
+            response["general_information"] = GeneralInformationModelSerializer(
+                GeneralInformation(user=users[0])).data
 
         return JsonResponse(response, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
+
 @csrf_exempt
 @login_required
 def get_trending_posts(request):
     if request.method == "GET":
-        response = Post.objects.annotate(like_count=Count("userlikepost__user")).order_by('-like_count')[:5]
-        
+        response = Post.objects.annotate(like_count=Count(
+            "userlikepost__user")).order_by('-like_count')[:5]
+
         serialized_response = TrendingPostSerializer(response, many=True).data
 
         return JsonResponse(serialized_response, status=200, safe=False)
-    
-    return JsonResponse({"message":"Invalid method"}, status=500)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def delete_post(request, id):
+
+    if request.method == "GET":
+        filtered_post = Post.objects.filter(user_id=request.user.id, id=id)
+
+        if filtered_post.count() > 0:
+            post = filtered_post[0]
+            post.delete()
+
+            return JsonResponse({"message": "removed the post", "post_id": id}, status=200)
+        else:
+            return JsonResponse({"message": "Not a valid user"}, status=500)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
