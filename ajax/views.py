@@ -181,7 +181,8 @@ def get_user_details(request, id):
         response = {}
 
         if users.count() > 0:
-            serialized_user = AccountUserModelSerializer(users[0]).data
+            serialized_user = AccountUserModelSerializer(
+                users[0], context={"request": request}).data
             response["user"] = serialized_user
         else:
             return JsonResponse({"message": "User does not exist"}, status=500)
@@ -260,5 +261,20 @@ def update_post(request, id):
                 return JsonResponse({"message": "Data is invalid"}, status=500)
 
         return JsonResponse({"message": "Post not found"}, status=404)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def search_users(request):
+
+    if request.method == "POST":
+        search_string = request.POST["search_string"]
+        users = AccountUser.objects.filter(email__icontains=search_string)
+        serialized_data = AccountUserModelSerializer(
+            users, many=True, context={"request": request}).data
+
+        return JsonResponse(serialized_data, safe=False)
 
     return JsonResponse({"message": "Invalid method"}, status=500)

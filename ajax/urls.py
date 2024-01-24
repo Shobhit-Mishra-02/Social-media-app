@@ -18,5 +18,6 @@ urlpatterns = [
     path("getTrendingPosts/", views.get_trending_posts, name="get_trending_posts"),
     path("deletePost/<int:id>/", views.delete_post, name="delete_post"),
     path("getPost/<int:id>/", views.get_post, name="get_post"),
-    path("updatePost/<int:id>/", views.update_post, name="update_post")
+    path("updatePost/<int:id>/", views.update_post, name="update_post"),
+    path("searchUser/", views.search_users, name="search_users")
 ]
