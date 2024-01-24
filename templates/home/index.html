@@ -2,64 +2,68 @@
 {% load static %}
 
 {% block title %}
-home
+Home
 {% endblock title %}
 
 
 {% block middle_section %}
 
-    <!-- post container  -->
-    <div id="container" class="w-full text-sm md:max-w-md lg:max-w-full">
+<!-- post container  -->
+<div id="container" class="w-full text-sm md:max-w-md lg:max-w-full">
 
-        <form class="w-full text-gray-500 rounded-md border border-gray-100 p-2 shadow-md"
-            action="{% url 'home:home' %}" method="post" enctype="multipart/form-data">
-            <h3 class="text-xl py-2 text-center">Create your post</h3>
-            {% csrf_token %}
-            <label for="{{ form.title.id_for_label }}">Title</label>
-            {{ form.title }}
+    <form class="w-full text-gray-500 rounded-md border border-gray-100 p-2 shadow-md" action="{% url 'home:home' %}"
+        method="post" enctype="multipart/form-data">
+        <h3 class="text-xl py-2 text-center">Create your post</h3>
+        {% csrf_token %}
+        <label for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
 
-            <label for="{{ form.content.id_for_label}}">Content</label>
-            {{ form.content }}
+        <label for="{{ form.content.id_for_label}}">Content</label>
+        {{ form.content }}
 
-            <hr>
+        <hr>
 
-            <div id="post_form_image"></div>
+        <div id="post_form_image"></div>
 
-            <div class="flex items-center justify-center w-full py-2">
-                <label for="{{ form.image.id_for_label }}"
-                    class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                        </svg>
-                        <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or
-                            drag
-                            and drop</p>
-                        <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                    </div>
-                    {{ form.image }}
+        <div class="flex items-center justify-center w-full py-2">
+            <label for="{{ form.image.id_for_label }}"
+                class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or
+                        drag
+                        and drop</p>
+                    <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                {{ form.image }}
 
-                </label>
-            </div>
-
-            {{ form.caption }}
-
-            <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4 hover:bg-blue-600"
-                type="submit">Post</button>
-
-        </form>
-        <hr class="m-4">
-        <div id="post_container" class="divide-y divide-gray-200">
+            </label>
         </div>
-        <div id="loader" class="hidden">
-            <div class="flex justify-center align-middle items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-2 animate-spin stroke-gray-500"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
-                <span class="ml-2 text-gray-500">loading posts...</span>
-            </div>
+
+        {{ form.caption }}
+
+        <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4 hover:bg-blue-600"
+            type="submit">Post</button>
+
+    </form>
+    <hr class="m-4">
+    <div id="post_container" class="divide-y divide-gray-200">
+    </div>
+    <div id="loader" class="hidden">
+        <div class="flex justify-center align-middle items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-loader-2 animate-spin stroke-gray-500">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            </svg>
+            <span class="ml-2 text-gray-500">loading posts...</span>
         </div>
     </div>
+</div>
 
 {% endblock middle_section %}
 
@@ -68,11 +72,11 @@ home
 <script>
     const captionInputId = "#{{ form.caption.id_for_label }}"
     const imageInputId = "#{{ form.image.id_for_label }}"
-    
-    $(document).ready(function() {
-        
+
+    $(document).ready(function () {
+
         $(captionInputId).attr('disabled', true)
-        
+
         $(imageInputId).on('input', function () {
             $(captionInputId).removeAttr('disabled')
 
@@ -82,7 +86,6 @@ home
             $("#post_form_image").html(`<img src="${url}" class="rounded-md w-full h-auto" />`)
         })
     })
-
 
 </script>
 

@@ -10,19 +10,20 @@ from .utils.upload_files import upload_file
 
 @login_required
 def index(request):
-    
+
     if request.method == "POST":
         post = Post(user=request.user)
         form = PostCreationForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            
+
             form.save()
-            
-            return render(request, "home/index.html", {"form":PostCreationForm()})
+
+            return render(request, "home/index.html", {"form": PostCreationForm()})
     else:
         form = PostCreationForm()
 
-    return render(request, "home/index.html", {"form":form})
+    return render(request, "home/index.html", {"form": form})
+
 
 @login_required
 def profile(request, id):
@@ -31,23 +32,26 @@ def profile(request, id):
     personal_information_form = PersonalInformationForm()
     is_owner = True if request.user.id == id else False
 
-
     return render(request, "home/profile.html", {
-        "general_information_form":general_information_form,  
-        "personal_information_form":personal_information_form,
+        "general_information_form": general_information_form,
+        "personal_information_form": personal_information_form,
         "is_owner": is_owner,
         "id": id
-        })
+    })
+
 
 @login_required
 def get_user_posts(request):
-    
-    return render(request, "home/user_posts.html")
+
+    return render(request, "home/user_posts.html", {"form": PostCreationForm()})
+
 
 @login_required
 def view_post(request, id):
 
-    return render(request, "home/view_post.html")
+    filtered_post = Post.objects.filter(pk=id)
 
+    if filtered_post.count() > 0:
+        return render(request, "home/view_post.html", {"post": filtered_post[0]})
 
-
+    return render(request, "home/view_post.html", {"notFound": "Not Found"})

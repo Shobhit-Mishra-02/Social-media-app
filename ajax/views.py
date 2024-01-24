@@ -6,7 +6,7 @@ from django.db.models import Count
 
 from home.models import Post, GeneralInformation, PersonalInformation
 from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer, AccountUserModelSerializer, TrendingPostSerializer
-from home.forms import PersonalInformationForm, GeneralInformationForm
+from home.forms import PersonalInformationForm, GeneralInformationForm, PostCreationForm
 from authentication.models import AccountUser
 
 
@@ -18,9 +18,6 @@ def get_posts(request, page=1, own_user=0):
 
         end_index = page*3
         start_index = end_index - 3
-
-        # number_of_posts = Post.objects.all().count()
-        # total_pages = number_of_posts % 3 if number_of_posts/3 + 1 else number_of_posts/3
 
         if own_user == 0:
             posts = Post.objects.all().order_by(
@@ -34,6 +31,21 @@ def get_posts(request, page=1, own_user=0):
         serialized_posts = serialized.data
 
         return JsonResponse(serialized_posts, safe=False)
+
+    return JsonResponse({"message": "Invalid request"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def get_post(request, id):
+    if request.method == "GET":
+        try:
+            post = Post.objects.get(pk=id)
+            serialized_post = PostModelSerializer(
+                post, context={"request": request}).data
+            return JsonResponse(serialized_post)
+        except Exception:
+            return JsonResponse({"message": "Post not found"}, status=404)
 
     return JsonResponse({"message": "Invalid request"}, status=500)
 
@@ -227,5 +239,26 @@ def delete_post(request, id):
             return JsonResponse({"message": "removed the post", "post_id": id}, status=200)
         else:
             return JsonResponse({"message": "Not a valid user"}, status=500)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def update_post(request, id):
+
+    if request.method == "POST":
+        post = Post.objects.filter(user_id=request.user.id, id=id).first()
+
+        if post:
+            form = PostCreationForm(request.POST, request.FILES, instance=post)
+
+            if form.is_valid():
+                form.save()
+                return JsonResponse({"message": "Updated the post"}, status=200)
+            else:
+                return JsonResponse({"message": "Data is invalid"}, status=500)
+
+        return JsonResponse({"message": "Post not found"}, status=404)
 
     return JsonResponse({"message": "Invalid method"}, status=500)

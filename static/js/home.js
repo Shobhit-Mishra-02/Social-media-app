@@ -37,7 +37,9 @@ function appendPosts(posts) {
                         <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
                             href="/blog/tag/laravel/">#PHP</a>
                     </div>
-                    <span class="text-sm">Published on ${d.getUTCDate()}-${d.getUTCMonth()+1}-${d.getUTCFullYear()}</span>
+                    <span class="text-sm">Published on ${d.getUTCDate()}-${
+      d.getUTCMonth() + 1
+    }-${d.getUTCFullYear()}</span>
                 </div>
                 
                 <span class="text-gray-400 likesCount">
@@ -61,10 +63,16 @@ function appendPosts(posts) {
 
                 <div class="flex items-center justify-between">
                     <a class="flex items-center space-x-2" href="/blog/author/rich/">
-                    ${post.owner_profile_pic ? `<img class="rounded-full w-7 h-7"
+                    ${
+                      post.owner_profile_pic
+                        ? `<img class="rounded-full w-7 h-7"
                     src="${post.owner_profile_pic}"
-                    alt="Rich Klein profile picture">` : `<div class="rounded-full w-7 h-7"></div>`}
-                        <span class="font-medium text-gray-500">${post.owner_full_name}</span>
+                    alt="Rich Klein profile picture">`
+                        : `<div class="rounded-full w-7 h-7"></div>`
+                    }
+                        <span class="font-medium text-gray-500">${
+                          post.owner_full_name
+                        }</span>
                     </a>
                     <span class="flex justify-center align-middle items-center space-x-3">
                         <span>
@@ -90,7 +98,7 @@ function appendPosts(posts) {
                         </span>
                         <span>
                             <a class="inline-flex items-center font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">
+                                href="/social/viewPost/${post.id}">
                                 Read more
                                 <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">

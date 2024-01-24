@@ -2,7 +2,7 @@
 
 
 {% block title %}
-profile
+Profile
 {% endblock title %}
 
 
@@ -450,9 +450,9 @@ profile
         education: "Add your school/college name",
         organization: "Add name of your organization",
         nationality: "Add you nationality",
-        date_of_birth: "Add your birthdate" ,
+        date_of_birth: "Add your birthdate",
         gender: "Add you gender",
-        created_at: "Update the details"  
+        created_at: "Update the details"
     }
 
     function populateDataFunc(data, formId) {
@@ -493,21 +493,21 @@ profile
     $(document).ready(function () {
 
         createGetRequestPromise("{% url 'ajax:get_user_details' id %}")
-            .then(data=>{
+            .then(data => {
                 console.log(data)
             })
-            .catch(err=>console.log(err))
+            .catch(err => console.log(err))
 
         createGetRequestPromise(urlToGetPersonalInformation)
             .then(data => {
-                if(data.message && data.message.includes('No')){
+                if (data.message && data.message.includes('No')) {
                     populateDataInDisplayFunc(defaultValuesForPersonalInformation, "per_info")
                     return undefined
                 }
-                else{
+                else {
                     populateDataInDisplayFunc(data, "per_info")
                 }
-                
+
 
                 return data.profile_pic
             })
@@ -515,21 +515,21 @@ profile
                 if (imageUrl) {
                     $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
                 }
-                else{
+                else {
                     $(`#profile_pic`).html(`<div class="w-44 h-44 rounded-full bg-gray-200" />`)
                 }
             })
             .catch(err => console.log(err))
-        
 
-        
+
+
         createGetRequestPromise(urlToGetGeneralInformation)
             .then(data => {
 
-                if(data.message && data.message.includes("No")){
+                if (data.message && data.message.includes("No")) {
                     populateDataInDisplayFunc(defaultValuesForGeneralInformation, "gen_info")
                 }
-                else{
+                else {
                     populateDataInDisplayFunc(data, "gen_info")
                 }
             })

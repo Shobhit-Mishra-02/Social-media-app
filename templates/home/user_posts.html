@@ -7,9 +7,64 @@ Your posts
 
 
 {% block middle_section %}
+
 <div>
+    <div class="post_form_container hidden">
+        <div class="z-40 fixed top-0 bottom-0 left-0 right-0 flex justify-center align-middle items-center">
+            <div class="-z-10 absolute top-0 bottom-0 left-0 right-0 bg-black opacity-10">
+            </div>
+            <form id="post_form"
+                class="w-full sm:max-w-md text-gray-500 rounded-md border bg-white border-gray-100 p-2 shadow-md">
+                <div class="flex justify-end pb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-x stroke-gray-500 hover:stroke-gray-600 cursor-pointer post_form__closeBtn">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </div>
+                <h3 class="text-xl py-2 text-center">Edit post</h3>
+                {% csrf_token %}
+                <label for="{{ form.title.id_for_label }}">Title</label>
+                {{ form.title }}
+
+                <label for="{{ form.content.id_for_label}}">Content</label>
+                {{ form.content }}
+
+                <hr>
+
+                <div id="post_form_image"></div>
+
+                <div class="flex items-center justify-center w-full py-2">
+                    <label for="{{ form.image.id_for_label }}"
+                        class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or
+                                drag
+                                and drop</p>
+                            <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                        </div>
+                        {{ form.image }}
+
+                    </label>
+                </div>
+
+                {{ form.caption }}
+
+                <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4 hover:bg-blue-600"
+                    type="submit">Post</button>
+
+            </form>
+        </div>
+    </div>
     <div>
-        <h2>Your posts</h2>
+        <h2 class="text-2xl text-gray-500 font-semibold">Your posts</h2>
     </div>
     <div id="post_container" class="divide-y divide-gray-200">
     </div>
@@ -32,6 +87,10 @@ Your posts
     let pageNumber = 1;
     let postsRequestInProgress = false;
     let hasPosts = true
+    let selectedPostIdForEdit = -1
+    const captionInputId = "#{{ form.caption.id_for_label }}"
+    const imageInputId = "#{{ form.image.id_for_label }}"
+
 
     function getPostsPagePromise(page) {
         return new Promise((resolve, reject) => {
@@ -133,7 +192,7 @@ Your posts
                         </span>
                         <span>
                             <a class="inline-flex items-center font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">
+                                href="/social/viewPost/${post.id}">
                                 Read more
                                 <svg class="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -155,14 +214,66 @@ Your posts
     function bindDropdownEvent() {
         $(".dropdownButton").unbind()
 
-        function toogleEvent() {
+        function toggleEvent() {
             let postId = $(this).parents(".post").attr("id").split("_")[1]
             $("#dropdown_" + postId).toggleClass("hidden")
         }
 
-        $(".dropdownButton").focusin(toogleEvent)
+        $(".dropdownButton").click(toggleEvent)
+    }
 
-        $(".dropdownButton").focusout(toogleEvent)
+    function addFormSubmissionEvent() {
+        let formElement = document.getElementById("post_form")
+        formElement.addEventListener("submit", function (e) {
+            e.preventDefault()
+            let data = new FormData(formElement)
+            $.ajax({
+                url: "/ajax/updatePost/" + selectedPostIdForEdit + "/",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
+                dataType: "json",
+                data: data,
+                enctype: "multipart/form-data",
+                success: function (res) {
+                    console.log(res)
+                    pageNumber = 1
+                    $("#post_container").html("");
+                    getPosts()
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })
+    }
+
+    function bindEditButtonEvent() {
+        $(".post_edit_btn").unbind()
+        $(".post_edit_btn").click(function () {
+            let postId = $(this).parents(".post").attr("id").split("_")[1]
+            selectedPostIdForEdit = postId
+            createGetRequestPromise("/ajax/getPost/" + postId)
+                .then(data => {
+                    $(".post_form_container").toggleClass("hidden")
+
+                    addFormSubmissionEvent()
+
+                    let inputNames = ["title", "content", "image_url", "caption"]
+
+                    inputNames.forEach(name => {
+                        $(`.post_form_container form input[name='${name}']`).val(data[name])
+                        $(`.post_form_container form textarea[name='${name}']`).val(data[name])
+
+                        if (name == "image_url" && data[name]) {
+                            $(captionInputId).removeAttr('disabled')
+                            $("#post_form_image").html(`<img src='${data[name]}' class="rounded-md w-[70%] mx-auto mt-1 h-auto" />`)
+                        }
+                    })
+                })
+                .catch(err => console.log(err))
+        })
     }
 
     function bindDeleteButtonEvent() {
@@ -232,13 +343,33 @@ Your posts
                 .then(() => bindLikeButtonEvent())
                 .then(() => bindDeleteButtonEvent())
                 .then(() => bindDropdownEvent())
+                .then(() => bindEditButtonEvent())
         }
     }
 
     $(document).ready(function () {
 
+        // Initial form state
+        $(captionInputId).attr('disabled', true)
+        $("#post_form_image").html("")
+
+
         // Initial posts load
         getPosts()
+
+        // Event for image input
+        $(imageInputId).on('input', function () {
+            $(captionInputId).removeAttr('disabled')
+            let url = URL.createObjectURL($(this)[0].files[0])
+            $("#post_form_image").html(`<img src="${url}" class="rounded-md w-[70%] mx-auto mt-1 h-auto" />`)
+        })
+
+        // Event for close button in form
+        $(".post_form__closeBtn").click(function () {
+            $("#post_form_image").html("")
+            $(captionInputId).attr('disabled', true)
+            $(".post_form_container").toggleClass("hidden")
+        })
 
         // loads posts whenever the user scroll to the bottom
         $(document).scroll(function (e) {

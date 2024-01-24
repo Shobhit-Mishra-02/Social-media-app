@@ -1,15 +1,27 @@
 {% extends 'home/home_base_with_sections.html' %}
+
 {% load static %}
 
 {% block title %}
-post 
+post
 {% endblock title %}
 
 
 {% block middle_section %}
 
 <div>
-    <p>post</p>
+
+    {% if notFound %}
+    <div>
+        {{ notFound }}
+    </div>
+    {% endif %}
+
+
+    {% if post.title %}
+    <div>{{ post.title }}</div>
+    {% endif %}
+
 </div>
 
 {% endblock middle_section %}
