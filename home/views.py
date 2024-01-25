@@ -50,8 +50,14 @@ def get_user_posts(request):
 def view_post(request, id):
 
     filtered_post = Post.objects.filter(pk=id)
+    did_user_like_post = True if filtered_post.first().userlikepost_set.filter(
+        user_id=request.user.id).count() else False
+
+    full_name = filtered_post.first().user.personalinformation.first_name + " " + \
+        filtered_post.first().user.personalinformation.last_name
 
     if filtered_post.count() > 0:
-        return render(request, "home/view_post.html", {"post": filtered_post[0]})
+
+        return render(request, "home/view_post.html", {"post": filtered_post[0], "did_user_like_post": did_user_like_post, "full_name": full_name})
 
     return render(request, "home/view_post.html", {"notFound": "Not Found"})
