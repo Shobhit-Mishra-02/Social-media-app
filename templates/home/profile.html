@@ -492,11 +492,13 @@ Profile
 
     $(document).ready(function () {
 
+        /*
         createGetRequestPromise("{% url 'ajax:get_user_details' id %}")
             .then(data => {
                 console.log(data)
             })
             .catch(err => console.log(err))
+        */
 
         createGetRequestPromise(urlToGetPersonalInformation)
             .then(data => {
