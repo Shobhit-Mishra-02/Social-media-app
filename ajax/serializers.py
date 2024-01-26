@@ -70,6 +70,7 @@ class PersonalInformationSerializer(serializers.ModelSerializer):
     profile_pic = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
     email = serializers.SerializerMethodField()
+    is_owner = serializers.SerializerMethodField()
 
     class Meta:
         model = PersonalInformation
@@ -84,8 +85,24 @@ class PersonalInformationSerializer(serializers.ModelSerializer):
 
         return None
 
+    def get_is_owner(self, personal_information):
+        request = self.context.get('request')
+
+        if personal_information.user.id == request.user.id:
+            return True
+
+        return False
+
     def get_full_name(self, personal_information):
-        return personal_information.first_name + " " + personal_information.last_name
+        full_name = ""
+
+        if personal_information.first_name:
+            full_name = personal_information.first_name
+
+        if personal_information.last_name:
+            full_name = full_name + " " + personal_information.last_name
+
+        return full_name.title()
 
     def get_email(self, personal_information):
         return personal_information.user.email

@@ -4,11 +4,12 @@ from home.models import GeneralInformation, GENDERS, COUNTRY_NAMES, PersonalInfo
 
 COMMON_DESIGN = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
 
+
 class PostCreationForm(ModelForm):
 
     class Meta:
         model = Post
-        
+
         fields = ["title", "content", "image", "caption"]
 
         widgets = {
@@ -29,6 +30,7 @@ class PostCreationForm(ModelForm):
                 "placeholder": "add caption here..."
             })
         }
+
 
 class GeneralInformationForm(ModelForm):
 
@@ -66,17 +68,19 @@ class GeneralInformationForm(ModelForm):
                 choices=COUNTRY_NAMES)
         }
 
+
 class PersonalInformationForm(ModelForm):
 
     class Meta:
         model = PersonalInformation
 
-        fields = ["profile_pic", "first_name", "last_name", "occupation", "status", "location", "home_address", "phone_number"]
+        fields = ["profile_pic", "first_name", "last_name", "occupation",
+                  "status", "location", "home_address", "phone_number"]
 
         widgets = {
             "profile_pic": FileInput(attrs={
-                "class":"shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-1.5 mb-2 hidden",
-                "type":"file",
+                "class": "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-1.5 mb-2 hidden",
+                "type": "file",
             }),
             "first_name": TextInput(attrs={
                 "class": COMMON_DESIGN,
@@ -88,23 +92,24 @@ class PersonalInformationForm(ModelForm):
             }),
             "occupation": TextInput(attrs={
                 "class": COMMON_DESIGN,
-                "placeholder":"Front-end developer"
+                "placeholder": "Front-end developer"
             }),
             "status": TextInput(attrs={
                 "class": COMMON_DESIGN,
-                "placeholder": "working for society :)" 
+                "placeholder": "working for society :)"
             }),
             "location": TextInput(attrs={
                 "class": COMMON_DESIGN,
                 "placeholder": "New delhi, Delhi"
             }),
             "home_address": Textarea(attrs={
-                "class": "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500", 
+                "class": "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500",
                 "placeholder": "92 Miles Drive, Newark, NJ 07103, California, United States of America",
                 "rows": "4"
             }),
             "phone_number": TextInput(attrs={
                 "class": COMMON_DESIGN,
-                "placeholder": "123 456 789"
+                "placeholder": "123 456 789",
+                "pattern": "[0-9]{10}"
             })
         }

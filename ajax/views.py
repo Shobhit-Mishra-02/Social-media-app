@@ -157,17 +157,19 @@ def get_general_information(request, id):
 @login_required
 def get_personal_information(request, id):
     if request.method == "GET":
-        personal_information = PersonalInformation.objects.filter(
-            user_id=id)
+        personal_information = PersonalInformation.objects.filter(user_id=id)
 
-        if len(personal_information) > 0:
+        if len(personal_information):
 
             serialized_personal_information = PersonalInformationSerializer(
                 personal_information[0], context={"request": request}).data
 
             return JsonResponse(serialized_personal_information, status=200)
 
-        return JsonResponse({"message": "No data found"}, status=200)
+        serialized_personal_information = PersonalInformationSerializer(
+            PersonalInformation(user=request.user), context={"request": request}).data
+
+        return JsonResponse(serialized_personal_information, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
