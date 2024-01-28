@@ -90,13 +90,15 @@ def add_general_information(request):
                 about_me=about_me, education=education, gender=gender, date_of_birth=date_of_birth, organization=organization, nationality=nationality)
 
             data = GeneralInformation.objects.get(user_id=request.user.id)
-            serialized_data = GeneralInformationModelSerializer(data).data
+            serialized_data = GeneralInformationModelSerializer(
+                data, context={"request": request}).data
             return JsonResponse(serialized_data)
         else:
             form.save()
 
             data = GeneralInformation.objects.get(user_id=request.user.id)
-            serialized_data = GeneralInformationModelSerializer(data).data
+            serialized_data = GeneralInformationModelSerializer(
+                data, context={"request": request}).data
             return JsonResponse(serialized_data)
 
     return JsonResponse({"message": "invalid method"})
@@ -140,15 +142,17 @@ def add_personal_information(request):
 @login_required
 def get_general_information(request, id):
     if request.method == "GET":
-        general_information = GeneralInformation.objects.filter(
-            user_id=id)
+        general_information = GeneralInformation.objects.filter(user_id=id)
 
-        if len(general_information) > 0:
+        if len(general_information):
             serialized_general_information = GeneralInformationModelSerializer(
-                general_information[0]).data
+                general_information[0], context={"request": request}).data
             return JsonResponse(serialized_general_information, status=200)
 
-        return JsonResponse({"message": "No data found"}, status=200)
+        serialized_general_information = GeneralInformationModelSerializer(GeneralInformation(
+            user=AccountUser.objects.get(pk=id)), context={"request": request}).data
+
+        return JsonResponse(serialized_general_information, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -167,7 +171,7 @@ def get_personal_information(request, id):
             return JsonResponse(serialized_personal_information, status=200)
 
         serialized_personal_information = PersonalInformationSerializer(
-            PersonalInformation(user=request.user), context={"request": request}).data
+            PersonalInformation(user=AccountUser()), context={"request": request}).data
 
         return JsonResponse(serialized_personal_information, status=200)
 

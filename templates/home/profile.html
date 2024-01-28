@@ -62,83 +62,49 @@ Profile
                 </span>
             </div>
             <hr>
-            <div class="mt-4 space-y-2">
-                <!-- <div class="flex justify-start align-middle space-x-2 items-center text-gray-500">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-briefcase stroke-gray-500">
-                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                        </svg>
-                    </span>
-
-                    <span id="per_info_display__occupation">
+            <div id="personal_information__container">
+                <div id="per_info_display__message"></div>
+                <div id="per_info_display__occupation" class="mt-2">
+                    <div class="text-gray-500">
                         <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </span>
-                </div> -->
-                <!-- <div class="flex justify-start align-middle space-x-2 items-center text-gray-500">
-                    <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-map-pin stroke-gray-500">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                    </span>
-
-                    <div id="per_info_display__location">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                            <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                            <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
-                </div> -->
-            </div>
-            <div id="per_info_display__message"></div>
-            <div id="per_info_display__occupation" class="mt-2">
-                <div class="text-gray-500">
-                    <div role="status" class="max-w-sm animate-pulse mt-2">
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-                        <span class="sr-only">Loading...</span>
+                </div>
+                <div id="per_info_display__location" class="mt-2">
+                    <div class="text-gray-500">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                            <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="per_info_display__location" class="mt-2">
-                <div class="text-gray-500">
-                    <div role="status" class="max-w-sm animate-pulse mt-2">
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-                        <span class="sr-only">Loading...</span>
+                <div id="per_info_display__status" class="mt-2">
+                    <div class="text-gray-500">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                            <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="per_info_display__status" class="mt-2">
-                <div class="text-gray-500">
-                    <div role="status" class="max-w-sm animate-pulse mt-2">
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <div id="per_info_display__home_address" class="mt-2">
-                <div role="status" class="max-w-sm animate-pulse mt-2">
-                    <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                    <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
-                    <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-            <div id="per_info_display__phone_number" class="mt-2">
-                <div class="text-gray-500">
+                <div id="per_info_display__home_address" class="mt-2">
                     <div role="status" class="max-w-sm animate-pulse mt-2">
                         <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
+                        <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
                         <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div id="per_info_display__phone_number" class="mt-2">
+                    <div class="text-gray-500">
+                        <div role="status" class="max-w-sm animate-pulse mt-2">
+                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,74 +131,52 @@ Profile
                 {% endif %}
 
             </div>
-            <div class="mt-6">
-                <h3 class="text-gray-600 font-semibold">About me</h3>
-                <div id="gen_info_display__about_me" class="text-gray-500">
-
-                    <div role="status" class="w-full animate-pulse">
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[60%] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
-                        <div class="h-2 bg-gray-200 rounded-full max-w-[60%]"></div>
-                        <span class="sr-only">Loading...</span>
-                    </div>
-
+            <div id="gen_info_display__message"></div>
+            <div id="gen_info_display__about_me" class="mt-6 text-gray-500">
+                <div role="status" class="w-full animate-pulse">
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[60%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full max-w-[60%]"></div>
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 mt-8 lg:mt-20">
-                <div>
-                    <span class="text-gray-600 font-semibold">Education</span>
-                    <div id="gen_info_display__education" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+            <div id="general_information__bottom" class="grid grid-cols-2 gap-4 mt-8 lg:mt-20">
+                <div id="gen_info_display__education">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-gray-600 font-semibold">Join Date</span>
-                    <div id="gen_info_display__created_at" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div id="gen_info_display__created_at">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-gray-600 font-semibold">Organization</span>
-                    <div id="gen_info_display__organization" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div id="gen_info_display__organization">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-gray-600 font-semibold">Nationality</span>
-                    <div id="gen_info_display__nationality" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div id="gen_info_display__nationality">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-gray-600 font-semibold">Birthday</span>
-                    <div id="gen_info_display__date_of_birth" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div id="gen_info_display__date_of_birth">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div>
-                    <span class="text-gray-600 font-semibold">Gender</span>
-                    <div id="gen_info_display__gender" class="text-gray-500">
-                        <div role="status" class="max-w-sm animate-pulse mt-2">
-                            <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
+                <div id="gen_info_display__gender">
+                    <div role="status" class="max-w-sm animate-pulse mt-2">
+                        <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
             </div>
@@ -499,45 +443,31 @@ Profile
     const urlToGetGeneralInformation = "{% url 'ajax:get_general_information' id %}"
     const urlToGetPersonalInformation = "{% url 'ajax:get_personal_information' id %}"
 
-    const defaultValuesForPersonalInformation = {
-        full_name: "Add your name",
-        occupation: "Add your occupation",
-        location: "Add your location",
-        status: "Add your status",
-        home_address: "Add your address",
-        phone_number: "Add your phone number",
-        email: "{{ user.email }}"
-    }
+    const personalInformationMapper = ["occupation", "location", "status", "home_address"] // except full_name and email
+    const generalInformationMapper = ["date_of_birth", "education", "gender", "nationality", "organization"] // except about_me
 
-    const defaultValuesForGeneralInformation = {
-        about_me: "Add something about yourself",
-        education: "Add your school/college name",
-        organization: "Add name of your organization",
-        nationality: "Add you nationality",
-        date_of_birth: "Add your birthdate",
-        gender: "Add you gender",
-        created_at: "Update the details"
-    }
-
-    function populateDataFunc(data, formId) {
-        console.log(data)
+    // function to populate the edit form
+    function populateEditForm(data, formId) {
         let keys = Object.keys(data)
 
         keys.forEach(key => {
             let inputElem = $(`#${formId} input[name=${key}]`)
 
+            // handling simple input tags
             if (inputElem && inputElem.attr('type') != 'file') {
                 inputElem.val(data[key])
             }
 
             let textAreaElem = $(`#${formId} textarea[name=${key}]`)
 
+            // handling textarea tag
             if (textAreaElem) {
                 textAreaElem.val(data[key])
             }
 
             let selectElem = $(`#${formId} select[name=${key}]`)
 
+            // handling select tag
             if (selectElem) {
                 selectElem.val(data[key])
             }
@@ -545,39 +475,51 @@ Profile
 
     }
 
-    function populateDataInDisplayFunc(data, displayIdInitials) {
-        let keys = Object.keys(data)
+    // function to populate data on the profile section
+    function populateData(data, mapper, id) {
+        let template = ``
 
-        if (!data.id && data.is_owner) {
-            $("#per_info_display__message").html(`<h2 class='text-gray-400 font-semibold'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
-        }
-
-        keys.forEach(key => {
-            if (key == "email" || key == "full_name") {
-                $(`#${displayIdInitials}_display__${key}`).text(data[key])
-            }
-            else {
-                $(`#${displayIdInitials}_display__${key}`)
-                    .html(`
-                    <span class="text-gray-600 font-semibold">
-                        ${data[key] ? key[0].toUpperCase() + key.split("_").join(" ").slice(1) : ""}
-                    </span>
-                    <div class="text-gray-500">
-                        ${data[key] ? data[key] : ""}
-                    </div>
-                    `)
+        mapper.forEach(key => {
+            if (data[key]) {
+                template += `
+                <span class="text-gray-600 font-semibold">
+                    ${data[key] ? key[0].toUpperCase() + key.split("_").join(" ").slice(1) : ""}
+                </span>
+                <div class="text-gray-500">
+                    ${data[key] ? data[key] : ""}
+                </div>
+                `
             }
         })
-    }
 
+        $(`#${id}`).html(template)
+    }
 
     $(document).ready(function () {
 
         // Initial request to populate personal information section
         createGetRequestPromise(urlToGetPersonalInformation)
             .then(data => {
-                console.log(data)
-                populateDataInDisplayFunc(data, "per_info")
+
+                if (!data.id && data.is_owner) {
+                    $("#per_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
+                }
+
+                populateData(data, personalInformationMapper, "personal_information__container")
+
+                if (data.full_name) {
+                    $("#per_info_display__full_name").text(data.full_name)
+                }
+                else {
+                    $("#per_info_display__full_name").text("")
+                }
+
+                if (data.email) {
+                    $("#per_info_display__email").text(data.email)
+                }
+                else {
+                    $("#per_info_display__email").text("")
+                }
 
                 return data.profile_pic
             })
@@ -602,7 +544,7 @@ Profile
             $("#personalInformationEditBtn").click(() => {
                 createGetRequestPromise(urlToGetPersonalInformation)
                     .then(data => {
-                        populateDataFunc(data, "personalInformationForm")
+                        populateEditForm(data, "personalInformationForm")
                         return data.profile_pic
                     })
                     .then(imageUrl => {
@@ -618,7 +560,7 @@ Profile
         if ($("#personalInformationForm input[name=profile_pic]")) {
             $("#personalInformationForm input[name=profile_pic]").change(function () {
                 let url = URL.createObjectURL($(this)[0].files[0])
-                console.log(url)
+                // console.log(url)
                 $("#personalInfo_image").html(`<img src="${url}" class="w-28 h-28 rounded-full" />`)
             })
         }
@@ -640,8 +582,10 @@ Profile
                     data: data,
                     enctype: "multipart/form-data",
                     success: function (res) {
-                        console.log(res)
-                        populateDataInDisplayFunc(res, "per_info")
+                        $("#per_info_display__message").html(``)
+
+                        populateData(data, personalInformationMapper, "personal_information__container")
+
                         let imageUrl = res.profile_pic
                         if (imageUrl) {
                             $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
@@ -655,6 +599,7 @@ Profile
                             </div>
                             `)
                         }
+
                     },
                     error: function (err) {
                         console.log(err)
@@ -663,43 +608,62 @@ Profile
             })
         }
 
-        /*
+
+        // Initial request to get the general information
         createGetRequestPromise(urlToGetGeneralInformation)
             .then(data => {
+                if (!data.id && data.is_owner) {
+                    $("#gen_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
+                }
 
-                if (data.message && data.message.includes("No")) {
-                    populateDataInDisplayFunc(defaultValuesForGeneralInformation, "gen_info")
+                if (!data.id && !data.is_owner) {
+                    $(`#gen_info_display__message`).parent().toggleClass("hidden")
+                }
+
+                populateData(data, generalInformationMapper, "general_information__bottom")
+
+                if (data.about_me) {
+                    $("#gen_info_display__about_me").text(data.about_me)
                 }
                 else {
-                    populateDataInDisplayFunc(data, "gen_info")
+                    $("#gen_info_display__about_me").text("")
                 }
             })
             .catch(err => console.log(err))
 
-
+        // Handling edit button for the general information edit form
         if ($("#generalInformationEditBtn")) {
             $("#generalInformationEditBtn").click(() => {
                 createGetRequestPromise(urlToGetGeneralInformation)
                     .then(data => {
-                        populateDataFunc(data, "generalInformationForm")
+                        populateEditForm(data, "generalInformationForm")
                     })
                     .catch(err => console.log(err))
             })
         }
 
-
+        // Handling submit event of general information edit form
         if (generalInformationForm) {
             generalInformationForm.addEventListener("submit", (e) => {
                 e.preventDefault()
                 let formData = new FormData(generalInformationForm)
 
                 createPostRequestPromise(urlToAddGeneralInformation, formData)
-                    .then(data => populateDataInDisplayFunc(data, "gen_info"))
+                    .then(data => {
+                        $("#gen_info_display__message").html("")
+
+                        populateData(data, generalInformationMapper, "general_information__bottom")
+
+                        if (data.about_me) {
+                            $("#gen_info_display__about_me").text(data.about_me)
+                        }
+                        else {
+                            $("#gen_info_display__about_me").text("")
+                        }
+                    })
                     .catch(err => console.log(err))
             })
         }
-        */
-
     })
 
 

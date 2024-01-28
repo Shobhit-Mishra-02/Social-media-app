@@ -60,9 +60,20 @@ class PostModelSerializer(serializers.ModelSerializer):
 
 class GeneralInformationModelSerializer(serializers.ModelSerializer):
 
+    is_owner = serializers.SerializerMethodField()
+
     class Meta:
         model = GeneralInformation
         fields = "__all__"
+        extra_fields = ["is_owner"]
+
+    def get_is_owner(self, general_information):
+        request = self.context.get("request")
+
+        if request.user.id == general_information.user.id:
+            return True
+
+        return False
 
 
 class PersonalInformationSerializer(serializers.ModelSerializer):
