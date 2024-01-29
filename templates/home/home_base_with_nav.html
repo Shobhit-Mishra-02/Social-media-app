@@ -141,13 +141,13 @@
 
     data.forEach(user => {
       template += `
-      <div class="w-full m-2 flex flex-row gap-2">
+      <a href="/social/profile/${user.id}" class="w-full m-2 flex flex-row gap-2">
         <img class="h-12 w-12 rounded-full" src="${user.profile_pic}" />
         <div class="flex flex-col justify-start">
           <span class="font-semibold text-gray-500">${user.first_name + " " + user.last_name}</span>
           <span class="text-sm font-semibold text-gray-400">${user.email}</span>
         </div>
-      </div>`
+      </a>`
     })
 
     $("#search_result").html(template)

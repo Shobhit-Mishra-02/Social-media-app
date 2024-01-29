@@ -186,48 +186,33 @@ Profile
             <div class="w-full h-fit rounded-md p-3 xl:col-span-2">
                 <h3 class="text-xl font-semibold text-gray-800 mb-6">Top Posts</h3>
                 <div class="divide-y">
+
+
+                    {% if top_user_posts %}
+
+                    {% for post in top_user_posts %}
                     <div class="mb-4">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-400">
-                                likes 10k
+                                likes {{ post.likes_count }}
                             </span>
-                            <span class="text-gray-400">Published on 12-04-2024</span>
+                            <span class="text-gray-400">Published on {{ post.created_at | date:"d-m-Y" }}</span>
                         </div>
                         <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                            <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">Post title
-                                comes here</a>
+                            {{ post.title }}
                         </h2>
-                        <p></p>
-                        <span class="text-blue-500 underline hover:text-blue-600"><a href="#">Read post</a></span>
+                        <span class="text-blue-500 underline hover:text-blue-600">
+                            <a href="/social/viewPost/{{post.id}}">Read post</a>
+                        </span>
                     </div>
-                    <div class="mb-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">
-                                likes 10k
-                            </span>
-                            <span class="text-gray-400">Published on 12-04-2024</span>
-                        </div>
-                        <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                            <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">Post title
-                                comes here</a>
-                        </h2>
-                        <p></p>
-                        <span class="text-blue-500 underline hover:text-blue-600"><a href="#">Read post</a></span>
+                    {% endfor %}
+
+                    {% else %}
+
+                    <div class="text-2xl font-semibold text-gray-400">
+                        Not Found
                     </div>
-                    <div class="mb-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">
-                                likes 10k
-                            </span>
-                            <span class="text-gray-400">Published on 12-04-2024</span>
-                        </div>
-                        <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                            <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">Post title
-                                comes here</a>
-                        </h2>
-                        <p></p>
-                        <span class="text-blue-500 underline hover:text-blue-600"><a href="#">Read post</a></span>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md xl:col-span-2">
@@ -258,7 +243,7 @@ Profile
 
                         <div class="flex justify-start gap-1 flex-col">
                             <span class="font-semibold text-gray-600">Total likes</span>
-                            <span class="text-gray-500">100</span>
+                            <span class="text-gray-500">{{total_likes.total_likes}}</span>
                         </div>
                     </div>
                 </div>

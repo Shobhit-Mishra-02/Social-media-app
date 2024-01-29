@@ -2,7 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.db.models import Count, Sum
 
+from authentication.models import AccountUser
 from .forms import PostCreationForm, GeneralInformationForm, PersonalInformationForm
 from .models import Post, GeneralInformation, PersonalInformation
 from .utils.upload_files import upload_file
@@ -32,11 +34,24 @@ def profile(request, id):
     personal_information_form = PersonalInformationForm()
     is_owner = True if request.user.id == id else False
 
+    user = AccountUser.objects.filter(pk=id).first()
+
+    if user:
+        top_user_posts = user.post_set.annotate(
+            likes_count=Count("userlikepost")).order_by("-likes_count")[0:5]
+        total_likes = user.post_set.annotate(likes_count=Count(
+            'userlikepost')).aggregate(total_likes=Sum('likes_count', default=0))
+    else:
+        total_likes = {"total_likes": 0}
+        top_user_posts = None
+
     return render(request, "home/profile.html", {
         "general_information_form": general_information_form,
         "personal_information_form": personal_information_form,
         "is_owner": is_owner,
-        "id": id
+        "id": id,
+        "top_user_posts": top_user_posts,
+        "total_likes": total_likes
     })
 
 
