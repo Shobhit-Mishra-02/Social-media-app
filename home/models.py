@@ -135,3 +135,15 @@ class FriendRequest(models.Model):
 
     def __str__(self) -> str:
         return f"{self.sender.email} made friend request to {self.receiver.email}"
+
+
+class Friend(models.Model):
+    user = models.ForeignKey(
+        AccountUser, on_delete=models.CASCADE, blank=False, related_name="user")
+    friend = models.ForeignKey(
+        AccountUser, on_delete=models.CASCADE, blank=False, related_name="friend")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.email} -> {self.friend.email}"
