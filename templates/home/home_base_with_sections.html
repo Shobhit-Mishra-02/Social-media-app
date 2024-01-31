@@ -120,7 +120,7 @@
     $(document).ready(function () {
         createGetRequestPromise("{% url 'ajax:get_personal_information' user.id %}")
             .then(data => {
-                console.log(data)
+                // console.log(data)
 
                 $("#right_sec__user_profile_pic > div").remove()
                 $("#right_sec__user_full_name > div").remove()
@@ -160,7 +160,7 @@
                 $("#right_sec__user_about_me > div").remove()
 
                 if (data.about_me) {
-                    $("#right_sec__user_about_me").html(`<p>${data.about_me}</p>`)
+                    $("#right_sec__user_about_me").html(`<p>${data.about_me.length > 200 ? data.about_me.slice(0, 200) + "..." : data.about_me}</p>`)
                 }
                 else {
                     $("#right_sec__user_about_me").html(`<p>write about your self....</p>`)
@@ -174,14 +174,14 @@
 
                 if (data.length) {
                     data.forEach(post => {
-                        template += `<div class="mb-4">
+                        template += `<div class="mb-4 pt-2">
                             <span class="text-gray-400">
                                 likes ${post.like_count} | saved 10k
                             </span>
-                            <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                                <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">${post.title}</a>
+                            <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-700">
+                                <a href="/social/viewPost/${post.id}">${post.title}</a>
                             </h2>
-                            <p>${post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content + "..."}</p>
+                            <p class="text-gray-500">${post.content.length > 100 ? post.content.slice(0, 100) + "..." : post.content + "..."}</p>
                         </div>`
                     })
                 }
