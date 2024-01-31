@@ -6,7 +6,7 @@ from django.db.models import Count, Sum
 
 from authentication.models import AccountUser
 from .forms import PostCreationForm, GeneralInformationForm, PersonalInformationForm
-from .models import Post, GeneralInformation, PersonalInformation
+from .models import Post, GeneralInformation, PersonalInformation, Friend
 from .utils.upload_files import upload_file
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Post, GeneralInformation, PersonalInformation
+from home.models import Post, GeneralInformation, PersonalInformation, FriendRequest
 from authentication.models import AccountUser
 
 
@@ -173,3 +173,10 @@ class TrendingPostSerializer(serializers.ModelSerializer):
 
     def get_like_count(self, post):
         return post.like_count
+
+
+class FriendRequestModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FriendRequest
+        fields = "__all__"

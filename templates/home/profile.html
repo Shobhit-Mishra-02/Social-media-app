@@ -15,6 +15,16 @@ Profile
         <!-- profile left section -->
         <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
 
+
+            {% if is_owner is False %}
+            <div class="pb-4">
+                <button id="{{id}}"
+                    class="friendRequestBtn px-4 py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600">Make
+                    Friend</button>
+            </div>
+            {% endif %}
+
+
             {% if is_owner %}
             <div class="flex justify-end">
                 <span>
@@ -481,6 +491,16 @@ Profile
     }
 
     $(document).ready(function () {
+
+        // adding event handler for make friend button
+        if ($(".friendRequestBtn")) {
+            $(".friendRequestBtn").click(function () {
+
+                createGetRequestPromise("{% url 'ajax:make_friend_request' id %}")
+                    .then(data => console.log(data))
+            })
+        }
+
 
         // Initial request to populate personal information section
         createGetRequestPromise(urlToGetPersonalInformation)

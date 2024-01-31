@@ -127,8 +127,8 @@ class FriendRequest(models.Model):
         AccountUser, on_delete=models.CASCADE, blank=False, related_name="receiver")
 
     pending_status = models.BooleanField(default=True)
-    Accept_status = models.BooleanField(default=False)
-    Declined_status = models.BooleanField(default=False)
+    accept_status = models.BooleanField(default=False)
+    declined_status = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
