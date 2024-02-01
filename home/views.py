@@ -32,9 +32,19 @@ def profile(request, id):
 
     general_information_form = GeneralInformationForm()
     personal_information_form = PersonalInformationForm()
+
     is_owner = True if request.user.id == id else False
+    is_friend = False
 
     user = AccountUser.objects.filter(pk=id).first()
+
+    if request.user.friend_ship_records.filter(friend=user).count():
+        is_friend = True
+
+    if request.user.friend_requests.filter(receiver=user, pending_status=True).count():
+        is_friend_request_pending = True
+    else:
+        is_friend_request_pending = False
 
     if user:
         top_user_posts = user.post_set.annotate(
@@ -45,14 +55,19 @@ def profile(request, id):
         total_likes = {"total_likes": 0}
         top_user_posts = None
 
-    return render(request, "home/profile.html", {
-        "general_information_form": general_information_form,
-        "personal_information_form": personal_information_form,
-        "is_owner": is_owner,
-        "id": id,
-        "top_user_posts": top_user_posts,
-        "total_likes": total_likes
-    })
+    return render(
+        request,
+        "home/profile.html",
+        {
+            "general_information_form": general_information_form,
+            "personal_information_form": personal_information_form,
+            "is_owner": is_owner,
+            "id": id,
+            "top_user_posts": top_user_posts,
+            "total_likes": total_likes,
+            "is_friend": is_friend,
+            "is_friend_request_pending": is_friend_request_pending
+        })
 
 
 @login_required
@@ -76,3 +91,9 @@ def view_post(request, id):
         return render(request, "home/view_post.html", {"post": filtered_post[0], "did_user_like_post": did_user_like_post, "full_name": full_name})
 
     return render(request, "home/view_post.html", {"notFound": "Not Found"})
+
+
+@login_required
+def view_friends(request):
+
+    return render(request, "home/friends.html")

@@ -290,16 +290,53 @@ def search_users(request):
 @login_required
 def make_friend_request(request, id):
     if request.method == "GET":
+
         sender = request.user
         receiver = AccountUser.objects.filter(pk=id).first()
 
         if receiver is None:
             return JsonResponse({"message": f"no receiver found with id {id}"}, status=200)
 
-        # making a friend request
-        FriendRequest.objects.create(sender=sender, receiver=receiver)
+        does_friend_request_exists = False
 
-        return JsonResponse({"message": "Made a friend request"})
+        if FriendRequest.objects.filter(sender=sender, receiver=receiver, declined_status=False).count():
+            does_friend_request_exists = True
+
+        if does_friend_request_exists:
+            return JsonResponse({"message": "Already on friend request exists"}, status=500)
+
+        # making a friend request
+        friend_request = FriendRequest.objects.create(
+            sender=sender,
+            receiver=receiver
+        )
+
+        serialized_data = FriendRequestModelSerializer(friend_request).data
+
+        return JsonResponse({"message": "Made a friend request", "friend_request": serialized_data})
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def friend_request_status(request, id):
+    if request.method == "GET":
+
+        user = AccountUser.objects.filter(pk=id).first()
+
+        if user is None:
+            return JsonResponse({"message": f"No user found with id {id}"}, status=400)
+
+        friend_request = request.user.friend_requests.filter(
+            receiver=user).first()
+
+        if friend_request is not None:
+            serialized_data = FriendRequestModelSerializer(friend_request).data
+        else:
+            serialized_data = None
+
+        return JsonResponse({"friend_request": serialized_data}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -335,16 +372,19 @@ def accepting_request(request, id):
 @login_required
 def declining_request(request, id):
     if request.method == "GET":
+
         friend_request = FriendRequest.objects.filter(pk=id).first()
 
         if friend_request is None:
-            return JsonResponse({"message": f"friend request {id} does not exist"})
+            return JsonResponse({"message": f"friend request {id} does not exist"}, status=404)
 
+        # the user who is rejecting or declining the request should be either sender or receiver.
         if request.user.id != friend_request.receiver.id and request.user.id != friend_request.sender.id:
-            return JsonResponse({"message": "You can not decline this friend request"})
+            return JsonResponse({"message": "You can not decline this friend request"}, status=500)
 
-        friend_request.declined_status = True
-        friend_request.save()
+        friend_request.delete()
+
+        return JsonResponse({"message": "removed the request"}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 

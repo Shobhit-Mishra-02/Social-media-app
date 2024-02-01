@@ -122,9 +122,19 @@ class ExtraInformation(models.Model):
 
 class FriendRequest(models.Model):
     sender = models.ForeignKey(
-        AccountUser, on_delete=models.CASCADE, blank=False, related_name="sender")
+        AccountUser,
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name="friend_requests",
+        related_query_name="friend_request"
+    )
     receiver = models.ForeignKey(
-        AccountUser, on_delete=models.CASCADE, blank=False, related_name="receiver")
+        AccountUser,
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name="received_friend_requests",
+        related_query_name="received_friend_request"
+    )
 
     pending_status = models.BooleanField(default=True)
     accept_status = models.BooleanField(default=False)
@@ -139,9 +149,18 @@ class FriendRequest(models.Model):
 
 class Friend(models.Model):
     user = models.ForeignKey(
-        AccountUser, on_delete=models.CASCADE, blank=False, related_name="user")
+        AccountUser, on_delete=models.CASCADE,
+        blank=False,
+        related_name="friend_ship_records",
+        related_query_name="friend_ship"
+    )
     friend = models.ForeignKey(
-        AccountUser, on_delete=models.CASCADE, blank=False, related_name="friend")
+        AccountUser,
+        on_delete=models.CASCADE,
+        blank=False,
+        related_name="friends",
+        related_query_name="friend"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 

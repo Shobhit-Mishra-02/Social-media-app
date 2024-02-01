@@ -33,7 +33,8 @@
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Posts</a>
           </li>
           <li>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Friends</a>
+            <a href="{% url 'home:view_friends' %}"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Friends</a>
           </li>
           <li>
             <a href="{% url 'authentication:logout'%}"

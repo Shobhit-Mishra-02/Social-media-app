@@ -17,11 +17,7 @@ Profile
 
 
             {% if is_owner is False %}
-            <div class="pb-4">
-                <button id="{{id}}"
-                    class="friendRequestBtn px-4 py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600">Make
-                    Friend</button>
-            </div>
+            <div id="friend_request__container" class="pb-4"></div>
             {% endif %}
 
 
@@ -490,15 +486,60 @@ Profile
         $(`#${id}`).html(template)
     }
 
+
+    function displayCancelFriendRequestBtn(request_id) {
+        $("#friend_request__container").html(`<button id=${request_id}>Cancel Request</button>`)
+        $("#friend_request__container > button").unbind()
+
+        $("#friend_request__container > button").click(function () {
+            createGetRequestPromise("/ajax/declineRequest/" + $(this).attr('id'))
+                .then(data => {
+                    console.log(data)
+                    // then display make friend request button
+                    displayMakeFriendBtn()
+                })
+                .catch(err => console.log(err))
+        })
+
+    }
+
+    function displayMakeFriendBtn() {
+        $("#friend_request__container").html(`<button>Make Friend</button>`)
+
+        $("#friend_request__container > button").unbind()
+        $("#friend_request__container > button").click(function () {
+            createGetRequestPromise("{% url 'ajax:make_friend_request' id %}")
+                .then(data => {
+                    console.log(data)
+                    // then display cancel friend request button
+                    displayCancelFriendRequestBtn(data.friend_request.id)
+                })
+                .catch(err => console.log(err))
+        })
+
+    }
+
     $(document).ready(function () {
 
         // adding event handler for make friend button
-        if ($(".friendRequestBtn")) {
-            $(".friendRequestBtn").click(function () {
+        if ($("#friend_request__container")) {
+            createGetRequestPromise("{% url 'ajax:friend_request_status' id %}")
+                .then(data => {
+                    console.log(data)
+                    let { friend_request } = data
 
-                createGetRequestPromise("{% url 'ajax:make_friend_request' id %}")
-                    .then(data => console.log(data))
-            })
+                    if (friend_request && friend_request.accept_status) {
+                        return;
+                    }
+
+                    if (!friend_request) {
+                        displayMakeFriendBtn()
+                    }
+
+                    if (friend_request && friend_request.pending_status) {
+                        displayCancelFriendRequestBtn(friend_request.id)
+                    }
+                })
         }
 
 

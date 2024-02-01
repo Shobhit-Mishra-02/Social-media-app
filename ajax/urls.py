@@ -81,5 +81,10 @@ urlpatterns = [
         "getFriendRequests/<int:id>/",
         views.get_friend_requests,
         name="get_friend_requests"
+    ),
+    path(
+        "friendRequestStatus/<int:id>/",
+        views.friend_request_status,
+        name="friend_request_status"
     )
 ]
