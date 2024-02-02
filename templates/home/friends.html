@@ -8,8 +8,127 @@ friends page
 
 {% block middle_section %}
 
-<div>
-    display friends
+<div class="w-full">
+    <div>
+        Friends
+    </div>
+
+    <div>
+        <h3>Friend requests received</h3>
+        <div id="friend_request__container">
+
+        </div>
+    </div>
+
+    <div>
+        <h3>Friends</h3>
+        <div id="friends__container">
+
+        </div>
+    </div>
 </div>
 
 {% endblock middle_section %}
+
+{% block derived_js_block %}
+
+<script>
+
+    function bindAcceptFriendRequestEvent() {
+        $(".accept_friend_request").unbind()
+        $(".accept_friend_request").click(function () {
+            let request_id = $(this).attr("id").split("_")[1]
+
+            createGetRequestPromise("/ajax/acceptRequest/" + request_id)
+                .then(data => {
+                    console.log(data)
+                    displayFriendRequests()
+                    displayFriends()
+                })
+                .catch(err => console.log(err))
+        })
+    }
+
+    function bindCancelFriendRequestEvent() {
+        $(".cancel_friend_request").unbind()
+        $(".cancel_friend_request").click(function () {
+            let request_id = $(this).attr("id").split("_")[1]
+
+            createGetRequestPromise("/ajax/declineRequest/" + request_id)
+                .then(data => {
+                    console.log(data)
+                    displayFriendRequests()
+                    displayFriends()
+                })
+                .catch(err => console.log(err))
+        })
+    }
+
+    function displayFriendRequests() {
+        createGetRequestPromise("{% url 'ajax:get_friend_requests' user.id %}")
+            .then(friendRequests => {
+                console.log(friendRequests)
+                let template = ``
+
+                friendRequests.forEach(friendRequest => {
+                    template += `
+                    <div>
+                        <p>Got a friend request !!<p>
+                        <div class="flex items-center space-x-2">
+                            <img class="rounded-full w-12 h-12" src="${friendRequest.sender_profile}" />
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-500">${friendRequest.sender_full_name}</span>
+                                <span class="font-medium text-gray-500">${friendRequest.sender_email}</span>
+                            </div>
+                            <div>
+                                <button class="accept_friend_request" id="accept_${friendRequest.id}">Accept</button>
+                                <button class="cancel_friend_request" id="cancel_${friendRequest.id}">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    `
+                })
+
+                $("#friend_request__container").html(template)
+                bindAcceptFriendRequestEvent()
+                bindCancelFriendRequestEvent()
+            })
+            .catch(err => console.log(err))
+    }
+
+    function displayFriends() {
+        createGetRequestPromise("{% url 'ajax:get_friends' user.id %}")
+            .then(friends => {
+                console.log(friends)
+                let template = ``
+
+                friends.forEach(friend => {
+                    template += `
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <img class="rounded-full w-12 h-12" src="${friend.profile_pic}" />
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-500">${friend.first_name + " " + friend.last_name}</span>
+                                <span class="font-medium text-gray-500">${friend.email}</span>
+                            </div>
+                            <div>
+                                <button class="remove_friend" id="remove_${friend.id}">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    `
+
+                    $("#friends__container").html(template)
+                })
+
+            })
+            .catch(err => console.log(err))
+    }
+
+    $(document).ready(function () {
+        displayFriendRequests()
+        displayFriends()
+    })
+</script>
+
+{% endblock derived_js_block %}

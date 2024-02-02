@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 
 from home.models import Post, GeneralInformation, PersonalInformation, FriendRequest, Friend
-from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer, AccountUserModelSerializer, TrendingPostSerializer, FriendRequestModelSerializer
+from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer, AccountUserModelSerializer, TrendingPostSerializer, FriendRequestModelSerializer, FriendModelSerializer
 from home.forms import PersonalInformationForm, GeneralInformationForm, PostCreationForm
 from authentication.models import AccountUser
 
@@ -311,7 +311,8 @@ def make_friend_request(request, id):
             receiver=receiver
         )
 
-        serialized_data = FriendRequestModelSerializer(friend_request).data
+        serialized_data = FriendRequestModelSerializer(
+            friend_request, context={"request": request}).data
 
         return JsonResponse({"message": "Made a friend request", "friend_request": serialized_data})
 
@@ -332,38 +333,12 @@ def friend_request_status(request, id):
             receiver=user).first()
 
         if friend_request is not None:
-            serialized_data = FriendRequestModelSerializer(friend_request).data
+            serialized_data = FriendRequestModelSerializer(
+                friend_request, context={"request": request}).data
         else:
             serialized_data = None
 
         return JsonResponse({"friend_request": serialized_data}, status=200)
-
-    return JsonResponse({"message": "Invalid method"}, status=500)
-
-
-@csrf_exempt
-@login_required
-def accepting_request(request, id):
-    if request.method == "GET":
-
-        friend_request = FriendRequest.objects.filter(pk=id).first()
-
-        if friend_request is None:
-            return JsonResponse({"message": f"friend request {id} does not exist"})
-
-        if request.user.id != friend_request.receiver.id:
-            return JsonResponse({"message": "You can not accept the friend request"})
-
-        # accepting the friend request
-        friend_request.accept_status = True
-        friend_request.save()
-
-        # making friends record
-        sender = friend_request.sender
-        receiver = friend_request.receiver
-
-        Friend.objects.create(user=sender, friend=receiver)
-        Friend.objects.create(user=receiver, friend=sender)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -389,6 +364,38 @@ def declining_request(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+@csrf_exempt
+@login_required
+def accepting_request(request, id):
+    if request.method == "GET":
+
+        friend_request = FriendRequest.objects.filter(pk=id).first()
+
+        if friend_request is None:
+            return JsonResponse({"message": f"friend request {id} does not exist"})
+
+        if request.user.id != friend_request.receiver.id:
+            return JsonResponse({"message": "You can not accept the friend request"})
+
+        # accepting the friend request
+        friend_request.accept_status = True
+        friend_request.pending_status = False
+        friend_request.save()
+
+        # making friends record
+        sender = friend_request.sender
+        receiver = friend_request.receiver
+
+        Friend.objects.create(user=sender, friend=receiver)
+        Friend.objects.create(user=receiver, friend=sender)
+
+        return JsonResponse({"message": "Request has been accepted"}, status=200)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
 def get_friend_requests(request, id):
 
     if request.method == "GET":
@@ -397,10 +404,52 @@ def get_friend_requests(request, id):
         if user is None:
             return JsonResponse({"message": "user not found"}, status=400)
 
-        friend_requests = FriendRequest.objects.filter(sender_id=user.id)
+        friend_requests = user.received_friend_requests.filter(
+            pending_status=True)
         serialized_data = FriendRequestModelSerializer(
-            friend_requests, many=True, context={"request": request}).data
+            friend_requests,
+            many=True,
+            context={"request": request}).data
 
         return JsonResponse(serialized_data, safe=False, status=200)
 
     return JsonResponse({"message": "Invalid method"})
+
+
+@csrf_exempt
+@login_required
+def get_friends(request, id):
+
+    if request.method == "GET":
+
+        user = AccountUser.objects.filter(pk=id).first()
+
+        if user is None:
+            return JsonResponse({"message": "User not found"}, status=404)
+
+        friend_ids = user.friend_ship_records.all().values("friend_id")
+        friends = AccountUser.objects.filter(id__in=friend_ids)
+        serialized_data = AccountUserModelSerializer(
+            friends, many=True, context={"request": request}).data
+
+        return JsonResponse(serialized_data, status=200, safe=False)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)
+
+
+@csrf_exempt
+@login_required
+def remove_friend(request, id):
+    if request.method == "GET":
+        user = request.user
+        friend = AccountUser.objects.filter(pk=id).first()
+
+        if friend is None:
+            return JsonResponse({"message": "Friend does not exist"}, status=404)
+
+        Friend.objects.get(user=user, friend=friend).delete()
+        Friend.objects.get(user=friend, friend=user).delete()
+
+        return JsonResponse({"message": "Removed the friendship"}, status=200)
+
+    return JsonResponse({"message": "Invalid method"}, status=500)

@@ -86,5 +86,15 @@ urlpatterns = [
         "friendRequestStatus/<int:id>/",
         views.friend_request_status,
         name="friend_request_status"
+    ),
+    path(
+        "getFriends/<int:id>/",
+        views.get_friends,
+        name="get_friends"
+    ),
+    path(
+        "removeFriend/<int:id>/",
+        views.remove_friend,
+        name="remove_friend"
     )
 ]

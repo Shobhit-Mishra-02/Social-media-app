@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Post, GeneralInformation, PersonalInformation, FriendRequest
+from home.models import Post, GeneralInformation, PersonalInformation, FriendRequest, Friend
 from authentication.models import AccountUser
 
 
@@ -177,6 +177,100 @@ class TrendingPostSerializer(serializers.ModelSerializer):
 
 class FriendRequestModelSerializer(serializers.ModelSerializer):
 
+    receiver_email = serializers.SerializerMethodField()
+    receiver_profile = serializers.SerializerMethodField()
+    receiver_full_name = serializers.SerializerMethodField()
+
+    sender_email = serializers.SerializerMethodField()
+    sender_profile = serializers.SerializerMethodField()
+    sender_full_name = serializers.SerializerMethodField()
+
     class Meta:
         model = FriendRequest
         fields = "__all__"
+        extra_fields = ["receiver_email", "sender_email",
+                        "receiver_profile", "sender_profile", "receiver_full_name", "sender_full_name"]
+
+    def get_receiver_email(self, friend_request):
+        return friend_request.receiver.email
+
+    def get_sender_email(self, friend_request):
+        return friend_request.sender.email
+
+    def get_receiver_profile(self, friend_request):
+        request = self.context.get('request')
+        user = friend_request.receiver
+
+        personal_information = PersonalInformation.objects.filter(
+            user_id=user.id).first()
+
+        if personal_information is None:
+            return None
+
+        if personal_information.profile_pic and hasattr(personal_information.profile_pic, 'url'):
+            image_url = personal_information.profile_pic.url
+            return request.build_absolute_uri(image_url)
+
+        return None
+
+    def get_sender_profile(self, friend_request):
+        request = self.context.get('request')
+        user = friend_request.sender
+
+        personal_information = PersonalInformation.objects.filter(
+            user_id=user.id).first()
+
+        if personal_information is None:
+            return None
+
+        if personal_information.profile_pic and hasattr(personal_information.profile_pic, 'url'):
+            image_url = personal_information.profile_pic.url
+            return request.build_absolute_uri(image_url)
+
+        return None
+
+    def get_receiver_full_name(self, friend_request):
+        user = friend_request.receiver
+
+        personal_information = PersonalInformation.objects.filter(
+            user_id=user.id).first()
+
+        if personal_information is None:
+            return None
+
+        full_name = ""
+
+        if personal_information.first_name != "":
+            full_name = personal_information.first_name
+
+        if personal_information.last_name != "":
+            full_name += " " + personal_information.last_name
+
+        return full_name
+
+    def get_sender_full_name(self, friend_request):
+        user = friend_request.sender
+
+        personal_information = PersonalInformation.objects.filter(
+            user_id=user.id).first()
+
+        if personal_information is None:
+            return None
+
+        full_name = ""
+
+        if personal_information.first_name != "":
+            full_name = personal_information.first_name
+
+        if personal_information.last_name != "":
+            full_name += " " + personal_information.last_name
+
+        return full_name
+
+
+class FriendModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Friend
+        fileds = "__all__"
+        extra_fields = []
