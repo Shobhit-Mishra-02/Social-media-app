@@ -65,7 +65,7 @@ friends page
     }
 
     function displayFriendRequests() {
-        createGetRequestPromise("{% url 'ajax:get_friend_requests' user.id %}")
+        createGetRequestPromise("{% url 'ajax:get_friend_requests' user.id 1 %}")
             .then(friendRequests => {
                 console.log(friendRequests)
                 let template = ``

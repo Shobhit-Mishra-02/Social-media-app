@@ -294,27 +294,22 @@ def make_friend_request(request, id):
         sender = request.user
         receiver = AccountUser.objects.filter(pk=id).first()
 
+        # checking for the valid receiver
         if receiver is None:
-            return JsonResponse({"message": f"no receiver found with id {id}"}, status=200)
+            return JsonResponse({"message": f"no receiver found with id {id}"}, status=404)
 
-        does_friend_request_exists = False
+        # searching for prev active friend request, if exists then returning the same.
+        prev_friend_request = FriendRequest.objects.filter(sender=sender, receiver=receiver, pending_status=True).first()
 
-        if FriendRequest.objects.filter(sender=sender, receiver=receiver, declined_status=False).count():
-            does_friend_request_exists = True
+        if prev_friend_request is not None:
+            return JsonResponse({"message": "Friend request already exists.", "friend_request": prev_friend_request}, status=200)
 
-        if does_friend_request_exists:
-            return JsonResponse({"message": "Already on friend request exists"}, status=500)
+        # making a new friend request
+        friend_request = FriendRequest.objects.create(sender=sender, receiver=receiver)
 
-        # making a friend request
-        friend_request = FriendRequest.objects.create(
-            sender=sender,
-            receiver=receiver
-        )
+        serialized_data = FriendRequestModelSerializer(friend_request, context={"request": request}).data
 
-        serialized_data = FriendRequestModelSerializer(
-            friend_request, context={"request": request}).data
-
-        return JsonResponse({"message": "Made a friend request", "friend_request": serialized_data})
+        return JsonResponse({"message": "Made a friend request", "friend_request": serialized_data}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -323,20 +318,25 @@ def make_friend_request(request, id):
 @login_required
 def friend_request_status(request, id):
     if request.method == "GET":
+        
+        expected_friend = AccountUser.objects.filter(pk=id).first()
 
-        user = AccountUser.objects.filter(pk=id).first()
-
-        if user is None:
+        # checking for valid expected friend
+        if expected_friend is None:
             return JsonResponse({"message": f"No user found with id {id}"}, status=400)
 
-        friend_request = request.user.friend_requests.filter(
-            receiver=user).first()
+        # filtering the latest made request by the user to the expected friend
+        friend_request = request.user.friend_requests.filter(receiver=expected_friend).order_by("-created_at").first()
 
+        # or if the expected friend made the request
+        if friend_request is None:
+            friend_request = expected_friend.friend_requests.filter(receiver=request.user).order_by("-created_at").first()
+
+        serialized_data = None
+
+        # creating serialized data if latest record of friend request exists.
         if friend_request is not None:
-            serialized_data = FriendRequestModelSerializer(
-                friend_request, context={"request": request}).data
-        else:
-            serialized_data = None
+            serialized_data = FriendRequestModelSerializer(friend_request, context={"request":request}).data
 
         return JsonResponse({"friend_request": serialized_data}, status=200)
 
@@ -350,6 +350,7 @@ def declining_request(request, id):
 
         friend_request = FriendRequest.objects.filter(pk=id).first()
 
+        # checking for a valid friend request
         if friend_request is None:
             return JsonResponse({"message": f"friend request {id} does not exist"}, status=404)
 
@@ -357,9 +358,11 @@ def declining_request(request, id):
         if request.user.id != friend_request.receiver.id and request.user.id != friend_request.sender.id:
             return JsonResponse({"message": "You can not decline this friend request"}, status=500)
 
-        friend_request.delete()
+        friend_request.pending_status = False
+        friend_request.declined_status = True
+        friend_request.save()
 
-        return JsonResponse({"message": "removed the request"}, status=200)
+        return JsonResponse({"message": "declined the request"}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -371,15 +374,17 @@ def accepting_request(request, id):
 
         friend_request = FriendRequest.objects.filter(pk=id).first()
 
+        # checking for the valid friend request
         if friend_request is None:
             return JsonResponse({"message": f"friend request {id} does not exist"})
 
+        # only the receiver can accept the friend request
         if request.user.id != friend_request.receiver.id:
             return JsonResponse({"message": "You can not accept the friend request"})
 
         # accepting the friend request
-        friend_request.accept_status = True
         friend_request.pending_status = False
+        friend_request.accept_status = True
         friend_request.save()
 
         # making friends record
@@ -396,20 +401,22 @@ def accepting_request(request, id):
 
 @csrf_exempt
 @login_required
-def get_friend_requests(request, id):
+def get_friend_requests(request, id, type):
 
     if request.method == "GET":
         user = AccountUser.objects.filter(pk=id).first()
 
+        # checking for the valid user
         if user is None:
             return JsonResponse({"message": "user not found"}, status=400)
 
-        friend_requests = user.received_friend_requests.filter(
-            pending_status=True)
-        serialized_data = FriendRequestModelSerializer(
-            friend_requests,
-            many=True,
-            context={"request": request}).data
+        # filtering only those received or send friend requests, where pening status is True
+        if type:
+            friend_requests = user.received_friend_requests.filter(pending_status=True)
+        else:
+            friend_requests = user.friend_requests.filter(pending_status=True)
+        
+        serialized_data = FriendRequestModelSerializer(friend_requests, many=True, context={"request": request}).data
 
         return JsonResponse(serialized_data, safe=False, status=200)
 
@@ -424,13 +431,14 @@ def get_friends(request, id):
 
         user = AccountUser.objects.filter(pk=id).first()
 
+        # checking for a valid user
         if user is None:
             return JsonResponse({"message": "User not found"}, status=404)
 
         friend_ids = user.friend_ship_records.all().values("friend_id")
         friends = AccountUser.objects.filter(id__in=friend_ids)
-        serialized_data = AccountUserModelSerializer(
-            friends, many=True, context={"request": request}).data
+
+        serialized_data = AccountUserModelSerializer(friends, many=True, context={"request": request}).data
 
         return JsonResponse(serialized_data, status=200, safe=False)
 
@@ -444,11 +452,22 @@ def remove_friend(request, id):
         user = request.user
         friend = AccountUser.objects.filter(pk=id).first()
 
+        # checking for a valid friend
         if friend is None:
             return JsonResponse({"message": "Friend does not exist"}, status=404)
 
+        # deleting records from the Friends relation
         Friend.objects.get(user=user, friend=friend).delete()
         Friend.objects.get(user=friend, friend=user).delete()
+
+        # changing the friend request status
+        # if they were friends, it means they both should have a friend request where 
+        # pending_status=False, accept_status=True
+        # then, convert accept_status=Flase and declined_status=True
+        friend_request = FriendRequest.objects.get(user=user, friend=friend, pending_status=False, accept_status=True)
+        friend_request.declined_status = True
+        friend_request.accept_status = False
+        friend_request.save()
 
         return JsonResponse({"message": "Removed the friendship"}, status=200)
 

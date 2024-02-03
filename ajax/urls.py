@@ -78,7 +78,7 @@ urlpatterns = [
          name="declining_request"
          ),
     path(
-        "getFriendRequests/<int:id>/",
+        "getFriendRequests/<int:id>/<int:type>",
         views.get_friend_requests,
         name="get_friend_requests"
     ),

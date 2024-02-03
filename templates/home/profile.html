@@ -521,22 +521,26 @@ Profile
 
     $(document).ready(function () {
 
-        // adding event handler for make friend button
+        // adding event handler for make friend request button
         if ($("#friend_request__container")) {
             createGetRequestPromise("{% url 'ajax:friend_request_status' id %}")
                 .then(data => {
                     console.log(data)
                     let { friend_request } = data
 
-                    if (friend_request && friend_request.accept_status) {
+                    // if the request never existed in the database
+                    if(!friend_request){
+                        displayMakeFriendBtn()
                         return;
                     }
 
-                    if (!friend_request) {
+                    // if the request has been resolved, by declining it.
+                    if(!friend_request.pending_status && friend_request.declined_status){
                         displayMakeFriendBtn()
                     }
 
-                    if (friend_request && friend_request.pending_status) {
+                    // if the request is in progress
+                    if(friend_request.pending_status){
                         displayCancelFriendRequestBtn(friend_request.id)
                     }
                 })
