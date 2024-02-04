@@ -1,27 +1,111 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% block title %} login page {% endblock title %} 
+{% block title %} login page {% endblock title %}
 
 {% block body %}
+<div class="w-full min-h-screen flex justify-center align-middle items-center">
+  <form class="w-full mx-auto border rounded-md shadow-sm p-2 text-white border-none sm:max-w-md lg:max-w-lg"
+    action="{% url 'authentication:login' %}" method="post">
+    <h3 class="text-3xl text-center pt-2 pb-6 sm:pb-12 sm:text-4xl md:text-5xl md:pb-16">Welcome to social</h3>
 
-<form class="max-w-sm mx-auto border rounded-md shadow-sm p-2 mt-24" action="{% url 'authentication:login' %}" method="post">
-  <h3 class="text-3xl text-gray-500 text-center pt-2 pb-4">Welcome to social</h3>
-  {% csrf_token %} 
-  {% if error_message %}
+    <!-- notification -->
+
+    <!-- success notification -->
+    <div class="flex items-center w-full p-4 mb-4 rounded-lg shadowtext-gray-400 bg-gray-800" role="alert">
+      <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-green-800 text-green-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+        </svg>
+        <span class="sr-only">Check icon</span>
+      </div>
+      <div class="ms-3 text-sm font-normal">Item moved successfully.</div>
+      <button type="button"
+        class="ms-auto -mx-1.5 -my-1.5 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-700 inline-flex items-center justify-center h-8 w-8 hover:text-white bg-gray-800"
+        data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- error notification -->
+    <div class="flex items-center w-full p-4 mb-4 rounded-lg shadowtext-gray-400 bg-gray-800" role="alert">
+      <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-red-800 text-red-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+        </svg>
+        <span class="sr-only">Error icon</span>
+      </div>
+      <div class="ms-3 text-sm font-normal">Item moved successfully.</div>
+      <button type="button"
+        class="ms-auto -mx-1.5 -my-1.5 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-700 inline-flex items-center justify-center h-8 w-8 hover:text-white bg-gray-800"
+        data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- warning notification -->
+    <div class="flex items-center w-full p-4 mb-4 rounded-lg shadowtext-gray-400 bg-gray-800" role="alert">
+      <div
+        class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-orange-800 text-orange-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          viewBox="0 0 20 20">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
+        </svg>
+        <span class="sr-only">Warning icon</span>
+      </div>
+      <div class="ms-3 text-sm font-normal">Item moved successfully.</div>
+      <button type="button"
+        class="ms-auto -mx-1.5 -my-1.5 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-700 inline-flex items-center justify-center h-8 w-8 hover:text-white bg-gray-800"
+        data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- notification end -->
+
+    {% csrf_token %}
+    {% if error_message %}
     <p>{{error_message}}</p>
-  {% endif %}
-  <div class="mb-5">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-600">Your email</label>
-    <input type="email" id="email" name="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required>
-  </div>
-  <div class="mb-5">
-    <label for="password" class="block mb-2 text-sm font-medium text-gray-600">Your password</label>
-    <input type="password" id="password" name="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
-  </div>
-  <div class="flex items-start mb-5">
-    <label for="terms" class="ms-2 text-sm font-medium text-gray-600">Don't have an account? <a href="{% url 'authentication:signup' %}" class="text-blue-600 hover:underline">click here</a></label>
-  </div>
-  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login</button>
-</form>
+    {% endif %}
+    <div class="mb-5 sm:mb-8">
+      <label for="email" class="block mb-2 text-sm font-medium ">Your email</label>
+      <input type="email" id="email" name="email"
+        class="block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="john@gmail.com" required>
+    </div>
+    <div class="mb-5 sm:mb-8">
+      <label for="password" class="block mb-2 text-sm font-medium">Your password</label>
+      <input type="password" id="password" name="password"
+        class="block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="password" required>
+    </div>
+    <div class="flex items-start mb-5 sm:mb-10">
+      <label for="terms" class="ms-2 text-sm font-medium ">Don't have an account? <a
+          href="{% url 'authentication:signup' %}"
+          class="text-blue-700 font-semibold outline-none hover:underline hover:text-blue-600 focus:underline">click
+          here</a></label>
+    </div>
+    <div class="md:pt-4">
+      <button type="submit"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login</button>
+    </div>
+  </form>
+</div>
 
 {% endblock body %}

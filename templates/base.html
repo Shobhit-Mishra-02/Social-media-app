@@ -3,13 +3,14 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-    {% block title %}
-        Social site 
-    {% endblock title %}
+        {% block title %}
+        Social site
+        {% endblock title %}
     </title>
 
     {% compress css %}
@@ -18,42 +19,41 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" /> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
 </head>
-<body>
-    
-    {% block navigation %}
-        
-    {% endblock navigation %}
 
-    <div class="w-full p-1 fixed bottom-0 md:max-w-md md:right-0 z-50">
-        {% block notification %}
-        <div id="notification"></div>
-        {% endblock notification %}
+<body>
+
+    <div class="w-full min-h-screen dark:bg-gray-900 dark:text-white">
+
+
+        {% block navigation %}
+
+        {% endblock navigation %}
+
+        <div class="px-6 sm:px-12 md:px-20">
+            {% block body %}
+
+            {% endblock body %}
+        </div>
+
+
+        {% block footer %}
+
+        {% endblock footer %}
     </div>
-        
-    <div class="px-6 pt-6 sm:px-12 md:px-20">
-        {% block body %}
-            
-        {% endblock body %}
-    </div>
-    
-    
-    {% block footer %}
-        
-    {% endblock footer %}
-        
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        
-    
+
+
     {% block javascript %}
-        
+
     {% endblock javascript %}
 
     {% block javascript_for_navbar %}
-        
+
     {% endblock javascript_for_navbar %}
-        
+
 </body>
+
 </html>

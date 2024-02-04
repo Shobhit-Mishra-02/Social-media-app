@@ -2,33 +2,48 @@
 
 
 {% block title %}
-    signup page 
+signup page
 {% endblock title %}
 
 {% block body %}
-<form class="max-w-sm mx-auto border rounded-md shadow-sm p-2 mt-24" action="{% url 'authentication:signup' %}" method="post">
-    <h3 class="text-3xl text-gray-500 text-center pt-2 pb-4">Signup to Social</h3>
-    {% csrf_token %} 
+<div class="w-full min-h-screen flex justify-center align-middle items-center">
+
+  <form class="w-full mx-auto border rounded-md shadow-sm p-2 text-white border-none sm:max-w-md lg:max-w-lg"
+    action="{% url 'authentication:signup' %}" method="post">
+    <h3 class="text-3xl text-center pt-2 pb-6 sm:pb-12 sm:text-4xl md:text-5xl md:pb-16">Signup to Social</h3>
+    {% csrf_token %}
     {% if error_message %}
-      <p>{{error_message}}</p>
+    <p>{{error_message}}</p>
     {% endif %}
-    <div class="mb-5">
-      <label for="email" class="block mb-2 text-sm font-medium text-gray-600">Your email</label>
-      <input type="email" id="email" name="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required>
+    <div class="mb-5 sm:mb-8">
+      <label for="email" class="block mb-2 text-sm font-medium">Your email</label>
+      <input type="email" id="email" name="email"
+        class="block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="name@flowbite.com" required>
     </div>
-    <div class="mb-5">
-      <label for="password" class="block mb-2 text-sm font-medium text-gray-600">Your password</label>
-      <input type="password" id="password" name="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+    <div class="mb-5 sm:mb-8">
+      <label for="password" class="block mb-2 text-sm font-medium">Your password</label>
+      <input type="password" id="password" name="password"
+        class="block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="password" required>
     </div>
-    <div class="mb-5">
-      <label for="password" class="block mb-2 text-sm font-medium text-gray-600">Cofirm your password</label>
-      <input type="password" id="password" name="confirmPassword" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+    <div class="mb-5 sm:mb-8">
+      <label for="password" class="block mb-2 text-sm font-medium">Cofirm your password</label>
+      <input type="password" id="password" name="confirmPassword"
+        class="block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+        placeholder="password" required>
     </div>
-    <div class="flex items-start mb-5">
-      <label for="terms" class="ms-2 text-sm font-medium text-gray-600">Aready have an account? <a href="{% url 'authentication:login' %}" class="text-blue-600 hover:underline">click here</a></label>
+    <div class="flex items-start mb-5 sm:mb-8">
+      <label for="terms" class="ms-2 text-sm font-medium">Aready have an account? <a
+          href="{% url 'authentication:login' %}"
+          class="text-blue-700 font-semibold outline-none hover:underline hover:text-blue-600 focus:underline">click
+          here</a></label>
     </div>
-    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Signup</button>
+    <div class="md:pt-4">
+      <button type="submit"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Signup</button>
+    </div>
   </form>
-  
+
+</div>
 {% endblock body %}
-    
