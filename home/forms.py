@@ -42,7 +42,7 @@ class GeneralInformationForm(ModelForm):
         widgets = {
             "about_me": Textarea(attrs={
                 "rows": "4",
-                "class": "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500",
+                "class": COMMON_DESIGN,
                 "placeholder": "92 Miles Drive, Newark, NJ 07103, California, United States of America"
             }),
             "education": TextInput(attrs={
@@ -103,7 +103,7 @@ class PersonalInformationForm(ModelForm):
                 "placeholder": "New delhi, Delhi"
             }),
             "home_address": Textarea(attrs={
-                "class": "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500",
+                "class": COMMON_DESIGN,
                 "placeholder": "92 Miles Drive, Newark, NJ 07103, California, United States of America",
                 "rows": "4"
             }),

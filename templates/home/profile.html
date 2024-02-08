@@ -8,13 +8,12 @@ Profile
 
 {% block body %}
 
-<h2 class="text-3xl font-semibold text-gray-600 mb-4">Profile</h2>
+<h2 class="text-2xl text-white font-semibold ">Profile</h2>
 
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
+<div class="grid grid-cols-1 pt-6 md:pt-10 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
     <div class="space-y-4 grid">
         <!-- profile left section -->
-        <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
-
+        <div class="w-full h-fit rounded-md p-3 bg-gray-800">
 
             {% if is_owner is False %}
             <div id="friend_request__container" class="pb-4"></div>
@@ -28,7 +27,7 @@ Profile
                         data-modal-toggle="crud-modal-personal_information">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
+                            class="lucide lucide-pencil stroke-gray-400 hover:stroke-gray-600 cursor-pointer">
                             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                             <path d="m15 5 4 4" />
                         </svg>
@@ -53,25 +52,26 @@ Profile
                     </div>
                 </div>
                 <a href="{% url 'home:profile' user.id %}">
-                    <span id="per_info_display__full_name" class="text-xl font-semibold text-gray-700 mt-1">
+                    <span id="per_info_display__full_name" class="text-xl font-semibold text-white mt-1">
                         <div role="status" class="max-w-sm animate-pulse mt-2">
                             <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
                             <span class="sr-only">Loading...</span>
                         </div>
                     </span>
                 </a>
-                <span id="per_info_display__email" class="text-sm text-gray-500 mb-4">
+                <span id="per_info_display__email" class="text-sm text-white mb-4">
                     <div role="status" class="max-w-sm animate-pulse mt-2">
                         <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
                         <span class="sr-only">Loading...</span>
                     </div>
                 </span>
             </div>
-            <hr>
-            <div id="personal_information__container">
+            <hr class="border border-gray-700">
+
+            <div class="pt-2" id="personal_information__container">
                 <div id="per_info_display__message"></div>
                 <div id="per_info_display__occupation" class="mt-2">
-                    <div class="text-gray-500">
+                    <div class="text-white">
                         <div role="status" class="max-w-sm animate-pulse mt-2">
                             <div class="h-2 bg-gray-200 rounded-full max-w-[360px] mb-2.5"></div>
                             <div class="h-2 bg-gray-200 rounded-full mb-2.5"></div>
@@ -117,18 +117,17 @@ Profile
         </div>
     </div>
     <!-- profile right section -->
-    <div class="w-full lg:col-span-2 xl:col-span-3">
-        <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md">
+    <div class="w-full lg:col-span-2 xl:col-span-3 ">
+        <div class="w-full bg-gray-800 h-fit rounded-md p-3 text-white">
             <div class="flex justify-between items-center align-baseline">
-                <h3 class="text-xl font-semibold text-gray-700 mt-1">General Information</h3>
-
+                <h3 class="text-xl font-semibold mt-1">General Information</h3>
                 {% if is_owner %}
                 <span>
                     <button id="generalInformationEditBtn" data-modal-target="crud-modal-general_information"
                         data-modal-toggle="crud-modal-general_information">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-pencil stroke-gray-500 hover:stroke-gray-600 cursor-pointer">
+                            class="lucide lucide-pencil stroke-gray-400 hover:stroke-gray-600 cursor-pointer">
                             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                             <path d="m15 5 4 4" />
                         </svg>
@@ -138,7 +137,7 @@ Profile
 
             </div>
             <div id="gen_info_display__message"></div>
-            <div id="gen_info_display__about_me" class="mt-6 text-gray-500">
+            <div id="gen_info_display__about_me" class="mt-6 text-white">
                 <div role="status" class="w-full animate-pulse">
                     <div class="h-2 bg-gray-200 rounded-full max-w-[60%] mb-2.5"></div>
                     <div class="h-2 bg-gray-200 rounded-full max-w-[70%] mb-2.5"></div>
@@ -189,7 +188,7 @@ Profile
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-4 xl:gap-4 mt-8">
-            <div class="w-full h-fit rounded-md p-3 xl:col-span-2">
+            <div class="hidden w-full h-fit rounded-md p-3 xl:col-span-2">
                 <h3 class="text-xl font-semibold text-gray-800 mb-6">Top Posts</h3>
                 <div class="divide-y">
 
@@ -221,7 +220,7 @@ Profile
                     {% endif %}
                 </div>
             </div>
-            <div class="w-full border border-gray-100 h-fit rounded-md p-3 shadow-md xl:col-span-2">
+            <div class="hidden w-full border border-gray-100 h-fit rounded-md p-3 shadow-md xl:col-span-2">
                 <h3 class="text-xl font-semibold text-gray-800 mb-6">Network</h3>
                 <div class="divide-y">
                     <div class="flex justify-start gap-4 flex-row pt-8 pb-4">
@@ -268,12 +267,12 @@ Profile
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow">
+        <div class="relative bg-gray-800 rounded-lg shadow">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                <h3 class="text-lg font-semibold text-gray-900">Add Personal Information</h3>
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-gray-700 rounded-t">
+                <h3 class="text-lg font-semibold text-white">Add Personal Information</h3>
                 <button type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    class="text-gray-400 bg-transparent hover:bg-gray-600 hover:text-gray-300 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                     data-modal-toggle="crud-modal-personal_information">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
@@ -287,63 +286,63 @@ Profile
             <form id="personalInformationForm" class="p-4 md:p-5" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div id="personalInfo_image" class="flex justify-center align-middle items-center"></div>
-                <div class="grid gap-4 mb-4 grid-cols-2">
+                <div class="grid gap-4 mb-4 grid-cols-2 text-white">
                     <div class="flex items-center justify-center col-span-2 py-2">
                         <label for="{{ personal_information_form.profile_pic.id_for_label }}"
-                            class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                            class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-400 border-dashed rounded-lg cursor-pointer bg-gray-700">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
+                                <svg class="w-8 h-8 mb-4 text-gray-200 " aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                 </svg>
-                                <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload
+                                <p class="mb-2 text-sm text-gray-200 "><span class="font-semibold">Click to upload
                                         profile pic</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                <p class="text-xs text-gray-200 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                             </div>
                             {{ personal_information_form.profile_pic }}
                         </label>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label for="{{ personal_information_form.first_name.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">First name</label>
+                            class="block mb-2 text-sm font-medium ">First name</label>
                         {{ personal_information_form.first_name }}
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <label for="{{ personal_information_form.last_name.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
+                            class="block mb-2 text-sm font-medium ">Last Name</label>
                         {{ personal_information_form.last_name }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ personal_information_form.status.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                            class="block mb-2 text-sm font-medium ">Status</label>
                         {{ personal_information_form.status }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ personal_information_form.occupation.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Occupation</label>
+                            class="block mb-2 text-sm font-medium ">Occupation</label>
                         {{ personal_information_form.occupation }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ personal_information_form.location.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Location</label>
+                            class="block mb-2 text-sm font-medium ">Location</label>
                         {{ personal_information_form.location }}
                     </div>
 
                     <div class="col-span-2">
                         <label for="{{ personal_information_form.home_address.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Home address</label>
+                            class="block mb-2 text-sm font-medium ">Home address</label>
                         {{ personal_information_form.home_address }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ personal_information_form.phone_number.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Phone number</label>
+                            class="block mb-2 text-sm font-medium ">Phone number</label>
                         {{ personal_information_form.phone_number }}
                     </div>
                 </div>
                 <button type="submit"
-                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                     Update details
                 </button>
             </form>
@@ -354,14 +353,14 @@ Profile
 <!-- General Information form  -->
 <div id="crud-modal-general_information" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full ">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow">
+        <div class="relative rounded-lg bg-gray-800">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                <h3 class="text-lg font-semibold text-gray-900">Add General Information</h3>
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-gray-700 rounded-t">
+                <h3 class="text-lg font-semibold ">Add General Information</h3>
                 <button type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    class="text-gray-400 bg-transparent hover:bg-gray-600 hover:text-gray-300 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                     data-modal-toggle="crud-modal-general_information">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 14 14">
@@ -377,33 +376,33 @@ Profile
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
                         <label for="{{general_information_form.about_me.id_for_label}}"
-                            class="block mb-2 text-sm font-medium text-gray-900">About me</label>
+                            class="block mb-2 text-sm font-medium ">About me</label>
                         {{ general_information_form.about_me }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ general_information_form.education.id_for_label}}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Education</label>
+                            class="block mb-2 text-sm font-medium ">Education</label>
                         {{ general_information_form.education }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ general_information_form.organization.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Organization</label>
+                            class="block mb-2 text-sm font-medium ">Organization</label>
                         {{ general_information_form.organization }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ general_information_form.gender.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Select gender</label>
+                            class="block mb-2 text-sm font-medium ">Select gender</label>
                         {{ general_information_form.gender }}
                     </div>
 
                     <div class="col-span-2">
                         <label for="{{ general_information_form.nationality.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Nationality</label>
+                            class="block mb-2 text-sm font-medium ">Nationality</label>
                         {{ general_information_form.nationality }}
                     </div>
                     <div class="col-span-2">
                         <label for="{{ general_information_form.date_of_birth.id_for_label }}"
-                            class="block mb-2 text-sm font-medium text-gray-900">Birthday</label>
+                            class="block mb-2 text-sm font-medium ">Birthday</label>
                         {{ general_information_form.date_of_birth }}
                     </div>
                 </div>
@@ -473,11 +472,13 @@ Profile
         mapper.forEach(key => {
             if (data[key]) {
                 template += `
-                <span class="text-gray-600 font-semibold">
-                    ${data[key] ? key[0].toUpperCase() + key.split("_").join(" ").slice(1) : ""}
-                </span>
-                <div class="text-gray-500">
-                    ${data[key] ? data[key] : ""}
+                <div>
+                    <span class="text-gray-200 font-semibold">
+                        ${data[key] ? key[0].toUpperCase() + key.split("_").join(" ").slice(1) : ""}
+                    </span>
+                    <div class="text-white pb-2">
+                        ${data[key] ? data[key] : ""}
+                    </div>
                 </div>
                 `
             }
@@ -529,18 +530,18 @@ Profile
                     let { friend_request } = data
 
                     // if the request never existed in the database
-                    if(!friend_request){
+                    if (!friend_request) {
                         displayMakeFriendBtn()
                         return;
                     }
 
                     // if the request has been resolved, by declining it.
-                    if(!friend_request.pending_status && friend_request.declined_status){
+                    if (!friend_request.pending_status && friend_request.declined_status) {
                         displayMakeFriendBtn()
                     }
 
                     // if the request is in progress
-                    if(friend_request.pending_status){
+                    if (friend_request.pending_status) {
                         displayCancelFriendRequestBtn(friend_request.id)
                     }
                 })
