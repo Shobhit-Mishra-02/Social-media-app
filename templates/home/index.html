@@ -128,7 +128,7 @@ Home
                     : ``
                 }
                       
-                      <p class="mb-5 text-gray-200">${post.content}</p>
+                      <p class="mb-5 text-gray-200">${post.content.length > 400 ? post.content.slice(0, 400) + "..." : post.content}</p>
       
                       <div class="flex items-center justify-between">
                           <a class="flex items-center space-x-2" href="/blog/author/rich/">
@@ -236,10 +236,7 @@ Home
         // loads posts whenever the user scroll to the bottom
         $(document).scroll(function (e) {
             let bodyElement = document.querySelector("body");
-            // console.log(bodyElement)
-            console.log("scroll");
-            console.log(hasPosts)
-            console.log(postsRequestInProgress)
+
             if (
                 window.scrollY + window.innerHeight >= bodyElement.scrollHeight &&
                 hasPosts &&
