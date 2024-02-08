@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm, CharField, Textarea, TextInput, DateField, Select, DateInput, FileInput
 from home.models import GeneralInformation, GENDERS, COUNTRY_NAMES, PersonalInformation, Post
 
-COMMON_DESIGN = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+COMMON_DESIGN = "block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
 
 
 class PostCreationForm(ModelForm):
@@ -18,7 +18,7 @@ class PostCreationForm(ModelForm):
                 "placeholder": "title of your post..."
             }),
             "content": Textarea(attrs={
-                "class": "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5 mb-2",
+                "class": COMMON_DESIGN + " mb-2",
                 "placeholder": "text content of your post...",
                 "rows": "4"
             }),

@@ -142,7 +142,7 @@ function bindLikeButtonEvent() {
 $(document).ready(function () {
   let postPageNumber = 1;
   let hasPosts = true;
-
+  console.log("loaded");
   // Initial posts load
   new Promise((resolve, reject) => {
     postsRequestInProgress = true;
@@ -167,7 +167,7 @@ $(document).ready(function () {
   // loads posts whenever the user scroll to the bottom
   $(document).scroll(function (e) {
     let bodyElement = document.querySelector("body");
-
+    console.log("scroll");
     if (
       window.scrollY + window.innerHeight >= bodyElement.scrollHeight &&
       hasPosts &&
