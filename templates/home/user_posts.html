@@ -13,8 +13,7 @@ Your posts
         <div class="z-40 fixed top-0 bottom-0 left-0 right-0 flex justify-center align-middle items-center">
             <div class="-z-10 absolute top-0 bottom-0 left-0 right-0 bg-black opacity-10">
             </div>
-            <form id="post_form"
-                class="w-full sm:max-w-md text-gray-500 rounded-md border bg-white border-gray-100 p-2 shadow-md">
+            <form id="post_form" class="w-full sm:max-w-md text-white bg-gray-800 rounded-md p-2 shadow-md">
                 <div class="flex justify-end pb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -25,30 +24,30 @@ Your posts
                 </div>
                 <h3 class="text-xl py-2 text-center">Edit post</h3>
                 {% csrf_token %}
-                <label for="{{ form.title.id_for_label }}">Title</label>
+                <label for="{{ form.title.id_for_label }}" class="text-gray-200">Title</label>
                 {{ form.title }}
 
-                <label for="{{ form.content.id_for_label}}">Content</label>
+                <label for="{{ form.content.id_for_label}}" class="text-gray-200">Content</label>
                 {{ form.content }}
 
-                <hr>
+                <hr class="border border-gray-700 mb-1">
 
                 <div id="post_form_image"></div>
 
                 <div class="flex items-center justify-center w-full py-2">
                     <label for="{{ form.image.id_for_label }}"
-                        class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
+                        class="flex flex-col items-center justify-center w-full h-28 border-2 border-gray-400 border-dashed rounded-lg cursor-pointer bg-gray-700">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg class="w-8 h-8 mb-4 text-gray-500 " aria-hidden="true"
+                            <svg class="w-8 h-8 mb-4 text-gray-200 " aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2"
                                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                             </svg>
-                            <p class="mb-2 text-sm text-gray-500 "><span class="font-semibold">Click to upload</span> or
+                            <p class="mb-2 text-sm text-gray-200"><span class="font-semibold">Click to upload</span> or
                                 drag
                                 and drop</p>
-                            <p class="text-xs text-gray-500 ">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            <p class="text-xs text-gray-200">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                         </div>
                         {{ form.image }}
 
@@ -56,17 +55,19 @@ Your posts
                 </div>
 
                 {{ form.caption }}
-
-                <button class="text-xl px-4 py-1 rounded-md bg-blue-500 text-white mt-4 hover:bg-blue-600"
-                    type="submit">Post</button>
+                <div class="pt-2 md:pt-4">
+                    <button
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        type="submit">Post</button>
+                </div>
 
             </form>
         </div>
     </div>
     <div>
-        <h2 class="text-2xl text-gray-500 font-semibold">Your posts</h2>
+        <h2 class="text-2xl text-white font-semibold">Your posts</h2>
     </div>
-    <div id="post_container" class="divide-y divide-gray-200">
+    <div id="post_container" class="divide-y divide-gray-700">
     </div>
     <div id="loader" class="hidden">
         <div class="flex justify-center align-middle items-center">
@@ -118,39 +119,35 @@ Your posts
         posts.forEach((post) => {
             let d = new Date(post.created_at);
             postDisplayTemplate += `
-            <article class="py-6 post" id="${"post_" + post.id}">
+            <article class="py-6 post text-white" id="${"post_" + post.id}">
                 <div class="flex justify-end gap-3 mb-4 relative">
                     <button class="dropdownButton stroke-gray-500 hover:stroke-gray-600 cursor-pointer" type="button"> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
                     </button>
                         
                         <!-- Dropdown menu -->
-                    <div id="dropdown_${post.id}" class="dropdownButton hidden z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-10">
-                        <ul class="py-2 text-sm text-gray-700">
+                    <div id="dropdown_${post.id}" class="dropdownButton hidden z-10 bg-gray-700 divide-y divide-gray-700 rounded-lg shadow w-44 absolute top-10 text-gray-200">
+                        <ul class="py-2 text-sm">
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 post_edit_btn">Edit</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-600 post_edit_btn">Edit</a>
                         </li>
                         <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 post_delete_btn">Delete</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-600 post_delete_btn">Delete</a>
                         </li>
                         </ul>
                     </div>
                 </div>
-                <div class="flex items-center justify-between mb-3 text-gray-500">
+                <div class="flex items-center justify-between mb-3">
                     <div>
-                        <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
-                            href="/blog/tag/laravel/">#Laravel</a>
-                        <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
-                            href="/blog/tag/laravel/">#PHP</a>
                     </div>
                     <span class="text-sm">Published on ${d.getUTCDate()}-${d.getUTCMonth() + 1}-${d.getUTCFullYear()}</span>
                 </div>
                 
-                <span class="text-gray-400 likesCount">
+                <span class="likesCount">
                     likes ${post.total_likes}
                 </span>
                 
-                <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                <h2 class="mb-2 text-2xl font-bold tracking-tight">
                     <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">${post.title
                 }</a>
                 </h2>
@@ -160,7 +157,7 @@ Your posts
                     : ``
                 }
                 
-                <p class="mb-5 text-gray-500">${post.content.length > 400 ? post.content.slice(0, 400) + "..." : post.content}
+                <p class="mb-5 text-gray-200">${post.content.length > 400 ? post.content.slice(0, 400) + "..." : post.content}
                 </p>
 
                 <div class="flex items-center justify-between">
@@ -168,22 +165,17 @@ Your posts
                     ${post.owner_profile_pic ? `<img class="rounded-full w-7 h-7"
                     src="${post.owner_profile_pic}"
                     alt="Rich Klein profile picture">` : `<div class="rounded-full w-7 h-7"></div>`}
-                        <span class="font-medium text-gray-500">${post.owner_full_name}</span>
+                        <span class="font-medium text-gray-200">${post.owner_full_name}</span>
                     </a>
                     <span class="flex justify-center align-middle items-center space-x-3">
                         <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-heart stroke-blue-500 cursor-pointer hover:stroke-blue-600">
-                                <path
-                                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark stroke-blue-700 cursor-pointer hover:stroke-blue-600"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
                         </span>
                         <span class="likeButton">
                             <svg id="${"likeBtn_" + post.id
                 }" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-500 cursor-pointer hover:stroke-blue-600 ${post.did_user_like_post ? "fill-blue-200" : ""
+                                stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-700 cursor-pointer hover:stroke-blue-600 ${post.did_user_like_post ? "fill-blue-700" : ""
                 }">
                                 <path d="M7 10v12" />
                                 <path
@@ -310,7 +302,7 @@ Your posts
                 contentType: "application/json",
                 success: function (res) {
                     $(`#${id}`).children(".likesCount").text(`likes ${res.new_like_count}`);
-                    $(`#likeBtn_${id.split("_")[1]}`).toggleClass("fill-blue-200");
+                    $(`#likeBtn_${id.split("_")[1]}`).toggleClass("fill-blue-700");
                 },
                 error: function (err) {
                     console.log(err);
@@ -334,7 +326,7 @@ Your posts
                     } else {
                         hasPosts = false;
                         $("#post_container").append(
-                            "<h3 class='text-2xl text-gray-400 text-center'>No post found !!</h3>"
+                            "<h3 class='text-2xl text-gray-200 text-center'>No post found !!</h3>"
                         );
                     }
 

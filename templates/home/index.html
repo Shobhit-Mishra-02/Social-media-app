@@ -10,7 +10,6 @@ Home
 
 <!-- post container  -->
 <div id="container" class="w-full text-sm md:max-w-md lg:max-w-full">
-
     <form class="w-full text-white rounded-md bg-gray-800 p-2" action="{% url 'home:home' %}" method="post"
         enctype="multipart/form-data">
         <h3 class="text-xl py-2 text-center">Create your post</h3>
@@ -53,7 +52,7 @@ Home
 
     </form>
     <hr class="m-4 border border-gray-600">
-    <div id="post_container" class="divide-y divide-gray-200">
+    <div id="post_container" class="divide-y divide-gray-700">
     </div>
     <div id="loader" class="hidden">
         <div class="flex justify-center align-middle items-center">
@@ -77,6 +76,8 @@ Home
 
     let pageNumber = 1;
     let postsRequestInProgress = false;
+    let postPageNumber = 1;
+    let hasPosts = true;
 
     function getPostsPagePromise(page) {
         return new Promise((resolve, reject) => {
@@ -106,23 +107,18 @@ Home
         posts.forEach((post) => {
             let d = new Date(post.created_at);
             postDisplayTemplate += `
-                  <article class="py-6 post" id="${"post_" + post.id}">
-                      <div class="flex items-center justify-between mb-3 text-gray-500">
-                          <div>
-                              <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
-                                  href="/blog/tag/laravel/">#Laravel</a>
-                              <a class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1 rounded"
-                                  href="/blog/tag/laravel/">#PHP</a>
-                          </div>
+                  <article class="py-6 post text-white" id="${"post_" + post.id}">
+                      <div class="flex items-center justify-between mb-3">
+                          <div></div>
                           <span class="text-sm">Published on ${d.getUTCDate()}-${d.getUTCMonth() + 1
                 }-${d.getUTCFullYear()}</span>
                       </div>
                       
-                      <span class="text-gray-400 likesCount">
+                      <span class="likesCount">
                           likes ${post.total_likes}
                       </span>
                       
-                      <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                      <h2 class="mb-2 text-2xl font-bold tracking-tight">
                           <a href="/blog/how-to-use-flowbite-ui-components-with-laravel-and-alpine-js/">${post.title
                 }</a>
                       </h2>
@@ -132,8 +128,7 @@ Home
                     : ``
                 }
                       
-                      <p class="mb-5 text-gray-500">${post.content}
-                      </p>
+                      <p class="mb-5 text-gray-200">${post.content}</p>
       
                       <div class="flex items-center justify-between">
                           <a class="flex items-center space-x-2" href="/blog/author/rich/">
@@ -143,23 +138,18 @@ Home
                           alt="Rich Klein profile picture">`
                     : `<div class="rounded-full w-7 h-7"></div>`
                 }
-                              <span class="font-medium text-gray-500">${post.owner_full_name
+                              <span class="font-medium text-gray-200">${post.owner_full_name
                 }</span>
                           </a>
                           <span class="flex justify-center align-middle items-center space-x-3">
                               <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round" class="lucide lucide-heart stroke-blue-500 cursor-pointer hover:stroke-blue-600">
-                                      <path
-                                          d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                                  </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark stroke-blue-700 cursor-pointer hover:stroke-blue-600"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
                               </span>
                               <span class="likeButton">
                                   <svg id="${"likeBtn_" + post.id
                 }" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-500 cursor-pointer hover:stroke-blue-600 ${post.did_user_like_post ? "fill-blue-200" : ""
+                                      stroke-linejoin="round" class="lucide lucide-thumbs-up stroke-blue-700 cursor-pointer hover:stroke-blue-600 ${post.did_user_like_post ? "fill-blue-700" : ""
                 }">
                                       <path d="M7 10v12" />
                                       <path
@@ -200,7 +190,7 @@ Home
                 contentType: "application/json",
                 success: function (res) {
                     $(`#${id}`).children(".likesCount").text(`likes ${res.new_like_count}`);
-                    $(`#likeBtn_${id.split("_")[1]}`).toggleClass("fill-blue-200");
+                    $(`#likeBtn_${id.split("_")[1]}`).toggleClass("fill-blue-700");
                 },
                 error: function (err) {
                     console.log(err);
@@ -210,8 +200,6 @@ Home
     }
 
     $(document).ready(function () {
-        let postPageNumber = 1;
-        let hasPosts = true;
 
         $(captionInputId).attr('disabled', true)
 
@@ -248,7 +236,10 @@ Home
         // loads posts whenever the user scroll to the bottom
         $(document).scroll(function (e) {
             let bodyElement = document.querySelector("body");
+            // console.log(bodyElement)
             console.log("scroll");
+            console.log(hasPosts)
+            console.log(postsRequestInProgress)
             if (
                 window.scrollY + window.innerHeight >= bodyElement.scrollHeight &&
                 hasPosts &&
