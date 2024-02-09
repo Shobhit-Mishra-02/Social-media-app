@@ -79,6 +79,20 @@ friends page
         })
     }
 
+    function bindRemoveFriend() {
+        $(".remove_friend").unbind()
+        $(".remove_friend").click(function () {
+            let friend_id = $(this).attr("id").split("_")[1]
+
+            createGetRequestPromise("/ajax/removeFriend/" + friend_id)
+                .then(data => {
+                    console.log(data)
+                    displayFriendRequests()
+                    displayFriends()
+                })
+        })
+    }
+
     function displayFriendRequests() {
         createGetRequestPromise("{% url 'ajax:get_friend_requests' user.id 1 %}")
             .then(friendRequests => {
@@ -148,6 +162,8 @@ friends page
                     `
 
                     $("#friends__container").html(template)
+
+                    bindRemoveFriend()
                 })
 
             })

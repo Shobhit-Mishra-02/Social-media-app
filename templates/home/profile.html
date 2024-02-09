@@ -16,7 +16,7 @@ Profile
         <div class="w-full h-fit rounded-md p-3 bg-gray-800">
 
             {% if is_owner is False %}
-            <div id="friend_request__container" class="pb-4"></div>
+            <div id="friend_request__container" class="pb-4 flex justify-end"></div>
             {% endif %}
 
 
@@ -489,7 +489,7 @@ Profile
 
 
     function displayCancelFriendRequestBtn(request_id) {
-        $("#friend_request__container").html(`<button id=${request_id}>Cancel Request</button>`)
+        $("#friend_request__container").html(`<button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id=${request_id}>Cancel Request</button>`)
         $("#friend_request__container > button").unbind()
 
         $("#friend_request__container > button").click(function () {
@@ -505,7 +505,7 @@ Profile
     }
 
     function displayMakeFriendBtn() {
-        $("#friend_request__container").html(`<button>Make Friend</button>`)
+        $("#friend_request__container").html(`<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Make Friend</button>`)
 
         $("#friend_request__container > button").unbind()
         $("#friend_request__container > button").click(function () {
@@ -527,23 +527,32 @@ Profile
             createGetRequestPromise("{% url 'ajax:friend_request_status' id %}")
                 .then(data => {
                     console.log(data)
-                    let { friend_request } = data
+                    let { friend_request, is_friend } = data
 
-                    // if the request never existed in the database
+                    // if the user is already friend, not need to show anything 
+                    if (is_friend) {
+                        return;
+                    }
+
+                    // if ther user is not friend, and does not even have a friend request.
+                    // then show the make friend button.
                     if (!friend_request) {
                         displayMakeFriendBtn()
                         return;
                     }
 
-                    // if the request has been resolved, by declining it.
-                    if (!friend_request.pending_status && friend_request.declined_status) {
-                        displayMakeFriendBtn()
-                    }
-
-                    // if the request is in progress
+                    // if the user has a friend request which is in pending status
+                    // then show the cancel friend request button.
                     if (friend_request.pending_status) {
                         displayCancelFriendRequestBtn(friend_request.id)
+                        return;
                     }
+
+                    // if the friend request is not in pending status.
+                    // it means the user is either your friend or the request has been canceled or declined
+                    // it the user is already a friend, the first if statement will handle that.
+                    // otherwise just how make friend button.
+                    displayMakeFriendBtn();
                 })
         }
 

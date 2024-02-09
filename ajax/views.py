@@ -299,15 +299,18 @@ def make_friend_request(request, id):
             return JsonResponse({"message": f"no receiver found with id {id}"}, status=404)
 
         # searching for prev active friend request, if exists then returning the same.
-        prev_friend_request = FriendRequest.objects.filter(sender=sender, receiver=receiver, pending_status=True).first()
+        prev_friend_request = FriendRequest.objects.filter(
+            sender=sender, receiver=receiver, pending_status=True).first()
 
         if prev_friend_request is not None:
             return JsonResponse({"message": "Friend request already exists.", "friend_request": prev_friend_request}, status=200)
 
         # making a new friend request
-        friend_request = FriendRequest.objects.create(sender=sender, receiver=receiver)
+        friend_request = FriendRequest.objects.create(
+            sender=sender, receiver=receiver)
 
-        serialized_data = FriendRequestModelSerializer(friend_request, context={"request": request}).data
+        serialized_data = FriendRequestModelSerializer(
+            friend_request, context={"request": request}).data
 
         return JsonResponse({"message": "Made a friend request", "friend_request": serialized_data}, status=200)
 
@@ -318,27 +321,36 @@ def make_friend_request(request, id):
 @login_required
 def friend_request_status(request, id):
     if request.method == "GET":
-        
+
         expected_friend = AccountUser.objects.filter(pk=id).first()
 
         # checking for valid expected friend
         if expected_friend is None:
             return JsonResponse({"message": f"No user found with id {id}"}, status=400)
 
+        is_friend = False
+
+        # checking for the friend status
+        if request.user.friend_ship_records.filter(friend__id=expected_friend.id).count():
+            is_friend = True
+
         # filtering the latest made request by the user to the expected friend
-        friend_request = request.user.friend_requests.filter(receiver=expected_friend).order_by("-created_at").first()
+        friend_request = request.user.friend_requests.filter(
+            receiver=expected_friend).order_by("-created_at").first()
 
         # or if the expected friend made the request
         if friend_request is None:
-            friend_request = expected_friend.friend_requests.filter(receiver=request.user).order_by("-created_at").first()
+            friend_request = expected_friend.friend_requests.filter(
+                receiver=request.user).order_by("-created_at").first()
 
         serialized_data = None
 
         # creating serialized data if latest record of friend request exists.
         if friend_request is not None:
-            serialized_data = FriendRequestModelSerializer(friend_request, context={"request":request}).data
+            serialized_data = FriendRequestModelSerializer(
+                friend_request, context={"request": request}).data
 
-        return JsonResponse({"friend_request": serialized_data}, status=200)
+        return JsonResponse({"friend_request": serialized_data, "is_friend": is_friend}, status=200)
 
     return JsonResponse({"message": "Invalid method"}, status=500)
 
@@ -412,11 +424,13 @@ def get_friend_requests(request, id, type):
 
         # filtering only those received or send friend requests, where pening status is True
         if type:
-            friend_requests = user.received_friend_requests.filter(pending_status=True)
+            friend_requests = user.received_friend_requests.filter(
+                pending_status=True)
         else:
             friend_requests = user.friend_requests.filter(pending_status=True)
-        
-        serialized_data = FriendRequestModelSerializer(friend_requests, many=True, context={"request": request}).data
+
+        serialized_data = FriendRequestModelSerializer(
+            friend_requests, many=True, context={"request": request}).data
 
         return JsonResponse(serialized_data, safe=False, status=200)
 
@@ -438,7 +452,8 @@ def get_friends(request, id):
         friend_ids = user.friend_ship_records.all().values("friend_id")
         friends = AccountUser.objects.filter(id__in=friend_ids)
 
-        serialized_data = AccountUserModelSerializer(friends, many=True, context={"request": request}).data
+        serialized_data = AccountUserModelSerializer(
+            friends, many=True, context={"request": request}).data
 
         return JsonResponse(serialized_data, status=200, safe=False)
 
@@ -461,13 +476,13 @@ def remove_friend(request, id):
         Friend.objects.get(user=friend, friend=user).delete()
 
         # changing the friend request status
-        # if they were friends, it means they both should have a friend request where 
+        # if they were friends, it means they both should have a friend request where
         # pending_status=False, accept_status=True
         # then, convert accept_status=Flase and declined_status=True
-        friend_request = FriendRequest.objects.get(user=user, friend=friend, pending_status=False, accept_status=True)
-        friend_request.declined_status = True
-        friend_request.accept_status = False
-        friend_request.save()
+        # friend_request = FriendRequest.objects.get(user=user, friend=friend, pending_status=False, accept_status=True)
+        # friend_request.declined_status = True
+        # friend_request.accept_status = False
+        # friend_request.save()
 
         return JsonResponse({"message": "Removed the friendship"}, status=200)
 
