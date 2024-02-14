@@ -21,9 +21,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # contains routes which handles new user.
     path("", include("authentication.urls")),
+    # contains core routes for authenticated user.
     path("social/", include("home.urls")),
+    # contains core routes for performation ajax operations, which does not require to reload the UI.
     path("ajax/", include("ajax.urls")),
 ]
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

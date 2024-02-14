@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
 
-{% block title %}
-signup page
-{% endblock title %}
+{% block title %} signup page {% endblock title %}
 
 {% block body %}
 <div class="w-full min-h-screen flex justify-center align-middle items-center">
+  <!-- Signup form start -->
 
   <form class="w-full mx-auto border rounded-md shadow-sm p-2 text-white border-none sm:max-w-md lg:max-w-lg"
     action="{% url 'authentication:signup' %}" method="post">
@@ -67,5 +66,6 @@ signup page
     </div>
   </form>
 
+  <!-- Signup form end -->
 </div>
 {% endblock body %}
