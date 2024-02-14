@@ -620,7 +620,6 @@ Profile
         if ($("#personalInformationForm input[name=profile_pic]")) {
             $("#personalInformationForm input[name=profile_pic]").change(function () {
                 let url = URL.createObjectURL($(this)[0].files[0])
-                // console.log(url)
                 $("#personalInfo_image").html(`<img src="${url}" class="w-28 h-28 rounded-full" />`)
             })
         }
@@ -642,9 +641,12 @@ Profile
                     data: data,
                     enctype: "multipart/form-data",
                     success: function (res) {
+
+                        addToaster("Successfully updated the information", "success")
+
                         $("#per_info_display__message").html(``)
 
-                        populateData(data, personalInformationMapper, "personal_information__container")
+                        populateData(res, personalInformationMapper, "personal_information__container")
 
                         let imageUrl = res.profile_pic
                         if (imageUrl) {
@@ -659,9 +661,9 @@ Profile
                             </div>
                             `)
                         }
-
                     },
                     error: function (err) {
+                        addToaster("Got some issue !!!", "error")
                         console.log(err)
                     }
                 })
@@ -712,6 +714,8 @@ Profile
                     .then(data => {
                         $("#gen_info_display__message").html("")
 
+                        addToaster("Successfully updated the information", "success")
+
                         populateData(data, generalInformationMapper, "general_information__bottom")
 
                         if (data.about_me) {
@@ -721,7 +725,10 @@ Profile
                             $("#gen_info_display__about_me").text("")
                         }
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => {
+                        addToaster("Got some issue !!!", "error")
+                        console.log(err)
+                    })
             })
         }
     })

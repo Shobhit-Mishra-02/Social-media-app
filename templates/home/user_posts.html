@@ -229,12 +229,14 @@ Your posts
                 data: data,
                 enctype: "multipart/form-data",
                 success: function (res) {
+                    addToaster("Successfully updated the information", "success")
                     console.log(res)
                     pageNumber = 1
                     $("#post_container").html("");
                     getPosts()
                 },
                 error: function (err) {
+                    addToaster("Got some issue !!!", "error")
                     console.log(err)
                 }
             })
@@ -264,7 +266,9 @@ Your posts
                         }
                     })
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err)
+                })
         })
     }
 
