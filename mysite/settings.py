@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
     'home.apps.HomeConfig',
-    'compressor', # for tailwind css
+    # 'compressor', # for tailwind css
     'ajax.apps.AjaxConfig'
 ]
 
@@ -127,18 +127,18 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Custom addition 
+# Custom addition
 AUTH_USER_MODEL = "authentication.AccountUser"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-COMPRESS_ROOT = BASE_DIR / 'static'
+# COMPRESS_ROOT = BASE_DIR / 'static'
 
-COMPRESS_ENABLED = True
+# COMPRESS_ENABLED = True
 
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+# STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 # Base url to server media files
 MEDIA_URL = '/media/'
