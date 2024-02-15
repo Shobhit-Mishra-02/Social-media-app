@@ -1,9 +1,7 @@
 {% extends 'home/home_base_with_nav.html' %}
 
 
-{% block title %}
-Profile
-{% endblock title %}
+{% block title %} profile {% endblock title %}
 
 
 {% block body %}
@@ -12,14 +10,15 @@ Profile
 
 <div class="grid grid-cols-1 pt-6 md:pt-10 gap-4 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4">
     <div class="space-y-4 grid">
-        <!-- profile left section -->
+        <!-- profile left section start -->
         <div class="w-full h-fit rounded-md p-3 bg-gray-800">
 
+            <!-- if the viewer is not the owner only then the friend request container is shown -->
             {% if is_owner is False %}
             <div id="friend_request__container" class="pb-4 flex justify-end"></div>
             {% endif %}
 
-
+            <!-- if the viewer is the owner, then the owner is shown the edit button -->
             {% if is_owner %}
             <div class="flex justify-end">
                 <span>
@@ -115,12 +114,14 @@ Profile
                 </div>
             </div>
         </div>
+        <!-- profile left section end -->
     </div>
-    <!-- profile right section -->
+    <!-- profile right section start -->
     <div class="w-full lg:col-span-2 xl:col-span-3 ">
         <div class="w-full bg-gray-800 h-fit rounded-md p-3 text-white">
             <div class="flex justify-between items-center align-baseline">
                 <h3 class="text-xl font-semibold mt-1">General Information</h3>
+                <!-- if the viewer is the owner, then the owner is shown the edit button -->
                 {% if is_owner %}
                 <span>
                     <button id="generalInformationEditBtn" data-modal-target="crud-modal-general_information"
@@ -187,82 +188,15 @@ Profile
             </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-4 xl:gap-4 mt-8">
-            <div class="hidden w-full h-fit rounded-md p-3 xl:col-span-2">
-                <h3 class="text-xl font-semibold text-gray-800 mb-6">Top Posts</h3>
-                <div class="divide-y">
-
-
-                    {% if top_user_posts %}
-
-                    {% for post in top_user_posts %}
-                    <div class="mb-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-400">
-                                likes {{ post.likes_count }}
-                            </span>
-                            <span class="text-gray-400">Published on {{ post.created_at | date:"d-m-Y" }}</span>
-                        </div>
-                        <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-                            {{ post.title }}
-                        </h2>
-                        <span class="text-blue-500 underline hover:text-blue-600">
-                            <a href="/social/viewPost/{{post.id}}">Read post</a>
-                        </span>
-                    </div>
-                    {% endfor %}
-
-                    {% else %}
-
-                    <div class="text-2xl font-semibold text-gray-400">
-                        Not Found
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="hidden w-full border border-gray-100 h-fit rounded-md p-3 shadow-md xl:col-span-2">
-                <h3 class="text-xl font-semibold text-gray-800 mb-6">Network</h3>
-                <div class="divide-y">
-                    <div class="flex justify-start gap-4 flex-row pt-8 pb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-user-round-check h-12 w-auto stroke-gray-700">
-                            <path d="M2 21a8 8 0 0 1 13.292-6" />
-                            <circle cx="10" cy="8" r="5" />
-                            <path d="m16 19 2 2 4-4" />
-                        </svg>
-
-                        <div class="flex justify-start gap-1 flex-col">
-                            <span class="font-semibold text-gray-600">Total friends</span>
-                            <span class="text-gray-500">100</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start gap-4 flex-row pt-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-thumbs-up h-12 w-auto stroke-gray-700">
-                            <path d="M7 10v12" />
-                            <path
-                                d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
-                        </svg>
-
-                        <div class="flex justify-start gap-1 flex-col">
-                            <span class="font-semibold text-gray-600">Total likes</span>
-                            <span class="text-gray-500">{{total_likes.total_likes}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
+    <!-- profile right section end -->
 </div>
 
 <!-- Modal toggle -->
 
 {% if is_owner %}
 
-<!-- Personal Information form -->
+<!-- Personal Information form start -->
 <div id="crud-modal-personal_information" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
@@ -349,8 +283,9 @@ Profile
         </div>
     </div>
 </div>
+<!-- Personal Information form end -->
 
-<!-- General Information form  -->
+<!-- General Information form start -->
 <div id="crud-modal-general_information" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full ">
@@ -414,7 +349,7 @@ Profile
         </div>
     </div>
 </div>
-
+<!-- General Information form end -->
 {% endif %}
 
 {% endblock body %}
@@ -438,9 +373,13 @@ Profile
 
     // function to populate the edit form
     function populateEditForm(data, formId) {
+
+        // extracting the keys form data object 
         let keys = Object.keys(data)
 
+
         keys.forEach(key => {
+            // targeting input element, if exists
             let inputElem = $(`#${formId} input[name=${key}]`)
 
             // handling simple input tags
@@ -448,16 +387,18 @@ Profile
                 inputElem.val(data[key])
             }
 
+            // targeting textarea, if exists
             let textAreaElem = $(`#${formId} textarea[name=${key}]`)
 
-            // handling textarea tag
+            // if textarea is present then set the value
             if (textAreaElem) {
                 textAreaElem.val(data[key])
             }
 
+            // targeting select element, if exists
             let selectElem = $(`#${formId} select[name=${key}]`)
 
-            // handling select tag
+            // if select element is present then set the value
             if (selectElem) {
                 selectElem.val(data[key])
             }
@@ -469,6 +410,7 @@ Profile
     function populateData(data, mapper, id) {
         let template = ``
 
+        // appending data with their html structure in the template variable 
         mapper.forEach(key => {
             if (data[key]) {
                 template += `
@@ -484,14 +426,19 @@ Profile
             }
         })
 
+        // putting html template to a component having given id
         $(`#${id}`).html(template)
     }
 
-
+    // function to display cancel friend request button
     function displayCancelFriendRequestBtn(request_id) {
+        // putting cancel button in the friend request container
         $("#friend_request__container").html(`<button class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" id=${request_id}>Cancel Request</button>`)
+
+        // unbinding any previous bindings
         $("#friend_request__container > button").unbind()
 
+        // now, binding the click event on the cancel button
         $("#friend_request__container > button").click(function () {
             createGetRequestPromise("/ajax/declineRequest/" + $(this).attr('id'))
                 .then(data => {
@@ -504,10 +451,15 @@ Profile
 
     }
 
+    // function to display make friend button
     function displayMakeFriendBtn() {
+        // putting make frind button, which actually send friend request. 
         $("#friend_request__container").html(`<button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Make Friend</button>`)
 
+        // unbinding any previous response
         $("#friend_request__container > button").unbind()
+
+        // binding the make friend request event
         $("#friend_request__container > button").click(function () {
             createGetRequestPromise("{% url 'ajax:make_friend_request' id %}")
                 .then(data => {
@@ -520,10 +472,74 @@ Profile
 
     }
 
+    // function to put data in the personal information component
+    function updatePersonalInfo(data) {
+
+        // if the data is not present and the view is the owner, then the own should see this message
+        if (!data.id && data.is_owner) {
+            $("#per_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
+        }
+
+        // populating the data in the personal information container
+        populateData(data, personalInformationMapper, "personal_information__container")
+
+        // handling full_name value
+        if (data.full_name) {
+            $("#per_info_display__full_name").text(data.full_name)
+        }
+        else {
+            $("#per_info_display__full_name").text("")
+        }
+
+        // handling user email value
+        if (data.email) {
+            $("#per_info_display__email").text(data.email)
+        }
+        else {
+            $("#per_info_display__email").text("")
+        }
+
+        let imageUrl = data.profile_pic // extracting user profile pic user
+
+        // showing user profile, if it exists
+        if (imageUrl) {
+            $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
+        }
+        else {
+            $(`#profile_pic`).html(`
+            <div class="w-44 h-44 flex items-center justify-center rounded-full bg-gray-200 ">
+                <svg class="w-12 h-12 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"></path>
+                </svg>
+            </div>
+            `)
+        }
+    }
+
+
+    // function to put data in the general information component
+    function updateGeneralInfo(data) {
+        if (!data.id && data.is_owner) {
+            $("#gen_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
+        }
+
+        populateData(data, generalInformationMapper, "general_information__bottom")
+
+        if (data.about_me) {
+            $("#gen_info_display__about_me").text(data.about_me)
+        }
+        else {
+            $("#gen_info_display__about_me").text("")
+        }
+    }
+
     $(document).ready(function () {
 
-        // adding event handler for make friend request button
+        // adding event handler for make friend request button, if friend request container is present in dom
         if ($("#friend_request__container")) {
+
+            // making request to get friend request status
+            // this will tell the status report of the request which has been made between the viewer and the profile.
             createGetRequestPromise("{% url 'ajax:friend_request_status' id %}")
                 .then(data => {
                     console.log(data)
@@ -551,7 +567,7 @@ Profile
                     // if the friend request is not in pending status.
                     // it means the user is either your friend or the request has been canceled or declined
                     // it the user is already a friend, the first if statement will handle that.
-                    // otherwise just how make friend button.
+                    // otherwise just show make friend button.
                     displayMakeFriendBtn();
                 })
         }
@@ -560,42 +576,7 @@ Profile
         // Initial request to populate personal information section
         createGetRequestPromise(urlToGetPersonalInformation)
             .then(data => {
-
-                if (!data.id && data.is_owner) {
-                    $("#per_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
-                }
-
-                populateData(data, personalInformationMapper, "personal_information__container")
-
-                if (data.full_name) {
-                    $("#per_info_display__full_name").text(data.full_name)
-                }
-                else {
-                    $("#per_info_display__full_name").text("")
-                }
-
-                if (data.email) {
-                    $("#per_info_display__email").text(data.email)
-                }
-                else {
-                    $("#per_info_display__email").text("")
-                }
-
-                return data.profile_pic
-            })
-            .then(imageUrl => {
-                if (imageUrl) {
-                    $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
-                }
-                else {
-                    $(`#profile_pic`).html(`
-                    <div class="w-44 h-44 flex items-center justify-center rounded-full bg-gray-200 ">
-                        <svg class="w-12 h-12 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"></path>
-                        </svg>
-                    </div>
-                    `)
-                }
+                updatePersonalInfo(data)
             })
             .catch(err => console.log(err))
 
@@ -640,27 +621,15 @@ Profile
                     dataType: "json",
                     data: data,
                     enctype: "multipart/form-data",
-                    success: function (res) {
-
+                    success: function (data) {
+                        // adding toaster for success
                         addToaster("Successfully updated the information", "success")
 
+                        // make the personal info message empty
                         $("#per_info_display__message").html(``)
 
-                        populateData(res, personalInformationMapper, "personal_information__container")
-
-                        let imageUrl = res.profile_pic
-                        if (imageUrl) {
-                            $(`#profile_pic`).html(`<img src="${imageUrl}" class="w-44 h-44 rounded-full" />`)
-                        }
-                        else {
-                            $(`#profile_pic`).html(`
-                            <div class="w-44 h-44 flex items-center justify-center rounded-full bg-gray-200 ">
-                                <svg class="w-12 h-12 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"></path>
-                                </svg>
-                            </div>
-                            `)
-                        }
+                        // finally, update the personal information container with updated data
+                        updatePersonalInfo(data)
                     },
                     error: function (err) {
                         addToaster("Got some issue !!!", "error")
@@ -674,28 +643,20 @@ Profile
         // Initial request to get the general information
         createGetRequestPromise(urlToGetGeneralInformation)
             .then(data => {
-                if (!data.id && data.is_owner) {
-                    $("#gen_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
-                }
 
+                // the general information message container is only visible if the view is the owner of profile
                 if (!data.id && !data.is_owner) {
                     $(`#gen_info_display__message`).parent().toggleClass("hidden")
                 }
 
-                populateData(data, generalInformationMapper, "general_information__bottom")
-
-                if (data.about_me) {
-                    $("#gen_info_display__about_me").text(data.about_me)
-                }
-                else {
-                    $("#gen_info_display__about_me").text("")
-                }
+                updateGeneralInfo(data)
             })
             .catch(err => console.log(err))
 
         // Handling edit button for the general information edit form
         if ($("#generalInformationEditBtn")) {
             $("#generalInformationEditBtn").click(() => {
+                // onclick update the values of general information form
                 createGetRequestPromise(urlToGetGeneralInformation)
                     .then(data => {
                         populateEditForm(data, "generalInformationForm")
@@ -708,6 +669,7 @@ Profile
         if (generalInformationForm) {
             generalInformationForm.addEventListener("submit", (e) => {
                 e.preventDefault()
+
                 let formData = new FormData(generalInformationForm)
 
                 createPostRequestPromise(urlToAddGeneralInformation, formData)
@@ -716,14 +678,7 @@ Profile
 
                         addToaster("Successfully updated the information", "success")
 
-                        populateData(data, generalInformationMapper, "general_information__bottom")
-
-                        if (data.about_me) {
-                            $("#gen_info_display__about_me").text(data.about_me)
-                        }
-                        else {
-                            $("#gen_info_display__about_me").text("")
-                        }
+                        updateGeneralInfo(data)
                     })
                     .catch(err => {
                         addToaster("Got some issue !!!", "error")
