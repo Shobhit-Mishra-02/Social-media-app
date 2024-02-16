@@ -1,7 +1,8 @@
 
 # Social media application
+![frontpage](./frontpage_desktop.png)
 
-This project is based on MVC architecture and it is a basic social media application.
+This is a social networking application which is based on MVC architecture. It is based on django framework. It gives the utility to create new user, create new posts, make friend request and make new friends.
 
 ## Documentation
 
