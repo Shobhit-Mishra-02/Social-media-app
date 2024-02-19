@@ -93,33 +93,6 @@ class PersonalInformation(models.Model):
         return f"Personal Information of {self.user.email}"
 
 
-class Hobby(models.Model):
-    title = models.CharField(_("Hobby title"), max_length=400)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class Skill(models.Model):
-    title = models.CharField(_("Skill title"), max_length=400)
-
-    def __str__(self) -> str:
-        return self.title
-
-
-class ExtraInformation(models.Model):
-    user = models.OneToOneField(
-        AccountUser, on_delete=models.CASCADE, blank=False)
-    hobby = models.ForeignKey(Hobby, on_delete=models.CASCADE)
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return f"ExtraInformation of {self.user.email}"
-
-
 class FriendRequest(models.Model):
     sender = models.ForeignKey(
         AccountUser,
