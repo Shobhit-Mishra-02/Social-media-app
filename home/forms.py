@@ -1,7 +1,7 @@
-from django import forms
-from django.forms import ModelForm, CharField, Textarea, TextInput, DateField, Select, DateInput, FileInput
+from django.forms import ModelForm, Textarea, TextInput, Select, DateInput, FileInput
 from home.models import GeneralInformation, GENDERS, COUNTRY_NAMES, PersonalInformation, Post
 
+# command tailwind css classes for the input tags
 COMMON_DESIGN = "block w-full p-4  border rounded-lg outline-none sm:text-md focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
 
 
@@ -43,7 +43,7 @@ class GeneralInformationForm(ModelForm):
             "about_me": Textarea(attrs={
                 "rows": "4",
                 "class": COMMON_DESIGN,
-                "placeholder": "92 Miles Drive, Newark, NJ 07103, California, United States of America"
+                "placeholder": "write something about yourself which helps other to know more about you"
             }),
             "education": TextInput(attrs={
                 "class": COMMON_DESIGN,

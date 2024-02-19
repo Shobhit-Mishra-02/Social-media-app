@@ -478,7 +478,7 @@
         let is_owner = +"{{ is_owner | floatformat:'0' }}"
 
         // if the data is not present and the view is the owner, then the own should see this message
-        if (is_owner) {
+        if (!data.id && is_owner) {
             $("#per_info_display__message").html(`<h2 class='text-gray-400 font-semibold mt-2'>No personal information found, update personal information section inorder to get more friends !!</h2>`)
         }
 

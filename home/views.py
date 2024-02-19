@@ -1,59 +1,64 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.db.models import Count, Sum
 
 from authentication.models import AccountUser
 from .forms import PostCreationForm, GeneralInformationForm, PersonalInformationForm
-from .models import Post, GeneralInformation, PersonalInformation, Friend
-from .utils.upload_files import upload_file
+from .models import Post
+
+
+"""
+
+Home controller for the application which handles the post creations on the POST request.
+
+"""
 
 
 @login_required
 def index(request):
 
+    # if the request is POST
     if request.method == "POST":
+
+        # create an instance of Post with the user who is making the request
         post = Post(user=request.user)
+
+        # creating the Post form instance with requested POST content and empty Post instance(with the user)
         form = PostCreationForm(request.POST, request.FILES, instance=post)
+
         if form.is_valid():
 
-            form.save()
+            form.save()  # saving the data
 
+            # rendering the index.html page with empty post form
             return render(request, "home/index.html", {"form": PostCreationForm()})
     else:
         form = PostCreationForm()
 
+    # otherwise if received request is of GET method
+    # then, just render index.html with empty form instance
     return render(request, "home/index.html", {"form": form})
+
+
+"""
+
+This is the profile controller which displays the user profile.
+
+Here the id indicates the id of the user, whose profile needs to display.
+"""
 
 
 @login_required
 def profile(request, id):
 
+    # creating form instances of general information and personal information
     general_information_form = GeneralInformationForm()
     personal_information_form = PersonalInformationForm()
 
+    # is_owner variable tells whether the requested user is the owner of the profile
+    # if is_owner=True, means that User1 is viewing his own profile
+    # if is_owner=False, means that User1 is viewing other user's profile
     is_owner = True if request.user.id == id else False
-    is_friend = False
-
-    user = AccountUser.objects.filter(pk=id).first()
-
-    if request.user.friend_ship_records.filter(friend=user).count():
-        is_friend = True
-
-    if request.user.friend_requests.filter(receiver=user, pending_status=True).count():
-        is_friend_request_pending = True
-    else:
-        is_friend_request_pending = False
-
-    if user:
-        top_user_posts = user.post_set.annotate(
-            likes_count=Count("userlikepost")).order_by("-likes_count")[0:5]
-        total_likes = user.post_set.annotate(likes_count=Count(
-            'userlikepost')).aggregate(total_likes=Sum('likes_count', default=0))
-    else:
-        total_likes = {"total_likes": 0}
-        top_user_posts = None
 
     return render(
         request,
@@ -63,10 +68,6 @@ def profile(request, id):
             "personal_information_form": personal_information_form,
             "is_owner": is_owner,
             "id": id,
-            "top_user_posts": top_user_posts,
-            "total_likes": total_likes,
-            "is_friend": is_friend,
-            "is_friend_request_pending": is_friend_request_pending
         })
 
 
