@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 
-from home.models import Post, GeneralInformation, PersonalInformation, FriendRequest, Friend
-from .serializers import PostModelSerializer, GeneralInformationModelSerializer, PersonalInformationSerializer, AccountUserModelSerializer, TrendingPostSerializer, FriendRequestModelSerializer, FriendModelSerializer
+from home.models import *
+from .serializers import *
 from home.forms import PersonalInformationForm, GeneralInformationForm, PostCreationForm
 from authentication.models import AccountUser
 
 
+# contoller to get the posts
 @csrf_exempt
 @login_required
 def get_posts(request, page=1, own_user=0):
@@ -35,6 +35,7 @@ def get_posts(request, page=1, own_user=0):
     return JsonResponse({"message": "Invalid request"}, status=500)
 
 
+# controller to get one post by id
 @csrf_exempt
 @login_required
 def get_post(request, id):
@@ -50,6 +51,7 @@ def get_post(request, id):
     return JsonResponse({"message": "Invalid request"}, status=500)
 
 
+# controller to get new like status record
 @csrf_exempt
 @login_required
 def update_like_status(request, id):
@@ -70,6 +72,7 @@ def update_like_status(request, id):
     return JsonResponse({"message": "Invalid request"}, status=500)
 
 
+# controller to add generate information
 @csrf_exempt
 @login_required
 def add_general_information(request):
@@ -104,6 +107,7 @@ def add_general_information(request):
     return JsonResponse({"message": "invalid method"})
 
 
+# controller to add personal information
 @csrf_exempt
 @login_required
 def add_personal_information(request):
@@ -138,6 +142,7 @@ def add_personal_information(request):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get general information of user by id
 @csrf_exempt
 @login_required
 def get_general_information(request, id):
@@ -157,6 +162,7 @@ def get_general_information(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get personal information of user by id
 @csrf_exempt
 @login_required
 def get_personal_information(request, id):
@@ -178,6 +184,7 @@ def get_personal_information(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get user details by id
 @csrf_exempt
 @login_required
 def get_user_details(request, id):
@@ -218,6 +225,7 @@ def get_user_details(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get trending posts
 @csrf_exempt
 @login_required
 def get_trending_posts(request):
@@ -232,6 +240,7 @@ def get_trending_posts(request):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to delete a post by id
 @csrf_exempt
 @login_required
 def delete_post(request, id):
@@ -250,6 +259,7 @@ def delete_post(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to update a post
 @csrf_exempt
 @login_required
 def update_post(request, id):
@@ -271,6 +281,7 @@ def update_post(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to search the user with given serach_string
 @csrf_exempt
 @login_required
 def search_users(request):
@@ -286,6 +297,7 @@ def search_users(request):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to make a friend request
 @csrf_exempt
 @login_required
 def make_friend_request(request, id):
@@ -317,6 +329,7 @@ def make_friend_request(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get the friend request status
 @csrf_exempt
 @login_required
 def friend_request_status(request, id):
@@ -355,6 +368,7 @@ def friend_request_status(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to decline the friend request
 @csrf_exempt
 @login_required
 def declining_request(request, id):
@@ -379,6 +393,7 @@ def declining_request(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to accept the friend request
 @csrf_exempt
 @login_required
 def accepting_request(request, id):
@@ -411,6 +426,9 @@ def accepting_request(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to get all the friend requests which has been sent to user with given id
+# if type is True, then it will return the received friend requests
+# if type is False, then it will return the sent friend requests
 @csrf_exempt
 @login_required
 def get_friend_requests(request, id, type):
@@ -437,6 +455,7 @@ def get_friend_requests(request, id, type):
     return JsonResponse({"message": "Invalid method"})
 
 
+# controller to get all the friends of the user with given id
 @csrf_exempt
 @login_required
 def get_friends(request, id):
@@ -460,6 +479,7 @@ def get_friends(request, id):
     return JsonResponse({"message": "Invalid method"}, status=500)
 
 
+# controller to remove the friend
 @csrf_exempt
 @login_required
 def remove_friend(request, id):
@@ -474,15 +494,6 @@ def remove_friend(request, id):
         # deleting records from the Friends relation
         Friend.objects.get(user=user, friend=friend).delete()
         Friend.objects.get(user=friend, friend=user).delete()
-
-        # changing the friend request status
-        # if they were friends, it means they both should have a friend request where
-        # pending_status=False, accept_status=True
-        # then, convert accept_status=Flase and declined_status=True
-        # friend_request = FriendRequest.objects.get(user=user, friend=friend, pending_status=False, accept_status=True)
-        # friend_request.declined_status = True
-        # friend_request.accept_status = False
-        # friend_request.save()
 
         return JsonResponse({"message": "Removed the friendship"}, status=200)
 
